@@ -1,0 +1,18 @@
+# DSH session artifacts (ACL repair report + rollback scripts)
+.dsh-acl-report/
+.dsh-write-test.txt
+
+# Superseded drafts
+website/src/*.prev.*
+website/css/*.prev.*
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# OS cruft
+Thumbs.db
+desktop.ini
+.DS_Store

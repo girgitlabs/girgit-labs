@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Girgit Labs — Different by design.</title>
+  <meta name="description" content="Girgit Labs is a design studio for brand identity, websites, product design, AI-driven design, creative campaigns, and motion. Good ideas deserve a different perspective." />
+  <meta name="theme-color" content="#171717" />
+  <meta property="og:title" content="Girgit Labs — Different by design." />
+  <meta property="og:description" content="Brand, digital, and creative work shaped around the problem at hand." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Noto+Serif+Devanagari:wght@400;500&display=swap" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <defs><symbol id="wordmark" viewBox="0 0 658 176"><path d="{{WORDMARK}}"/></symbol></defs>
+  </svg>
+
+  <!-- ============ The film ============
+       One continuous shot pinned behind the page; scrolling moves through it
+       (js/film.js). Each section owns a stretch of film: data-film="start,end" (seconds). -->
+  <div class="film" aria-hidden="true">
+    <video class="film__video" muted playsinline preload="auto" poster="assets/video/poster.jpg"
+           data-src="assets/video/forest-1280.mp4" data-src-portrait="assets/video/forest-portrait.mp4"
+           data-poster-portrait="assets/video/poster-portrait.jpg"></video>
+    <div class="film__dim"></div>
+    <div class="film__veil"></div>
+  </div>
+
+  <!-- ============ Header ============ -->
+  <header class="site-header" id="top">
+    <div class="wrap site-header__inner">
+      <a class="brand" href="#top" aria-label="Girgit Labs, back to top">
+        <img src="assets/girgit-icon.svg" alt="" class="brand__icon" width="22" height="29" />
+        <svg class="brand__word" viewBox="0 0 658 176" aria-hidden="true"><use href="#wordmark"/></svg>
+      </a>
+      <div class="site-header__actions">
+        <a class="btn btn--sand btn--sm site-header__cta" href="#contact">Start a conversation</a>
+        <nav class="nav" aria-label="Primary">
+          <button class="nav__toggle" aria-expanded="false" aria-controls="nav-list">
+            <span class="nav__toggle-label">Menu</span><span class="nav__toggle-bars" aria-hidden="true"></span>
+          </button>
+          <ul class="nav__list" id="nav-list">
+            <li class="nav__back-item"><button class="nav__back" type="button"><span aria-hidden="true">←</span> Back</button></li>
+            <li><a href="#services"><span class="nav__n">02</span>Services</a></li>
+            <li><a href="#work"><span class="nav__n">03</span>Work</a></li>
+            <li><a href="#about"><span class="nav__n">05</span>About</a></li>
+            <li><a href="#contact"><span class="nav__n">06</span>Contact</a></li>
+            <li class="nav__cta"><a class="btn btn--sand" href="#contact">Start a conversation</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- 01 Hero · film 0–1.8s: pre-dawn; the chameleon sits hidden on the branch above -->
+    <section class="hero" data-film="0,1.8" aria-labelledby="hero-title">
+      <div class="hero__stick">
+        <!-- Parallax: each layer drifts up at its own rate as the hero scrolls (js/film.js). -->
+        <div class="wrap hero__inner">
+          <div class="hero__layer" data-parallax="0.55">
+            <h1 id="hero-title" class="display reveal">Good ideas deserve a different perspective.</h1>
+          </div>
+          <div class="hero__layer" data-parallax="0.38">
+            <div class="hero__body reveal">
+              <p class="lead">The right design does more than make a business look good. It shapes how people see it, experience it, and remember it.</p>
+              <p>From brand identities and digital products to websites and creative campaigns, we bring clarity to complex ideas and turn them into work with a clear point of view.</p>
+            </div>
+          </div>
+          <div class="hero__layer" data-parallax="0.26">
+            <div class="hero__actions reveal">
+              <a class="btn btn--sand" href="#contact">Start a conversation</a>
+              <a class="btn btn--ghost" href="#work">Selected work</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 02 Services · film 1.8–5.6s: sunrise; it walks the branch, then the camera closes on its eye -->
+    <section class="services" id="services" data-film="1.8,5.6" aria-labelledby="services-title">
+      <div class="wrap">
+        <header class="section-head services__head soft-focus reveal">
+          <h2 id="services-title" class="h2 reveal">Different challenges. Thoughtful solutions.</h2>
+          <span class="hi hi--accent hi--hint reveal" lang="hi" tabindex="0" role="button" aria-pressed="false" aria-label="सोच, Hindi for thinking"><span class="hi__hi">सोच</span><span class="hi__en" lang="en" aria-hidden="true">Thinking</span></span>
+          <div class="section-head__body reveal">
+            <p>Every project comes with its own set of questions. The challenge is knowing which ones to ask, what deserves attention, and where design can make a real difference.</p>
+            <p>We work across brand, digital, and creative disciplines to help businesses communicate better, build better products, and create experiences people want to engage with.</p>
+          </div>
+        </header>
+        <ol class="service-list">
+          <li class="service reveal">
+            <span class="service__num" aria-hidden="true">01</span>
+            <p class="service__no">01 <span>/ 06</span></p>
+            <h3 class="service__title">Brand identity</h3>
+            <p class="service__tag">Make your difference visible.</p>
+            <p>A brand is more than a logo or a color palette. It is the impression everything leaves behind. We build distinctive visual identities that give businesses a clear, consistent, and recognizable presence.</p>
+          </li>
+          <li class="service reveal">
+            <span class="service__num" aria-hidden="true">02</span>
+            <p class="service__no">02 <span>/ 06</span></p>
+            <h3 class="service__title">Websites and digital experiences</h3>
+            <p class="service__tag">Designed to do more.</p>
+            <p>We create websites that balance visual character with usability, bringing together thoughtful layouts, clear messaging, and purposeful interactions to turn a digital presence into a meaningful experience.</p>
+          </li>
+          <li class="service reveal">
+            <span class="service__num" aria-hidden="true">03</span>
+            <p class="service__no">03 <span>/ 06</span></p>
+            <h3 class="service__title">Product design and UX/UI</h3>
+            <p class="service__tag">Complexity, made clear.</p>
+            <p>From early product thinking to polished interfaces, we help turn ideas into digital products that feel intuitive, work seamlessly, and make sense to the people using them.</p>
+          </li>
+          <li class="service reveal">
+            <span class="service__num" aria-hidden="true">04</span>
+            <p class="service__no">04 <span>/ 06</span></p>
+            <h3 class="service__title">AI-driven design</h3>
+            <p class="service__tag">More possibilities. Better thinking.</p>
+            <p>We explore how AI can expand creative possibilities, improve workflows, and shape new digital experiences. Technology is part of the process, not the point of it.</p>
+          </li>
+          <li class="service reveal">
+            <span class="service__num" aria-hidden="true">05</span>
+            <p class="service__no">05 <span>/ 06</span></p>
+            <h3 class="service__title">Creative campaigns and content</h3>
+            <p class="service__tag">Give people a reason to look twice.</p>
+            <p>We develop creative concepts, visual campaigns, and brand content that capture attention through a distinct point of view rather than simply adding to the noise.</p>
+          </li>
+          <li class="service reveal">
+            <span class="service__num" aria-hidden="true">06</span>
+            <p class="service__no">06 <span>/ 06</span></p>
+            <h3 class="service__title">Motion and video</h3>
+            <p class="service__tag">A story, beyond the frame.</p>
+            <p>From brand films to motion graphics and short-form content, we use movement, timing, and visual storytelling to give ideas a more expressive way to connect.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 03 Work · film 5.6–7.6s: the eye locks on; the tongue strikes.
+         The section pins while you scroll and the project strip glides sideways (js/main.js). -->
+    <section class="work" id="work" data-film="5.6,7.6" aria-labelledby="work-title">
+      <div class="work__pin">
+        <div class="wrap">
+          <header class="work__head soft-focus reveal">
+            <div class="work__title">
+              <h2 id="work-title" class="h2">Ideas, put into practice.</h2>
+              <span class="hi hi--accent" lang="hi" tabindex="0" role="button" aria-pressed="false" aria-label="खोजबीन, Hindi for exploration"><span class="hi__hi">खोजबीन</span><span class="hi__en" lang="en" aria-hidden="true">Exploration</span></span>
+            </div>
+            <div class="work__intro">
+              <p>The interesting part of any project is not just what gets made. It is the thinking that gets it there.</p>
+              <p>Explore a selection of work across digital experiences, visual identities, and creative explorations. Each project starts with a different challenge and takes shape through a different approach.</p>
+            </div>
+          </header>
+        </div>
+        <!-- Portfolio preview: replace each card with a real project when the portfolio is ready. -->
+        <div class="work__viewport">
+          <div class="work__track">
+              <article class="wcard reveal">
+                <div class="wcard__art wcard__art--1" aria-hidden="true"></div>
+                <div class="wcard__body">
+                  <p class="wcard__no">01</p>
+                  <h3 class="wcard__kind">Digital experience</h3>
+                  <p class="wcard__meta">Websites and products</p>
+                  <p class="wcard__soon">Case study coming soon <span aria-hidden="true">→</span></p>
+                </div>
+              </article>
+              <article class="wcard reveal">
+                <div class="wcard__art wcard__art--2" aria-hidden="true"></div>
+                <div class="wcard__body">
+                  <p class="wcard__no">02</p>
+                  <h3 class="wcard__kind">Visual identity</h3>
+                  <p class="wcard__meta">Brand systems</p>
+                  <p class="wcard__soon">Case study coming soon <span aria-hidden="true">→</span></p>
+                </div>
+              </article>
+              <article class="wcard reveal">
+                <div class="wcard__art wcard__art--3" aria-hidden="true"></div>
+                <div class="wcard__body">
+                  <p class="wcard__no">03</p>
+                  <h3 class="wcard__kind">Creative exploration</h3>
+                  <p class="wcard__meta">Concepts and play</p>
+                  <p class="wcard__soon">Case study coming soon <span aria-hidden="true">→</span></p>
+                </div>
+              </article>
+              <article class="wcard reveal">
+                <div class="wcard__art wcard__art--4" aria-hidden="true"></div>
+                <div class="wcard__body">
+                  <p class="wcard__no">04</p>
+                  <h3 class="wcard__kind">Product design</h3>
+                  <p class="wcard__meta">UX and interfaces</p>
+                  <p class="wcard__soon">Case study coming soon <span aria-hidden="true">→</span></p>
+                </div>
+              </article>
+              <article class="wcard reveal">
+                <div class="wcard__art wcard__art--5" aria-hidden="true"></div>
+                <div class="wcard__body">
+                  <p class="wcard__no">05</p>
+                  <h3 class="wcard__kind">Campaign</h3>
+                  <p class="wcard__meta">Content and launches</p>
+                  <p class="wcard__soon">Case study coming soon <span aria-hidden="true">→</span></p>
+                </div>
+              </article>
+              <article class="wcard reveal">
+                <div class="wcard__art wcard__art--6" aria-hidden="true"></div>
+                <div class="wcard__body">
+                  <p class="wcard__no">06</p>
+                  <h3 class="wcard__kind">Motion</h3>
+                  <p class="wcard__meta">Film and movement</p>
+                  <p class="wcard__soon">Case study coming soon <span aria-hidden="true">→</span></p>
+                </div>
+              </article>
+              <article class="wcard wcard--end reveal">
+                <div class="wcard__body">
+                  <p class="wcard__end-title">The work will speak for itself.</p>
+                  <p class="wcard__end-text">Project showcases and case studies will be introduced here as the portfolio takes shape.</p>
+                  <a class="btn btn--sand" href="#contact">Discuss a project</a>
+                </div>
+              </article>
+          </div>
+        </div>
+        <div class="wrap work__progress" aria-hidden="true">
+          <span class="work__count"><span class="work__count-now">01</span> / 06</span>
+          <span class="work__bar"><span class="work__bar-fill"></span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 04 Testimonials · film 7.6–8.6s: the camera circles behind it.
+         -->
+    <section class="testimonials" data-film="7.6,8.6" aria-labelledby="testimonials-title">
+      <div class="wrap testimonials__grid">
+        <header class="testimonials__head soft-focus reveal">
+          <h2 id="testimonials-title" class="h2">Good work is a shared effort.</h2>
+          <div class="testimonials__body">
+            <p>The best outcomes come from good conversations, honest feedback, and a shared understanding of what we are trying to achieve.</p>
+            <p>This section will feature the people we have worked with, their experiences, and what we have accomplished together.</p>
+          </div>
+          <ul class="testimonials__pills" aria-label="How we work together">
+            <li>Good conversations</li><li>Honest feedback</li><li>A shared understanding</li>
+          </ul>
+        </header>
+
+        <!-- Replace with an approved client quote. -->
+        <div class="deck reveal">
+          <figure class="deck__card deck__card--1">
+            <span class="deck__mark" aria-hidden="true">“</span>
+            <blockquote><p>Client testimonials will be added once approved.</p></blockquote>
+            <figcaption class="deck__who"><span class="deck__avatar" aria-hidden="true"></span><span class="deck__lines" aria-hidden="true"><span class="deck__line deck__line--name"></span><span class="deck__line deck__line--role"></span></span></figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 05 About · film 8.6–9.9s: its view over the misty forest, another way to look at it -->
+    <section class="about" id="about" data-film="8.6,9.9" aria-labelledby="about-title">
+      <div class="wrap">
+        <div class="about__panel soft-focus reveal">
+          <header class="about__head">
+            <h2 id="about-title" class="h2">There is always another way to look at it.</h2>
+            <span class="hi hi--accent" lang="hi" tabindex="0" role="button" aria-pressed="false" aria-label="नज़रिया, Hindi for perspective"><span class="hi__hi">नज़रिया</span><span class="hi__en" lang="en" aria-hidden="true">Perspective</span></span>
+          </header>
+          <div class="about__text">
+            <p class="lead">Good design rarely starts with the obvious answer. It starts with understanding the problem, questioning assumptions, and exploring what else might be possible.</p>
+            <p class="lead lead--accent">That is the thinking behind our approach.</p>
+            <div class="about__body">
+              <p>We bring design, technology, and creativity together to find solutions that fit the challenge rather than forcing every project into the same process or visual language.</p>
+              <p>Sometimes that means simplifying something complicated. Sometimes it means challenging what already exists. And sometimes it means starting from an entirely different perspective.</p>
+              <p>The result should feel considered, distinctive, and right for the people it is made for.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 Contact · film 9.9–12s: dusk and fireflies; it settles into the dark -->
+    <section class="contact" id="contact" data-film="9.9,12" aria-labelledby="contact-title">
+      <div class="wrap contact__grid">
+        <header class="section-head">
+          <p class="section-no reveal"><span class="section-no__n">06</span><span class="section-no__label">Have something in mind?</span></p>
+          <h2 id="contact-title" class="h2 reveal">Let’s see where this could go.</h2>
+          <span class="hi hi--accent reveal" lang="hi" tabindex="0" role="button" aria-pressed="false" aria-label="शुरुआत, Hindi for beginning"><span class="hi__hi">शुरुआत</span><span class="hi__en" lang="en" aria-hidden="true">Beginning</span></span>
+          <div class="section-head__body reveal">
+            <p>A new business, a digital product, a website that needs a rethink, or an idea that has not quite found its shape yet.</p>
+            <p>Whatever stage you are at, start with a conversation. We can work out the right next step together.</p>
+          </div>
+        </header>
+
+        <!-- Form: works on Netlify out of the box (data-netlify). For another host,
+             set FORM_ENDPOINT in js/main.js (e.g. Formspree, a CRM webhook). -->
+        <form class="form glass reveal" name="contact" method="POST" data-netlify="true" netlify-honeypot="company_website" novalidate>
+          <input type="hidden" name="form-name" value="contact" />
+          <p class="form__hp" aria-hidden="true"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required />
+            <p class="field__error" id="f-name-err"></p>
+          </div>
+          <div class="field">
+            <label for="f-email">Work email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" required />
+            <p class="field__error" id="f-email-err"></p>
+          </div>
+          <div class="field">
+            <label for="f-company">Company or brand <span class="field__opt">Optional</span></label>
+            <input id="f-company" name="company" type="text" autocomplete="organization" />
+          </div>
+          <div class="field">
+            <label for="f-build">What are you looking to build?</label>
+            <div class="select">
+              <select id="f-build" name="build" required>
+                <option value="" selected disabled>Choose one</option>
+                <option>Brand identity</option>
+                <option>Website or digital experience</option>
+                <option>Product design and UX/UI</option>
+                <option>AI-driven design</option>
+                <option>Creative campaign or content</option>
+                <option>Motion and video</option>
+                <option>Not sure yet</option>
+              </select>
+            </div>
+            <p class="field__error" id="f-build-err"></p>
+          </div>
+          <div class="field field--full">
+            <label for="f-about">A little about the project</label>
+            <textarea id="f-about" name="message" rows="5" required></textarea>
+            <p class="field__error" id="f-about-err"></p>
+          </div>
+
+          <div class="form__foot">
+            <button class="btn btn--sand" type="submit">Tell us about it</button>
+            <p class="form__status" role="status" aria-live="polite"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ 07 Footer ============ -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <!-- The logo sits still. No effects, no tricks. -->
+          <img src="assets/girgit-icon.svg" alt="" class="footer__icon" width="44" height="58" />
+          <div>
+            <p class="footer__name">Girgit Labs.</p>
+            <p class="footer__tagline">Different by design.</p>
+          </div>
+        </div>
+        <p class="footer__line">Brand, digital, and creative work shaped around the problem at hand.</p>
+      </div>
+      <div class="footer__bottom">
+        <nav aria-label="Footer">
+          <ul class="footer__nav">
+            <li><a href="#services">Services</a></li>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+        <!-- TODO: confirm social links and email before publishing -->
+        <ul class="footer__social">
+          <li><a href="https://www.instagram.com/" rel="noopener" target="_blank">Instagram</a></li>
+          <li><a href="https://www.linkedin.com/" rel="noopener" target="_blank">LinkedIn</a></li>
+          <li><a href="mailto:hello@girgitlabs.com">Email</a></li>
+        </ul>
+        <p class="footer__legal">© 2026 Girgit Labs. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+  <script src="js/film.js" defer></script>
+  <script src="js/buttons.js" defer></script>
+</body>
+</html>

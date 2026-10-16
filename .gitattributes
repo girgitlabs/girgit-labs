@@ -1,0 +1,15 @@
+# Normalize all text files to LF in the repository, whatever the OS.
+# Keeps diffs honest across Windows/macOS/Linux checkouts and build hosts.
+* text=auto eol=lf
+
+# Binary assets: never touch these, git must not attempt line-ending conversion.
+*.mp4 binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+
+# Generated file, but tracked deliberately so a no-build deploy still works.
+website/index.html text eol=lf
