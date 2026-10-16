@@ -6,6 +6,11 @@
 website/src/*.prev.*
 website/css/*.prev.*
 
+# Environment / secrets (website/.env.example is committed as the template)
+.env
+.env.*
+!.env.example
+
 # Python
 __pycache__/
 *.py[cod]

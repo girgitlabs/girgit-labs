@@ -50,13 +50,34 @@ alongside it. Without that setting Vercel will find no `index.html` and serve a 
 
 ### The contact form
 
-The form posts to a third-party endpoint, not to this repo. On Netlify the
-`data-netlify` attribute handles it; on any other host you must set `FORM_ENDPOINT`
-near the top of `website/js/main.js`.
+The form posts to `/api/contact`, served by `website/api/contact.js` — a Node
+function that delivers through [Resend](https://resend.com) with plain `fetch` and no
+dependencies. Because the Vercel Root Directory is `website`, this resolves correctly
+with no extra configuration.
 
-With `FORM_ENDPOINT` empty the browser posts to `/`, which a static host answers with
-a 405 — **the form then fails silently.** Verify a real submission arrives before
-considering a deploy finished.
+Set these in the Vercel project's Environment Variables (template in
+`website/.env.example`):
+
+| Variable | Required | Purpose |
+|---|---|---|
+| `RESEND_API_KEY` | yes | Sending key from Resend |
+| `CONTACT_TO` | yes | Where enquiries land |
+| `CONTACT_FROM` | no | Must be a Resend-verified sender before launch |
+
+Behaviour worth knowing:
+
+- **Unconfigured returns 503, not success.** A contact form that silently discards
+  enquiries is worse than one that visibly fails, so the page falls back to showing the
+  email address. It never claims to have sent something it didn't.
+- A filled honeypot field returns 200 and sends nothing, so bots get no signal.
+- Locally the handler can't run under `serve.py`; the form shows its error state. To
+  exercise it, set `FORM_ENDPOINT` to a Formspree URL or run `vercel dev`.
+
+`FORM_ENDPOINT` at the top of `website/js/main.js` overrides the route — point it at a
+Formspree or CRM webhook if you'd rather not run the function. On Netlify, empty it and
+the `data-netlify` attribute takes over.
+
+**Verify a real submission arrives before calling a deploy finished.**
 
 ## Before launch
 

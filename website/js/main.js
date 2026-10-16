@@ -3,9 +3,12 @@
 (() => {
   'use strict';
 
-  // Form endpoint. Leave empty on Netlify (it handles data-netlify forms).
-  // Elsewhere, paste a Formspree / CRM webhook URL here.
-  const FORM_ENDPOINT = '';
+  // Form endpoint. Defaults to this site's own serverless function, which
+  // expects to be reachable at /api/contact (see website/api/contact.js and the
+  // Vercel Root Directory note in README.md). Point it at a Formspree or CRM
+  // webhook URL instead if you'd rather not run the function.
+  // On Netlify, leave empty and the data-netlify attribute handles the form.
+  const FORM_ENDPOINT = '/api/contact';
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const canHover = window.matchMedia('(hover: hover)').matches;
@@ -197,7 +200,12 @@
         status.textContent = 'Thank you. We’ll read it properly and be in touch soon.';
       } catch (err) {
         btn.disabled = false;
-        status.innerHTML = 'That didn’t go through. Please try again, or write to <a href="mailto:hello@girgitlabs.com">hello@girgitlabs.com</a>.';
+        // 503 = the endpoint exists but no mail provider is configured yet;
+        // 502 = the provider refused the send. Both mean "use the address".
+        const code = Number(err && err.message);
+        status.innerHTML = code >= 500
+          ? 'That didn’t go through on our side. Please write to <a href="mailto:hello@girgitlabs.com">hello@girgitlabs.com</a> — it reaches the same people.'
+          : 'That didn’t go through. Please try again, or write to <a href="mailto:hello@girgitlabs.com">hello@girgitlabs.com</a>.';
       }
     });
   }
