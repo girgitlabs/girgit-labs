@@ -5,6 +5,7 @@
 # Superseded drafts
 website/src/*.prev.*
 website/css/*.prev.*
+_archive/**/*.prev.*
 
 # Environment / secrets (website/.env.example is committed as the template)
 .env
@@ -23,3 +24,5 @@ venv/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+*.zip

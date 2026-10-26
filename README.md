@@ -6,21 +6,16 @@ Website and site content for [girgitlabs.com](https://girgitlabs.com).
 
 | Path | What it is |
 |---|---|
-| `website/` | The site. Plain HTML, CSS and JS — no framework, no build step required. |
+| `website/` | The site. Plain HTML, CSS and JS — no framework, no build step. |
 | `content/` | The approved site copy, as markdown. Source of truth for wording. |
-| `video-prompt.txt` | The generation prompt for the background film. |
+| `video-prompts/` | Generation prompts for the two hero videos. |
+| `_archive/website-video/` | The previous cinematic video site, kept unchanged so it stays recoverable. |
+| `PLAN.md` | The rebuild plan and milestones. |
 
 ## The site
 
-`website/index.html` is **generated**. Edit `website/src/index.template.html`, then:
-
-```bash
-cd website
-python build.py
-```
-
-The build inlines the logo paths from `website/src/logo-data/`. Those data files are
-committed on purpose — the build breaks without them.
+`website/index.html` is hand-written; edit it directly. Design tokens (palette, type,
+rules, spacing, motion) live at the top of `website/css/styles.css`.
 
 ### Preview locally
 
@@ -31,8 +26,8 @@ python serve.py
 
 Then open http://127.0.0.1:5178.
 
-Use `serve.py`, not `python -m http.server`. The background film is scrubbed by scroll
-position, which needs HTTP Range requests to seek; Python's stock server ignores them.
+Use `serve.py`, not `python -m http.server`. The hero videos seek to a freeze-frame,
+which needs HTTP Range requests; Python's stock server ignores them.
 Every production host supports Range natively, so this only matters locally.
 
 ## Deploying
@@ -61,7 +56,7 @@ This is a plain static site. There is no build step.
 | Build output directory | `website` |
 
 The root directory is the setting that matters: the repository root is not the site
-root, because `content/` and `video-prompt.txt` sit alongside it. Point Cloudflare at
+root, because `content/` and `video-prompts/` sit alongside it. Point Cloudflare at
 the repository root and it will find no `index.html` and serve a 404.
 
 The site is served at `www.girgitlabs.design` — a `CNAME` at the DNS provider pointing
@@ -95,9 +90,9 @@ Behaviour worth knowing:
 - Locally the function can't run under `serve.py`; the form shows its error state. To
   exercise it, set `FORM_ENDPOINT` to a Formspree URL or run `npx wrangler pages dev .`
 
-`FORM_ENDPOINT` at the top of `website/js/main.js` overrides the route — point it at a
-Formspree or CRM webhook if you'd rather not run the function. On Netlify, empty it and
-the `data-netlify` attribute takes over.
+The form itself lived in the previous site (`_archive/website-video/`, including the
+`FORM_ENDPOINT` override in its `js/main.js`). The rebuild has no form yet; the
+function and its tests are unchanged and wait for the new contact UI.
 
 **Verify a real submission arrives before calling a deploy finished.**
 

@@ -1,7 +1,7 @@
 """Local preview server with HTTP Range support.
 
 Python's built-in `http.server` ignores Range requests, and browsers need them to
-seek inside a video, which the scroll-scrubbed film depends on. Run from this folder:
+seek inside a video, which the hero's freeze-frame depends on. Run from this folder:
 
     python serve.py          # http://127.0.0.1:5178
     python serve.py 8080     # another port
@@ -53,6 +53,8 @@ class RangeHandler(http.server.SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('Accept-Ranges', 'bytes')
+        # Local preview only: never cache, so every edit shows on a plain refresh.
+        self.send_header('Cache-Control', 'no-store')
         super().end_headers()
 
 
