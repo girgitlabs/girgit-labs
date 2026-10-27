@@ -1,0 +1,120 @@
+/* SECTION 01 — the split-screen hero (BRIEF.md palette, Satoshi).
+   Left: controlled chaos. Right: the observer. Headline wipes in at ~2s. */
+
+:root {
+  --ivory: #F4EFE5;
+  --black: #111111;
+  --forest: #142118;
+  --olive: #6E7B3B;
+  --sage: #B5BEA0;
+  --pink: #FF168C;
+  --blue: #173BFF;
+  --acid: #43FF18;
+  --yellow: #FFE500;
+  --satoshi: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+
+.sh {
+  --split: 50%;
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: var(--split) 1fr;
+  height: calc(100svh - var(--nav-h));
+  min-height: 34rem;
+  overflow: hidden;
+  background: var(--ivory);
+}
+
+/* ---------- Left: controlled chaos ---------- */
+.sh-left { position: relative; min-width: 0; overflow: hidden; background: var(--black); }
+.sh-chaos { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* A dark floor under the headline, faded in as the motion calms for the reveal. */
+.sh-left::after {
+  content: ""; position: absolute; inset: auto 0 0 0; height: 48%;
+  background: linear-gradient(to top, rgb(17 17 17 / 0.9) 20%, transparent);
+  opacity: 0; transition: opacity 400ms var(--ease); pointer-events: none;
+}
+.sh[data-state="title"] .sh-left::after,
+.sh[data-state="idle"] .sh-left::after { opacity: 1; }
+
+/* ---------- Right: the observer ---------- */
+.sh-right {
+  position: relative; min-width: 0; overflow: hidden;
+  display: grid; place-items: center;
+  background: radial-gradient(120% 90% at 50% 38%, #FBF8F1 0%, var(--ivory) 52%, #E4DCCC 100%);
+}
+.sh-stage { position: relative; width: min(74%, 58svh); translate: 0 -9%; }
+.sh-figure { position: relative; z-index: 1; aspect-ratio: 1191 / 1200; transform: rotate(var(--turn, 0deg)); transform-origin: 50% 88%; transition: transform 900ms var(--ease); }
+.sh-figure img { display: block; width: 100%; height: 100%; max-width: none; }
+.sh-plinth { position: absolute; z-index: 0; left: 50%; bottom: -3%; width: 72%; height: 9%; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgb(20 33 24 / 0.26), transparent); }
+
+/* Live pupils inside the render's own eye whites (mask from source-images/eyes.py). */
+.sh-eyes {
+  position: absolute; inset: 0;
+  -webkit-mask: url('../assets/img/cham-hero-eyes.png') 0 0 / 100% 100% no-repeat;
+          mask: url('../assets/img/cham-hero-eyes.png') 0 0 / 100% 100% no-repeat;
+}
+.sh-eye {
+  position: absolute;
+  left: calc(var(--cx) - var(--r));
+  top: calc(var(--cy) - var(--r) * 0.9925);       /* r is a % of width; the render is 1191 x 1200 */
+  width: calc(var(--r) * 2);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 36% 30%, #FFFEF9 0%, #F3ECDD 42%, #D7CCB7 78%, #B9AC95 100%);
+}
+.sh-eye--far { transform: scale(1.5); }            /* paint generously; the mask decides the visible shape */
+.sh-pupil {
+  position: absolute; left: 50%; top: 50%; width: 32%; aspect-ratio: 1; border-radius: 50%;   /* the render's own pupil size */
+  background: radial-gradient(circle, #050505 0 58%, #1D1A16 74%, #000 100%);
+  translate: calc(-50% + var(--px, 0%)) calc(-50% + var(--py, 0%));
+  transition: translate 150ms cubic-bezier(0.2, 0.9, 0.2, 1);  /* fast saccades */
+}
+/* The highlight is the light source, so it stays put as the pupil moves under it: small and soft-edged. */
+.sh-eye::after { content: ""; position: absolute; z-index: 2; left: 31%; top: 24%; width: 11%; height: 8%; border-radius: 50%; background: radial-gradient(closest-side, #fff 45%, rgb(255 255 255 / 0)); opacity: 0.9; }
+
+/* ---------- Headline ---------- */
+.sh-title {
+  position: absolute; z-index: 4; inset: auto 0 clamp(2.4rem, 7svh, 4.6rem) 0;
+  display: grid; grid-template-columns: var(--split) 1fr;
+  margin: 0; pointer-events: none;
+  font: 900 clamp(2.5rem, 6.2vw, 7.4rem)/0.88 var(--satoshi);
+  letter-spacing: -0.055em; text-transform: uppercase;
+}
+.sh-cell { min-width: 0; overflow: hidden; padding: 0 var(--gutter); }
+.sh-cell--left { color: var(--ivory); }
+.sh-cell--right { color: var(--black); }
+.sh-line { display: block; padding-bottom: 0.05em; white-space: nowrap; }
+.sh-wipe { position: absolute; z-index: 2; inset: -0.1em 0; background: var(--acid); transform: scaleX(0); transform-origin: left; }
+.js .sh[data-state="intro"] .sh-line { visibility: hidden; }
+
+/* ---------- Scroll indicator ---------- */
+.sh-scroll {
+  position: absolute; z-index: 5; left: var(--split); bottom: 0.9rem; translate: -50% 0;
+  display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 999px;
+  background: var(--black); color: var(--ivory); text-decoration: none;
+  font: 700 0.64rem var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase;
+}
+.sh-scroll-line { position: relative; width: 1px; height: 14px; overflow: hidden; background: rgb(244 239 229 / 0.35); }
+.sh-scroll-line i { position: absolute; left: 0; top: -40%; width: 1px; height: 40%; background: var(--acid); }
+
+@media (prefers-reduced-motion: no-preference) {
+  .sh-figure img { transform-origin: 50% 90%; animation: sh-breathe 3.8s ease-in-out infinite; }
+  @keyframes sh-breathe { 50% { scale: 1.012; } }
+  .sh-scroll-line i { animation: sh-drip 1.6s ease-in-out infinite; }
+  @keyframes sh-drip { to { top: 110%; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sh-pupil { transition: none; }
+}
+
+/* ---------- Phones: the two worlds stack ---------- */
+@media (max-width: 760px) {
+  .sh { grid-template-columns: 1fr; grid-template-rows: 46% 54%; }
+  .sh-stage { width: min(68%, 34svh); translate: 0 -10%; }
+  .sh-title { inset: 0; grid-template-columns: 1fr; grid-template-rows: 46% 54%; align-items: end; font-size: clamp(2.3rem, 11vw, 3.6rem); }
+  .sh-cell { padding-bottom: 1rem; }
+  .sh-cell--right { padding-bottom: 3.2rem; }
+  .sh-scroll { left: 50%; }
+}

@@ -10,8 +10,21 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&amp;family=Shadows+Into+Light+Two&amp;family=Silkscreen&amp;family=Manrope:wght@500;700&amp;family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap">
+  <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&amp;display=swap">
   <link rel="stylesheet" href="css/site.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/lab.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
   <script type="module" src="js/site.js"></script>
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_obgWnjPGWgoZUKwLoKqohermsNWhZkU7yzM9vGdpeGzb', {
+      api_host: 'https://us.i.posthog.com',
+      person_profiles: 'identified_only'
+    });
+  </script>
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>
@@ -41,48 +54,109 @@
   </header>
 
   <main id="main">
-    <!-- 1. HERO: one screen, after Lumen Cat. "You missed it. We didn't." is a game:
-         three tiny things are hidden up here; finding one snaps a detection box onto it. -->
-    <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-stage">
-        <p class="corner corner--left" data-parallax="0.06">we don't have<br>a house style.<br>we have yours.</p>
-
-        <div class="viewfinder">
-          <span class="flower flower--big" data-hero-flower data-seed="3" data-parallax="-0.12" aria-hidden="true"></span>
-          <span class="flower flower--small" data-hero-flower data-seed="8" data-parallax="0.1" aria-hidden="true"></span>
-          <img class="prop prop--drop" src="assets/img/prop-drop.webp" width="299" height="700" alt="" aria-hidden="true" data-parallax="-0.2">
-          <img class="prop prop--squiggle" src="assets/img/prop-squiggle.webp" width="700" height="588" alt="" aria-hidden="true" data-parallax="0.16">
-          <button class="mascot" type="button" aria-label="The Girgit chameleon. Click to change its colour." data-cursor="click">
-            <span class="mascot-art"><img src="assets/img/cham-hero.webp" width="1191" height="1200" alt="" data-hero-cham fetchpriority="high"></span>
-          </button>
-          <p class="mascot-hint hand" aria-hidden="true">( click me )</p>
-          <button class="spot spot--a" type="button" aria-label="Hidden detail" data-spot="a tiny one, hiding in the flower"><span data-cham="default" data-body="lime"></span></button>
-          <button class="spot spot--b" type="button" aria-label="Hidden detail" data-spot="a pixel eye, on the frame"><span class="spot-pixel" data-pixel="eye"></span></button>
-        </div>
-
-        <a class="mini-window" href="#how" data-parallax="-0.05" aria-label="Websites go live in seven days. How the week runs.">
-          <span class="mini-bar"><i></i><b>7days.exe</b></span>
-          <span class="mini-body">websites go live<br>in seven days.<span class="bar"><i></i></span><span class="mini-link">↳ how the week runs</span></span>
-        </a>
+    <!-- SECTION 01: THE SPLIT-SCREEN HERO.
+         Left: controlled chaos (SVG collage, choreographed by js/hero.js).
+         Right: the observer. The chameleon is a STILL 3D render; only its pupils are live
+         (vector pupils clipped to a mask of the render's own eye whites), plus breathing and
+         small whole-figure turns. It is not a rigged 3D model. -->
+    <section class="sh" id="top" aria-labelledby="hero-title" data-state="intro">
+      <div class="sh-left" aria-hidden="true">
+        <svg class="sh-chaos" viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" focusable="false">
+          <defs>
+            <pattern id="sh-chk" width="64" height="64" patternUnits="userSpaceOnUse"><rect width="64" height="64" fill="#F4EFE5"/><rect width="32" height="32" fill="#111"/><rect x="32" y="32" width="32" height="32" fill="#111"/></pattern>
+            <pattern id="sh-dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="3.2" fill="#F4EFE5"/></pattern>
+            <pattern id="sh-scales" width="26" height="22" patternUnits="userSpaceOnUse"><rect width="26" height="22" fill="#FF168C"/><circle cx="0" cy="0" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/><circle cx="26" cy="0" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/><circle cx="13" cy="11" r="10" fill="#FF168C" stroke="#111" stroke-width="2"/><circle cx="0" cy="22" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/><circle cx="26" cy="22" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/></pattern>
+            <pattern id="sh-hazard" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="40" height="40" fill="#111"/><rect width="20" height="40" fill="#43FF18"/></pattern>
+          </defs>
+          <rect width="600" height="900" fill="#111"/>
+          <g class="sh-el" data-el="checker"><rect x="-90" y="470" width="440" height="440" fill="url(#sh-chk)" transform="rotate(-12 130 690)"/></g>
+          <g class="sh-el" data-el="blue"><rect x="400" y="-80" width="160" height="640" fill="#173BFF"/></g>
+          <g class="sh-el" data-el="hazard"><rect x="-40" y="380" width="700" height="56" fill="url(#sh-hazard)" transform="rotate(-8 300 408)"/></g>
+          <g class="sh-el" data-el="pink"><circle cx="310" cy="330" r="200" fill="#FF168C"/></g>
+          <g class="sh-el" data-el="scales"><path d="M380 560 C470 520 600 560 610 660 C620 780 520 860 420 830 C330 800 300 610 380 560 Z" fill="url(#sh-scales)" stroke="#111" stroke-width="4"/></g>
+          <g class="sh-el" data-el="dots"><rect x="40" y="40" width="200" height="170" fill="url(#sh-dots)"/></g>
+          <g class="sh-el" data-el="arrow"><path d="M30 250 L250 330 L30 410 L80 330 Z" fill="#FFE500" stroke="#111" stroke-width="5" stroke-linejoin="round"/></g>
+          <g class="sh-el" data-el="eye">
+            <circle cx="310" cy="330" r="150" fill="#43FF18" stroke="#111" stroke-width="8"/>
+            <circle cx="310" cy="330" r="124" fill="none" stroke="#111" stroke-width="5"/>
+            <circle cx="310" cy="330" r="98" fill="none" stroke="#111" stroke-width="5"/>
+            <circle cx="310" cy="330" r="72" fill="#FFE500" stroke="#111" stroke-width="6"/>
+            <g class="sh-el" data-el="pupil"><circle cx="310" cy="330" r="38" fill="#111"/><circle cx="296" cy="316" r="10" fill="#F4EFE5"/></g>
+          </g>
+          <g class="sh-el" data-el="marks" fill="none" stroke="#F4EFE5" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M440 640 l26 26 l-26 26 M476 640 l26 26 l-26 26 M512 640 l26 26 l-26 26"/>
+            <path d="M80 760 h44 M102 738 v44"/>
+            <circle cx="520" cy="130" r="34"/>
+          </g>
+          <g class="sh-el" data-el="ring"><circle cx="150" cy="560" r="60" fill="none" stroke="#FFE500" stroke-width="14"/></g>
+        </svg>
       </div>
 
-      <div class="hero-type">
-        <p class="eyebrow hand">brand - web - product - motion</p>
-        <h1 class="headline" id="hero-title">
-          <span class="line">design studio</span>
-          <span class="line">girgit labs</span>
-        </h1>
-        <button class="spot spot--c" type="button" aria-label="Hidden detail" data-spot="a sparkle, between the words"><span class="spot-pixel" data-pixel="sparkle"></span></button>
-        <div class="hero-foot">
-          <p class="hero-hunt hand" aria-live="polite" data-hero-hunt>( you missed it. we didn't. &nbsp;3 things are hidden up here. )</p>
-          <div class="hero-ctas">
-            <a class="pill pill--ink pill--big magnetic" href="#talk">↳ start a project</a>
-            <a class="pill pill--big magnetic" href="#what">see what we do</a>
+      <div class="sh-right">
+        <div class="sh-stage">
+          <div class="sh-figure" data-figure>
+            <img src="assets/img/cham-hero.webp" width="1191" height="1200" alt="Girgit, the Girgit Labs chameleon, watching" fetchpriority="high">
+            <div class="sh-eyes" aria-hidden="true">
+              <span class="sh-eye" data-eye="near" style="--cx:50.25%;--cy:27.5%;--r:9.7%"><i class="sh-pupil"></i></span>
+              <span class="sh-eye sh-eye--far" data-eye="far" style="--cx:80.2%;--cy:26.8%;--r:5.08%"><i class="sh-pupil"></i></span>
+            </div>
           </div>
+          <span class="sh-plinth" aria-hidden="true"></span>
         </div>
       </div>
-      <p class="sr-only" aria-live="polite" data-colour-status></p>
-      <a class="scroll-cue hand" href="#what" aria-label="Scroll down">scroll ↓</a>
+
+      <h1 class="sh-title" id="hero-title">
+        <span class="sh-cell sh-cell--left"><span class="sh-line">You missed it.</span></span>
+        <span class="sh-cell sh-cell--right"><span class="sh-line">We didn't.</span></span>
+        <span class="sh-wipe" aria-hidden="true"></span>
+      </h1>
+
+      <a class="sh-scroll" href="#what"><span class="sh-scroll-line" aria-hidden="true"><i></i></span>scroll</a>
+    </section>
+
+    <!-- SECTION 02: THE ADAPTATION LABORATORY.
+         A pinned horizontal landscape of faceted rocks, one per capability. Scroll walks
+         Girgit across it and he adapts on each rock (js/lab.js + js/lab-scene.js).
+         Girgit here is a 2D vector rig with leg IK (js/girgit.js), the interim for a rigged
+         3D model. Copy lives in the HTML so it reads without JS. -->
+    <section class="lab" id="what" aria-labelledby="lab-title" data-cap="intro">
+      <svg class="lab-world" viewBox="0 0 1778 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
+        <g class="lab-defs"></g>
+        <rect class="lab-floor" x="0" y="820" width="1778" height="400"/>
+        <g class="lab-cam"><g class="lab-rocks"></g><g class="lab-live"></g></g>
+      </svg>
+      <div class="lab-intro">
+        <p class="lab-kicker">What we do</p>
+        <h2 class="lab-title" id="lab-title">We do not have one style. <span>We have a response.</span></h2>
+      </div>
+      <ol class="lab-caps">
+          <li class="lab-cap" data-cap="0">
+            <p class="lab-num"><span>01</span> Branding</p>
+            <h3 class="lab-head">We find your kind of different.</h3>
+            <p class="lab-copy">Distinctive identities built around what makes you different.</p>
+          </li>
+          <li class="lab-cap" data-cap="1">
+            <p class="lab-num"><span>02</span> UI/UX and product design</p>
+            <h3 class="lab-head">Make it make sense.</h3>
+            <p class="lab-copy">Thoughtful experiences that turn complexity into clarity.</p>
+          </li>
+          <li class="lab-cap" data-cap="2">
+            <p class="lab-num"><span>03</span> Website design and development</p>
+            <h3 class="lab-head">Built to move ideas forward.</h3>
+            <p class="lab-copy">Digital experiences that combine strong design with purposeful execution.</p>
+          </li>
+          <li class="lab-cap" data-cap="3">
+            <p class="lab-num"><span>04</span> App design</p>
+            <h3 class="lab-head">Less friction. More flow.</h3>
+            <p class="lab-copy">Products shaped around real people and real behaviour.</p>
+          </li>
+          <li class="lab-cap" data-cap="4">
+            <p class="lab-num"><span>05</span> Motion and creative experimentation</p>
+            <h3 class="lab-head">Ideas with a pulse.</h3>
+            <p class="lab-copy">Motion and experimentation that make ideas impossible to ignore.</p>
+          </li>
+      </ol>
+      <ol class="lab-progress" aria-label="Capabilities"><li><button type="button" aria-label="Jump to Branding"><span>01</span></button></li><li><button type="button" aria-label="Jump to UI/UX and product design"><span>02</span></button></li><li><button type="button" aria-label="Jump to Website design and development"><span>03</span></button></li><li><button type="button" aria-label="Jump to App design"><span>04</span></button></li><li><button type="button" aria-label="Jump to Motion and creative experimentation"><span>05</span></button></li></ol>
     </section>
 
     <div class="ticker" aria-hidden="true"><div class="ticker-track hand">
@@ -90,22 +164,6 @@
       <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
     </div></div>
 
-    <!-- 2. WHAT WE DO: the sticker pile. -->
-    <section class="section what" id="what" aria-labelledby="what-title">
-      <span class="float float--a" data-scribble="star" data-seed="41" data-color="#C6F135" aria-hidden="true"></span>
-      <span class="float float--b" data-scribble="swirl" data-seed="43" aria-hidden="true"></span>
-      <p class="aside hand" data-write>( what we do )</p>
-      <h2 class="title" id="what-title" data-split>the front door,<br>not the house.</h2>
-      <p class="lede" data-reveal>Most people arrive for a website. What they usually need is the whole <span class="hi" lang="hi" data-en="structure" tabindex="0">ढाँचा</span>: structure, systems, the parts nobody sees.</p>
-      <div class="pile" data-pile aria-label="What we do">
-        <ul class="sr-only">
-          <li>Web design and development</li><li>Digital products and web apps</li><li>UX audits</li><li>App and interface design</li>
-          <li>Branding and identity</li><li>Graphic design</li><li>Video and motion</li><li>AI-enabled experiences</li><li>Frontend and backend</li>
-        </ul>
-        <img class="pile-sleeper" src="assets/img/cham-sleep.webp" width="1000" height="529" alt="" aria-hidden="true" loading="lazy">
-      </div>
-      <p class="pile-note small" data-reveal>( grab a sticker. throw it. ) &nbsp;·&nbsp; a seven-day website is how it starts. rarely where it stops.</p>
-    </section>
 
     <!-- 3. THE NAME: a retro dictionary window (Susan Kare). -->
     <section class="section name" id="name" aria-labelledby="name-title">

@@ -1,5 +1,7 @@
 // Girgit Labs site v2: every section's interaction and scroll animation.
 import { ACCENTS, BODIES, chameleon, PIXELS, SCRIBBLES, sticker, badge } from './art.js';
+import './hero.js';   // Section 01: the split-screen hero
+import './lab.js';    // Section 02: the Adaptation Laboratory
 
 document.documentElement.classList.add('js');   // reveal animations only hide content once JS is running
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -54,47 +56,6 @@ if ('IntersectionObserver' in window) {
   pills.forEach((p) => { const s = $(p.getAttribute('href')); if (s) io.observe(s); });
 }
 
-/* ---------- 1. Hero: the 3D chameleon changes colour and turns to look at you ---------- */
-// Two renders (ink, lime); the other skins are the lime render with a hue shift.
-const SKINS = [
-  { src: 'assets/img/cham-hero.webp', filter: '', flower: ACCENT, name: 'ink black' },
-  { src: 'assets/img/cham-lime.webp', filter: '', flower: BODIES.lime[2], name: 'lime' },
-  { src: 'assets/img/cham-lime.webp', filter: 'hue-rotate(-40deg) saturate(1.25)', flower: BODIES.sun[1], name: 'sun yellow' },
-  { src: 'assets/img/cham-lime.webp', filter: 'hue-rotate(-78deg) saturate(1.5)', flower: BODIES.coral[1], name: 'coral' },
-  { src: 'assets/img/cham-lime.webp', filter: 'hue-rotate(75deg) saturate(1.1)', flower: '#1F9E8F', name: 'teal' },
-];
-{
-  const img = $('[data-hero-cham]'), mascot = $('.mascot'), hint = $('.mascot-hint'), status = $('[data-colour-status]');
-  const flowers = $$('[data-hero-flower]');
-  let skin = 0;
-  new Image().src = SKINS[1].src;                // preload the second render
-  const drawFlowers = (colour) => flowers.forEach((el) => {
-    el.classList.remove('draw');
-    el.innerHTML = SCRIBBLES.flower(colour, Number(el.dataset.seed));
-    void el.offsetWidth;
-    el.classList.add('draw');
-  });
-  mascot.addEventListener('click', () => {
-    skin = (skin + 1) % SKINS.length;
-    img.src = SKINS[skin].src;
-    img.style.filter = SKINS[skin].filter;
-    drawFlowers(SKINS[skin].flower);
-    status.textContent = `The chameleon is ${SKINS[skin].name}.`;
-    hint.classList.add('is-gone');
-    if (!reduce) { mascot.classList.remove('is-changing'); void mascot.offsetWidth; mascot.classList.add('is-changing'); }
-  });
-  // It turns its head toward the cursor.
-  if (!reduce) {
-    addEventListener('pointermove', (e) => {
-      const r = img.getBoundingClientRect();
-      if (r.bottom < 0) return;
-      const dx = (e.clientX - (r.left + r.width / 2)) / innerWidth, dy = (e.clientY - (r.top + r.height * 0.3)) / innerHeight;
-      img.style.setProperty('--look', `rotate(${(dx * 10).toFixed(2)}deg) translate(${(dx * 14).toFixed(1)}px, ${(dy * 8).toFixed(1)}px)`);
-    }, { passive: true });
-  }
-  drawFlowers(SKINS[0].flower);
-}
-
 /* ---------- Hindi words swap to English (hover, focus, tap) ---------- */
 for (const el of $$('.hi')) {
   const hi = el.textContent, en = el.dataset.en;
@@ -117,6 +78,7 @@ for (const el of $$('.hi')) {
 }
 
 /* ---------- 2. Sticker pile: drop in, grab, throw; the chameleon moves when disturbed ---------- */
+if (document.querySelector("[data-pile]"))
 {
   const pile = $('[data-pile]');
   const sleeper = $('.pile-sleeper');
@@ -311,26 +273,6 @@ for (const b of $$('.who-list button')) {
 
 /* ---------- Pixel art slots ---------- */
 $$('[data-pixel]').forEach((el) => { el.innerHTML = PIXELS[el.dataset.pixel](); });
-
-/* ---------- Hero: "you missed it. we didn't." Find the three hidden things ---------- */
-{
-  const spots = $$('.spot'), out = $('[data-hero-hunt]');
-  let found = 0;
-  for (const s of spots) {
-    s.addEventListener('click', () => {
-      if (s.classList.contains('is-found')) return;
-      s.classList.add('is-found');
-      s.setAttribute('aria-label', `Found: ${s.dataset.spot}`);
-      found++;
-      if (found < spots.length) {
-        out.textContent = `( found ${found} / ${spots.length}: ${s.dataset.spot}. keep looking. )`;
-      } else {
-        out.textContent = "( all 3. you didn't miss a thing. we'd hire you. actually, hire us. )";
-        out.classList.add('is-done');
-      }
-    });
-  }
-}
 
 /* ---------- Appearing: split headings into words, index staggered children ---------- */
 for (const h of $$('[data-split]')) {

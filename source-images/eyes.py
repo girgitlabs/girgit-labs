@@ -62,7 +62,8 @@ fr = np.sqrt(k + fcx ** 2 + fcy ** 2)
 gy, gx = np.mgrid[0:h, 0:w]
 disk = (gx - fcx) ** 2 + (gy - fcy) ** 2 <= (fr - 1.5) ** 2
 left = np.median([fx[fy == r].min() for r in rows])
-far = (far[0], far[1], disk & (lo > 95) & (alpha > 200) & (gx > left + 8))
+warm = (rgb[..., 0] - rgb[..., 2]) > 8   # cream eye is warm; the head's sheen is cool grey-blue
+far = (far[0], far[1], disk & (lo > 95) & (alpha > 200) & warm)
 eyes = [near, far]
 
 mask = np.zeros((h, w), bool)
