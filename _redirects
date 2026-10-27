@@ -1,0 +1,3 @@
+/home /index.html 200
+/website / 301
+/website/* /:splat 301

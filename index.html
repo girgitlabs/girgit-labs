@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Girgit Labs — Digital design studio. Websites in 7 days.</title>
+  <meta name="description" content="A design studio with no house style. High-quality digital experiences, built fast — websites designed, built and live in seven days.">
+  <meta name="theme-color" content="#F7F3EC">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&amp;family=Shadows+Into+Light+Two&amp;family=Silkscreen&amp;family=Manrope:wght@500;700&amp;family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap">
+  <link rel="stylesheet" href="css/site.css">
+  <script type="module" src="js/site.js"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <!-- Crumpled paper behind the whole page: lit fractal noise, drawn once at viewport size. -->
+  <div class="paper" aria-hidden="true">
+    <svg preserveAspectRatio="none">
+      <filter id="crumple" x="0" y="0" width="100%" height="100%">
+        <feTurbulence type="fractalNoise" baseFrequency="0.012 0.018" numOctaves="4" seed="4" result="n"/>
+        <feDiffuseLighting in="n" lighting-color="#F7F3EC" surfaceScale="2.2"><feDistantLight azimuth="225" elevation="58"/></feDiffuseLighting>
+      </filter>
+      <rect width="100%" height="100%" filter="url(#crumple)"/>
+    </svg>
+  </div>
+
+  <header class="nav">
+    <a class="nav-logo" href="#top" aria-label="Girgit Labs, back to top"><img src="assets/girgit-wordmark.svg" alt=""></a>
+    <nav aria-label="Main">
+      <ul class="nav-links" role="list">
+        <li><a class="pill" href="#what">what we do</a></li>
+        <li><a class="pill" href="#work">work</a></li>
+        <li><a class="pill" href="#how">how we work</a></li>
+        <li><a class="pill" href="#why">why us</a></li>
+      </ul>
+    </nav>
+    <a class="pill pill--ink magnetic" href="#talk">↳ let's talk</a>
+  </header>
+
+  <main id="main">
+    <!-- 1. HERO: one screen, after Lumen Cat. "You missed it. We didn't." is a game:
+         three tiny things are hidden up here; finding one snaps a detection box onto it. -->
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-stage">
+        <p class="corner corner--left" data-parallax="0.06">we don't have<br>a house style.<br>we have yours.</p>
+
+        <div class="viewfinder">
+          <span class="flower flower--big" data-hero-flower data-seed="3" data-parallax="-0.12" aria-hidden="true"></span>
+          <span class="flower flower--small" data-hero-flower data-seed="8" data-parallax="0.1" aria-hidden="true"></span>
+          <img class="prop prop--drop" src="assets/img/prop-drop.webp" width="299" height="700" alt="" aria-hidden="true" data-parallax="-0.2">
+          <img class="prop prop--squiggle" src="assets/img/prop-squiggle.webp" width="700" height="588" alt="" aria-hidden="true" data-parallax="0.16">
+          <button class="mascot" type="button" aria-label="The Girgit chameleon. Click to change its colour." data-cursor="click">
+            <span class="mascot-art"><img src="assets/img/cham-hero.webp" width="1191" height="1200" alt="" data-hero-cham fetchpriority="high"></span>
+          </button>
+          <p class="mascot-hint hand" aria-hidden="true">( click me )</p>
+          <button class="spot spot--a" type="button" aria-label="Hidden detail" data-spot="a tiny one, hiding in the flower"><span data-cham="default" data-body="lime"></span></button>
+          <button class="spot spot--b" type="button" aria-label="Hidden detail" data-spot="a pixel eye, on the frame"><span class="spot-pixel" data-pixel="eye"></span></button>
+        </div>
+
+        <a class="mini-window" href="#how" data-parallax="-0.05" aria-label="Websites go live in seven days. How the week runs.">
+          <span class="mini-bar"><i></i><b>7days.exe</b></span>
+          <span class="mini-body">websites go live<br>in seven days.<span class="bar"><i></i></span><span class="mini-link">↳ how the week runs</span></span>
+        </a>
+      </div>
+
+      <div class="hero-type">
+        <p class="eyebrow hand">brand - web - product - motion</p>
+        <h1 class="headline" id="hero-title">
+          <span class="line">design studio</span>
+          <span class="line">girgit labs</span>
+        </h1>
+        <button class="spot spot--c" type="button" aria-label="Hidden detail" data-spot="a sparkle, between the words"><span class="spot-pixel" data-pixel="sparkle"></span></button>
+        <div class="hero-foot">
+          <p class="hero-hunt hand" aria-live="polite" data-hero-hunt>( you missed it. we didn't. &nbsp;3 things are hidden up here. )</p>
+          <div class="hero-ctas">
+            <a class="pill pill--ink pill--big magnetic" href="#talk">↳ start a project</a>
+            <a class="pill pill--big magnetic" href="#what">see what we do</a>
+          </div>
+        </div>
+      </div>
+      <p class="sr-only" aria-live="polite" data-colour-status></p>
+      <a class="scroll-cue hand" href="#what" aria-label="Scroll down">scroll ↓</a>
+    </section>
+
+    <div class="ticker" aria-hidden="true"><div class="ticker-track hand">
+      <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
+      <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
+    </div></div>
+
+    <!-- 2. WHAT WE DO: the sticker pile. -->
+    <section class="section what" id="what" aria-labelledby="what-title">
+      <span class="float float--a" data-scribble="star" data-seed="41" data-color="#C6F135" aria-hidden="true"></span>
+      <span class="float float--b" data-scribble="swirl" data-seed="43" aria-hidden="true"></span>
+      <p class="aside hand" data-write>( what we do )</p>
+      <h2 class="title" id="what-title" data-split>the front door,<br>not the house.</h2>
+      <p class="lede" data-reveal>Most people arrive for a website. What they usually need is the whole <span class="hi" lang="hi" data-en="structure" tabindex="0">ढाँचा</span>: structure, systems, the parts nobody sees.</p>
+      <div class="pile" data-pile aria-label="What we do">
+        <ul class="sr-only">
+          <li>Web design and development</li><li>Digital products and web apps</li><li>UX audits</li><li>App and interface design</li>
+          <li>Branding and identity</li><li>Graphic design</li><li>Video and motion</li><li>AI-enabled experiences</li><li>Frontend and backend</li>
+        </ul>
+        <img class="pile-sleeper" src="assets/img/cham-sleep.webp" width="1000" height="529" alt="" aria-hidden="true" loading="lazy">
+      </div>
+      <p class="pile-note small" data-reveal>( grab a sticker. throw it. ) &nbsp;·&nbsp; a seven-day website is how it starts. rarely where it stops.</p>
+    </section>
+
+    <!-- 3. THE NAME: a retro dictionary window (Susan Kare). -->
+    <section class="section name" id="name" aria-labelledby="name-title">
+      <div class="window" data-reveal="window">
+        <figure class="real-one" aria-hidden="true"><img src="assets/img/photo-chameleon.webp" width="1136" height="1001" alt="" loading="lazy"><figcaption class="hand">( the real one )</figcaption></figure>
+        <img class="prop prop--mac" src="assets/img/prop-mac.webp" width="930" height="850" alt="" aria-hidden="true" loading="lazy">
+        <div class="window-bar">
+          <span class="window-close" aria-hidden="true"></span>
+          <span class="window-title">dictionary</span>
+          <span class="window-walker" data-cham="default" aria-hidden="true"></span>
+        </div>
+        <div class="window-body">
+          <p class="entry-word" lang="hi">गिरगिट</p>
+          <p class="entry-meta">gir·git &nbsp;·&nbsp; <em>noun</em></p>
+          <ol class="entry-defs">
+            <li>a chameleon.</li>
+            <li><em>(informal, not a compliment)</em> a person who won't stay the same.<br>
+              <span class="entry-eg"><em>girgit ki tarah</em> <span class="hi" lang="hi" data-en="to change colour" tabindex="0">रंग बदलना</span>: to change colour like a chameleon.</span></li>
+          </ol>
+        </div>
+      </div>
+      <div class="name-copy">
+        <p class="aside hand" data-write>( yes, it's an insult. we checked. )</p>
+        <h2 class="title" id="name-title" data-split>we took the<br>name anyway.</h2>
+        <p data-reveal>Because changing colour isn't dishonesty. It's attention. A chameleon answers to where it is; nothing about it is fixed except the attention.</p>
+        <p data-reveal>That's the whole job. The work should carry your <span class="hi" lang="hi" data-en="temperament" tabindex="0">मिज़ाज</span>, your market, your ambition. Not our portfolio.</p>
+      </div>
+    </section>
+
+    <!-- 4. WORK: tagged tiles; real projects pending. -->
+    <section class="section work" id="work" aria-labelledby="work-title">
+      <h2 class="title title--center" id="work-title" data-split>work</h2>
+      <p class="aside hand aside--center" data-write>( where it actually happened )</p>
+      <ul class="tiles" role="list" data-stagger>
+        <li class="tile tile--wide"><span class="tile-tag">#brand #web #7-days</span><span class="tile-load"><span class="pixel">LOADING CASE STUDY</span><span class="bar"><i></i></span></span><img class="tile-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy"></li>
+        <li class="tile"><span class="tile-tag">#product #ux</span><span class="tile-load"><span class="pixel">LOADING…</span><span class="bar"><i></i></span></span><img class="tile-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy"></li>
+        <li class="tile"><span class="tile-tag">#identity</span><span class="tile-load"><span class="pixel">LOADING…</span><span class="bar"><i></i></span></span><img class="tile-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy"></li>
+        <li class="tile tile--wide"><span class="tile-tag">#motion #video</span><span class="tile-load"><span class="pixel">LOADING CASE STUDY</span><span class="bar"><i></i></span></span><img class="tile-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy"></li>
+      </ul>
+      <p class="small center" data-reveal>case studies are being written up properly. one line each, outcome first.</p>
+    </section>
+
+    <!-- 5. WHY US -->
+    <section class="section why" id="why" aria-labelledby="why-title">
+      <span class="float float--c" data-scribble="burst" data-seed="47" data-color="#C6F135" aria-hidden="true"></span>
+      <h2 class="title title--center" id="why-title" data-split>fast isn't<br>a discount.</h2>
+      <p class="aside hand aside--center" data-write>( fast, not cheap. different thing. )</p>
+      <img class="prop prop--hourglass" src="assets/img/prop-hourglass.webp" width="489" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.12">
+      <ul class="why-cards" role="list" data-stagger>
+        <li class="why-card"><span class="why-doodle" data-scribble="team" data-seed="19" aria-hidden="true"></span><h3>a small senior team</h3><p>Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.</p></li>
+        <li class="why-card"><span class="why-doodle" data-scribble="line" data-seed="23" aria-hidden="true"></span><h3>no handoff</h3><p>The designer builds the frontend. The person who drew it ships it.</p></li>
+        <li class="why-card"><span class="why-doodle" data-scribble="hourglass" data-seed="29" aria-hidden="true"></span><h3>the slow part happens first</h3><p>Research, references, sitemap, direction and scope are settled before day one. Seven days of building, not seven days of deciding.</p></li>
+      </ul>
+    </section>
+
+    <!-- 6. HOW WE WORK: the chameleon walks the week as you scroll. -->
+    <section class="section how" id="how" aria-labelledby="how-title">
+      <img class="prop prop--seven" src="assets/img/prop-seven.webp" width="451" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.15">
+      <h2 class="title title--center" id="how-title" data-split>how we work</h2>
+      <p class="aside hand aside--center" data-write>( how the week actually runs )</p>
+      <div class="week">
+        <div class="week-track" aria-hidden="true"><span class="week-walker" data-cham="default"></span></div>
+        <ol class="cards" role="list" data-stagger>
+          <li class="card"><span class="card-tab hand">before the clock</span><p>Content collected, references studied, sitemap agreed, direction set, scope signed off.</p><span class="card-num hand">0</span><span class="card-stamp">READY ✓</span></li>
+          <li class="card"><span class="card-tab hand">day 1</span><p>Direction, on screen. Not in a deck.</p><span class="card-num hand">1</span><span class="card-stamp">DAY 1 ✓</span></li>
+          <li class="card"><span class="card-tab hand">day 3</span><p>The real thing, in a browser, on your phone.</p><span class="card-num hand">3</span><span class="card-stamp">DAY 3 ✓</span></li>
+          <li class="card"><span class="card-tab hand">day 7</span><p>Live. One revision round included.</p><span class="card-num hand">7</span><span class="card-stamp">LIVE ✓</span></li>
+        </ol>
+      </div>
+      <p class="small center" data-reveal>bigger than seven days? we say so before you pay anything, ship a complete V1 in seven, and take the rest into phase 2.</p>
+    </section>
+
+    <!-- 7. WHO WE'RE FOR: click a line to stamp it. -->
+    <section class="section who" id="studio" aria-labelledby="who-title">
+      <span class="float float--d" data-scribble="arrow" data-seed="53" aria-hidden="true"></span>
+      <h2 class="title title--center" id="who-title" data-split>who we're for</h2>
+      <p class="aside hand aside--center" data-write>( be honest. which one are you? )</p>
+      <div class="who-cols">
+        <div>
+          <p class="who-head">we work best with</p>
+          <ul class="who-list" role="list" data-stamp="yes" data-stagger>
+            <li><button type="button">Founders who need an idea to exist by a date.</button></li>
+            <li><button type="button">Businesses whose digital presence is a decade behind the company.</button></li>
+            <li><button type="button">Agencies who need real design capacity, quietly.</button></li>
+            <li><button type="button">Creators building something bigger than a profile.</button></li>
+          </ul>
+        </div>
+        <div>
+          <p class="who-head">less well with</p>
+          <ul class="who-list" role="list" data-stamp="no" data-stagger>
+            <li><button type="button">Anyone shopping purely on price.</button></li>
+            <li><button type="button">Anyone who wants to art-direct the art director.</button></li>
+          </ul>
+          <p class="who-note">We'll recommend the direction and argue for it. You approve the big calls.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. FINALE: a rounded ink panel (Lumen Cat / Mark Levin closers). The 3D chameleon
+         sits on a spinning "start a project" badge that opens the contact card. -->
+    <section class="finale" id="talk" aria-labelledby="talk-title">
+      <div class="finale-panel">
+        <p class="hand finale-aside" data-write>( we were watching. that's kind of the job. )</p>
+        <h2 class="finale-title" id="talk-title" data-split>let's <mark>talk?</mark></h2>
+
+        <div class="finale-grid">
+          <ol class="notes" role="list" data-stagger aria-label="How to start">
+            <li class="note note--lime"><span class="note-num">1</span>send the idea</li>
+            <li class="note note--paper"><span class="note-num">2</span>add the deadline &amp; budget range</li>
+            <li class="note note--white"><span class="note-num">3</span>a real reply in one working day, from the person who'd run it</li>
+          </ol>
+
+          <div class="badge-stage">
+            <span class="badge-glow" aria-hidden="true"></span>
+            <img class="badge-cham" src="assets/img/cham-hero.webp" width="1191" height="1200" alt="" aria-hidden="true" loading="lazy" data-look>
+            <button class="ring-badge magnetic" type="button" data-open-form data-cursor="talk" aria-label="Start a project">
+              <svg viewBox="0 0 200 200" aria-hidden="true">
+                <defs><path id="ring-path" d="M100,100 m-74,0 a74,74 0 1,1 148,0 a74,74 0 1,1 -148,0"/></defs>
+                <circle cx="100" cy="100" r="96" class="ring-bg"/>
+                <text class="ring-text"><textPath href="#ring-path">start a project ✦ start a project ✦ start a project ✦ </textPath></text>
+              </svg>
+              <span class="ring-core">↳ go</span>
+            </button>
+          </div>
+
+          <div class="finale-contact">
+            <p class="finale-label">or just write</p>
+            <a class="finale-email" href="mailto:hello@girgitlabs.com">hello@<br>girgitlabs.com</a>
+            <p><button type="button" class="pill pill--paper" data-copy="hello@girgitlabs.com" data-cursor="copy">↳ copy email</button> <span class="copied" role="status"></span></p>
+            <p class="finale-small">no forms required. no calendar link with nothing behind it.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-card" data-form-card role="dialog" aria-modal="false" aria-labelledby="form-title" hidden>
+        <button class="form-close hand" type="button" data-close-form>close ✕</button>
+        <p class="hand">( you found us. )</p>
+        <h3 class="title" id="form-title" tabindex="-1">tell us what you're building.</h3>
+        <form class="form" novalidate>
+          <label>Name<input name="name" autocomplete="name" required maxlength="100"></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required maxlength="200"></label>
+          <label>Company <span>(optional)</span><input name="company" autocomplete="organization" maxlength="150"></label>
+          <label>What do you need?
+            <select name="build" required>
+              <option value="">Choose one</option>
+              <option>Website</option><option>Brand identity</option><option>Digital product / UX</option>
+              <option>App &amp; interface</option><option>Video &amp; motion</option><option>Not sure yet</option>
+            </select>
+          </label>
+          <label class="wide">The idea, the deadline, the budget range<textarea name="message" rows="3" required minlength="10" maxlength="5000"></textarea></label>
+          <label class="hp" aria-hidden="true">Leave empty<input name="company_website" tabindex="-1" autocomplete="off"></label>
+          <div class="wide form-foot">
+            <button class="pill pill--ink pill--big" type="submit">↳ send</button>
+            <p class="form-status" role="status"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER: a lime block; the chameleon climbs up from behind the giant wordmark. -->
+  <footer class="footer" aria-label="Footer">
+    <div class="footer-top">
+      <p class="hand footer-note" data-write>( that's the bottom. the chameleon's waiting at the top. )</p>
+      <a class="round-top magnetic" href="#top" data-cursor="up">↑<br>back to top</a>
+    </div>
+    <div class="footer-cols" data-stagger>
+      <div>
+        <p class="footer-label">say hello</p>
+        <button class="footer-email" type="button" data-copy="hello@girgitlabs.com" data-cursor="copy">hello@girgitlabs.com</button>
+        <span class="copied" role="status"></span>
+      </div>
+      <div>
+        <p class="footer-label">explore</p>
+        <ul class="footer-links" role="list">
+          <li><a href="#what">what we do</a></li><li><a href="#work">work</a></li><li><a href="#how">how we work</a></li>
+          <li><a href="#why">why us</a></li><li><a href="#talk">let's talk</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-label">studio</p>
+        <p class="footer-place">Mumbai, India<br>working worldwide</p>
+        <p class="footer-time"><span class="pixel" data-clock>--:--</span> in Mumbai right now</p>
+      </div>
+    </div>
+    <div class="footer-mark" aria-hidden="true">
+      <img class="footer-cham" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" loading="lazy">
+      <p class="footer-word">girgit labs</p>
+    </div>
+    <p class="footer-legal">© 2026 Girgit Labs &nbsp;·&nbsp; no house style since day one</p>
+  </footer>
+</body>
+</html>
