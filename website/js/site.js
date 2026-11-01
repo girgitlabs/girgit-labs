@@ -1,27 +1,8 @@
 // Girgit Labs site v2: every section's interaction and scroll animation.
 import { ACCENTS, BODIES, chameleon, PIXELS, SCRIBBLES, sticker, badge } from './art.js';
-import './hero.js';   // Section 01: the split-screen hero
-import './lab.js';    // Section 02: the Adaptation Laboratory
-import './hide.js';   // Section 03: the Hidden Girgit
-import './eyes.js';   // Section 04: the eye wall (and Section 05's opening panel)
-import './s5.js';     // Section 05: small hand-made motion (statement, services, eyes, tongue)
-import './footer-banner.js';   // Footer: the framed banner with the logo
-import './analytics.js';   // PostHog custom analytics
+import './analytics.js';   // PostHog event tracking
 
 document.documentElement.classList.add('js');   // reveal animations only hide content once JS is running
-
-// Scroll scenes measure where their sections sit once, at load. Anything that changes the page's
-// height afterwards (fonts arriving, a video's size, a late image) would leave them firing early,
-// so re-measure whenever the height changes.
-if (window.ScrollTrigger && 'ResizeObserver' in window) {
-  let h = 0, t = 0;
-  new ResizeObserver(() => {
-    const now = document.documentElement.scrollHeight;
-    if (Math.abs(now - h) < 2) return;
-    h = now; clearTimeout(t); t = setTimeout(() => window.ScrollTrigger.refresh(), 150);
-  }).observe(document.body);
-  document.fonts?.ready.then(() => window.ScrollTrigger.refresh());
-}
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ACCENT = ACCENTS.lime.hex;
 const $ = (s, r = document) => r.querySelector(s);
@@ -74,6 +55,46 @@ if ('IntersectionObserver' in window) {
   pills.forEach((p) => { const s = $(p.getAttribute('href')); if (s) io.observe(s); });
 }
 
+/* ---------- 1. Hero: colour change, blink ---------- */
+const SKINS = [
+  { body: 'ink', flower: ACCENT, name: 'ink black' },
+  { body: 'lime', flower: BODIES.lime[2], name: 'lime' },
+  { body: 'sun', flower: BODIES.sun[1], name: 'sun yellow' },
+  { body: 'coral', flower: BODIES.coral[1], name: 'coral' },
+  { body: 'camo', flower: BODIES.camo[2], name: 'camouflage. Where did it go?' },
+];
+{
+  const art = $('[data-hero-cham]'), mascot = $('.mascot'), hint = $('.mascot-hint'), status = $('[data-colour-status]');
+  const flowers = $$('[data-hero-flower]');
+  let skin = 0;
+  const drawFlowers = (colour) => flowers.forEach((el) => {
+    el.classList.remove('draw');
+    el.innerHTML = SCRIBBLES.flower(colour, Number(el.dataset.seed));
+    void el.offsetWidth;
+    el.classList.add('draw');
+  });
+  const draw = (state = 'default') => { art.innerHTML = chameleon({ body: SKINS[skin].body, state, eyeGlow: ACCENT }); aimEyes(); };
+  mascot.addEventListener('click', () => {
+    skin = (skin + 1) % SKINS.length;
+    draw();
+    drawFlowers(SKINS[skin].flower);
+    status.textContent = `The chameleon is ${SKINS[skin].name}.`;
+    hint.classList.add('is-gone');
+    try { window.posthog?.capture('chameleon_changed_color', { skin: SKINS[skin].name }); } catch (_) {}
+    if (!reduce) { mascot.classList.remove('is-changing'); void mascot.offsetWidth; mascot.classList.add('is-changing'); }
+  });
+  if (!reduce) {
+    const blink = () => {
+      draw('blink');
+      setTimeout(() => draw(), 140);
+      setTimeout(blink, 2800 + Math.random() * 3200);
+    };
+    setTimeout(blink, 2500);
+  }
+  draw();
+  drawFlowers(SKINS[0].flower);
+}
+
 /* ---------- Hindi words swap to English (hover, focus, tap) ---------- */
 for (const el of $$('.hi')) {
   const hi = el.textContent, en = el.dataset.en;
@@ -96,7 +117,6 @@ for (const el of $$('.hi')) {
 }
 
 /* ---------- 2. Sticker pile: drop in, grab, throw; the chameleon moves when disturbed ---------- */
-if (document.querySelector("[data-pile]"))
 {
   const pile = $('[data-pile]');
   const sleeper = $('.pile-sleeper');
@@ -149,11 +169,10 @@ if (document.querySelector("[data-pile]"))
       s.style.zIndex = ++top;
       s.setPointerCapture(e.pointerId);
       if (s === home) {                            // its bed moved: wake up and climb to another sticker
-        sleeper.src = 'assets/img/cham-hero.webp';           // awake
-        sleeper.classList.add('is-awake');
+        drawCham(sleeper, { state: 'found' });
         const next = stickers.filter((x) => x !== s)[Math.floor(Math.random() * (stickers.length - 1))];
         setTimeout(() => { seat(next); next.style.zIndex = ++top; sleeper.style.zIndex = top + 1; }, 250);
-        setTimeout(() => { sleeper.src = 'assets/img/cham-sleep.webp'; sleeper.classList.remove('is-awake'); }, 1400);
+        setTimeout(() => drawCham(sleeper, { state: 'sleep' }), 1400);
       }
     });
     s.addEventListener('pointermove', (e) => {
@@ -220,29 +239,48 @@ for (const b of $$('.who-list button')) {
   });
 }
 
-/* ---------- 8. Finale: the badge opens the contact card; the chameleon watches ---------- */
+/* ---------- 8. Finale: jungle hunt, contact card, copy email ---------- */
 {
-  const card = $('[data-form-card]'), heading = $('#form-title'), opener = $('[data-open-form]');
+  const jungle = $('[data-jungle]'), huntStatus = $('[data-hunt-status]');
+  const card = $('[data-form-card]'), heading = $('#form-title');
+  const LEAVES = 16;
+  for (let k = 0; k < LEAVES; k++) {
+    const l = document.createElement('span');
+    l.className = 'leaf';
+    l.innerHTML = SCRIBBLES.leaf('#4A453E', 17 + k);
+    Object.assign(l.style, { left: `${(k / LEAVES) * 100 + (Math.random() * 4 - 2)}%`, top: `${Math.random() * 60}px`, rotate: `${Math.random() * 120 - 60}deg` });
+    jungle.append(l);
+  }
+  // The hidden one: an ink chameleon on ink. Only its eye gives it away.
+  const target = document.createElement('button');
+  target.type = 'button';
+  target.className = 'hunt-target';
+  target.setAttribute('aria-label', 'A chameleon hiding in the leaves. Click to find it.');
+  target.innerHTML = chameleon({ body: 'ink' });
+  Object.assign(target.style, { left: `${12 + Math.random() * 70}%`, top: `${30 + Math.random() * 60}px`, rotate: `${Math.random() * 30 - 15}deg` });
+  jungle.append(target);
+  jungle.removeAttribute('aria-hidden');
+
   const openCard = () => {
     card.hidden = false;
     heading.focus({ preventScroll: true });
     card.scrollIntoView({ block: 'nearest', behavior: reduce ? 'auto' : 'smooth' });
   };
-  opener.addEventListener('click', openCard);
-  const close = () => { card.hidden = true; opener.focus(); };
-
-  // Any render marked data-look turns its head toward the cursor (like the hero).
-  if (!reduce) {
-    const lookers = $$('[data-look]');
-    addEventListener('pointermove', (e) => {
-      for (const img of lookers) {
-        const r = img.getBoundingClientRect();
-        if (r.bottom < 0 || r.top > innerHeight) continue;
-        const dx = (e.clientX - (r.left + r.width / 2)) / innerWidth, dy = (e.clientY - (r.top + r.height * 0.3)) / innerHeight;
-        img.style.setProperty('--look', `rotate(${(dx * 10).toFixed(2)}deg) translate(${(dx * 14).toFixed(1)}px, ${(dy * 8).toFixed(1)}px)`);
-      }
-    }, { passive: true });
-  }
+  target.addEventListener('click', () => {
+    target.innerHTML = chameleon({ body: 'lime', state: 'found' });
+    target.classList.add('is-found');
+    huntStatus.textContent = '( sharp eyes. you found us. )';
+    huntStatus.classList.add('is-found');
+    try { window.posthog?.capture('chameleon_found', { section: 'finale_jungle' }); } catch (_) {}
+    const burst = document.createElement('span');
+    burst.className = 'leaf draw';
+    burst.innerHTML = SCRIBBLES.burst(ACCENT, 31);
+    Object.assign(burst.style, { left: target.style.left, top: target.style.top, width: '120px' });
+    jungle.append(burst);
+    setTimeout(openCard, reduce ? 0 : 600);
+  });
+  $('[data-open-form]').addEventListener('click', openCard);
+  const close = () => { card.hidden = true; $('[data-open-form]').focus(); };
   $('[data-close-form]').addEventListener('click', close);
   card.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
@@ -283,7 +321,6 @@ for (const b of $$('.who-list button')) {
       } catch (_) {}
 
       if (!sent) {
-        // Direct fallback to Google Sheet Web App
         await fetch('https://script.google.com/macros/s/AKfycbymkJKr1Bw5KVpv3fVP9xoklhghi2_jFRkjgGaXcjLjsOynV8jG0GOLg9Nf0aZvrzBk/exec', {
           method: 'POST',
           mode: 'no-cors',
@@ -312,6 +349,26 @@ for (const b of $$('.who-list button')) {
 /* ---------- Pixel art slots ---------- */
 $$('[data-pixel]').forEach((el) => { el.innerHTML = PIXELS[el.dataset.pixel](); });
 
+/* ---------- Hero: "you missed it. we didn't." Find the three hidden things ---------- */
+{
+  const spots = $$('.spot'), out = $('[data-hero-hunt]');
+  let found = 0;
+  for (const s of spots) {
+    s.addEventListener('click', () => {
+      if (s.classList.contains('is-found')) return;
+      s.classList.add('is-found');
+      s.setAttribute('aria-label', `Found: ${s.dataset.spot}`);
+      found++;
+      if (found < spots.length) {
+        out.textContent = `( found ${found} / ${spots.length}: ${s.dataset.spot}. keep looking. )`;
+      } else {
+        out.textContent = "( all 3. you didn't miss a thing. we'd hire you. actually, hire us. )";
+        out.classList.add('is-done');
+      }
+    });
+  }
+}
+
 /* ---------- Appearing: split headings into words, index staggered children ---------- */
 for (const h of $$('[data-split]')) {
   let i = 0;
@@ -338,7 +395,7 @@ for (const h of $$('[data-split]')) {
   h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
 }
 $$('[data-stagger]').forEach((g) => [...g.children].forEach((c, i) => c.style.setProperty('--i', i)));
-onView($$('[data-split], [data-write], [data-stagger], .deco'), (el) => el.classList.add('in-view'));
+onView($$('[data-split], [data-write], [data-stagger], .footer-mark'), (el) => el.classList.add('in-view'));
 
 /* ---------- Footer: Mumbai's local time ---------- */
 {
@@ -360,7 +417,7 @@ if (!reduce) {
       const r = el.getBoundingClientRect();
       if (r.bottom < -200 || r.top > innerHeight + 200) continue;
       const off = (r.top + r.height / 2 - innerHeight / 2) * Number(el.dataset.parallax);
-      el.style.translate = `0 ${off.toFixed(1)}px`;   // translate, so float animations (transform) still run
+      el.style.transform = `translateY(${off.toFixed(1)}px)`;
     }
     ticker?.classList.toggle('is-reversed', scrollY < lastY);
     lastY = scrollY;
@@ -394,4 +451,6 @@ if (!reduce) {
     }, { passive: true });
   }
 
+  // Leaves in the finale sway out of step.
+  $$('.finale-jungle .leaf').forEach((l, i) => { l.style.animationDelay = `${(i % 5) * -0.9}s`; });
 }
