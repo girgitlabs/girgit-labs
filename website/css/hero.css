@@ -64,7 +64,11 @@
   border-radius: 50%;
   background: radial-gradient(circle at 36% 30%, #FFFEF9 0%, #F3ECDD 42%, #D7CCB7 78%, #B9AC95 100%);
 }
-.sh-eye--far { transform: scale(1.5); }            /* paint generously; the mask decides the visible shape */
+/* The far eye is a sphere mostly hidden behind the head: the box is the whole sphere and the
+   mask shows only the part in front of the eyelid. The render's own eyeball surface shows
+   through (its baked pupil was removed in the image); only the live pupil and highlight are drawn. */
+.sh-eye--far { background: none; }
+.sh-eye--far .sh-pupil { width: 23%; }
 .sh-pupil {
   position: absolute; left: 50%; top: 50%; width: 32%; aspect-ratio: 1; border-radius: 50%;   /* the render's own pupil size */
   background: radial-gradient(circle, #050505 0 58%, #1D1A16 74%, #000 100%);
@@ -73,13 +77,16 @@
 }
 /* The highlight is the light source, so it stays put as the pupil moves under it: small and soft-edged. */
 .sh-eye::after { content: ""; position: absolute; z-index: 2; left: 31%; top: 24%; width: 11%; height: 8%; border-radius: 50%; background: radial-gradient(closest-side, #fff 45%, rgb(255 255 255 / 0)); opacity: 0.9; }
+/* The far eye's highlight rides on its pupil (a free-floating dot reads as a speck there). */
+.sh-eye--far::after { display: none; }
+.sh-eye--far .sh-pupil::after { content: ""; position: absolute; left: 50%; top: 16%; width: 28%; height: 22%; border-radius: 50%; background: radial-gradient(closest-side, #fff 45%, rgb(255 255 255 / 0)); opacity: 0.9; }
 
 /* ---------- Headline ---------- */
 .sh-title {
   position: absolute; z-index: 4; inset: auto 0 clamp(2.4rem, 7svh, 4.6rem) 0;
   display: grid; grid-template-columns: var(--split) 1fr;
   margin: 0; pointer-events: none;
-  font: 900 clamp(2.5rem, 6.2vw, 7.4rem)/0.88 var(--satoshi);
+  font: 900 clamp(2.5rem, 5.6vw, 7rem)/0.88 var(--satoshi);   /* "YOU MISSED IT." is 7.05em wide: at 5.6vw it fits its half-column (42vw at the widest gutter) */
   letter-spacing: -0.055em; text-transform: uppercase;
 }
 .sh-cell { min-width: 0; overflow: hidden; padding: 0 var(--gutter); }
@@ -88,6 +95,7 @@
 .sh-line { display: block; padding-bottom: 0.05em; white-space: nowrap; }
 .sh-wipe { position: absolute; z-index: 2; inset: -0.1em 0; background: var(--acid); transform: scaleX(0); transform-origin: left; }
 .js .sh[data-state="intro"] .sh-line { visibility: hidden; }
+.sh-w { display: inline-block; }                  /* each word rises on its own (js/hero.js) */
 
 /* ---------- Scroll indicator ---------- */
 .sh-scroll {
@@ -103,6 +111,9 @@
   .sh-figure img { transform-origin: 50% 90%; animation: sh-breathe 3.8s ease-in-out infinite; }
   @keyframes sh-breathe { 50% { scale: 1.012; } }
   .sh-scroll-line i { animation: sh-drip 1.6s ease-in-out infinite; }
+  /* The scroll pill opens from its centre once the hero has settled. */
+  .js .sh-scroll { clip-path: inset(0 50% 0 50% round 999px); transition: clip-path 650ms var(--ease) 150ms; }
+  .js .sh[data-state="idle"] .sh-scroll { clip-path: inset(0 0 0 0 round 999px); }
   @keyframes sh-drip { to { top: 110%; } }
 }
 @media (prefers-reduced-motion: reduce) {

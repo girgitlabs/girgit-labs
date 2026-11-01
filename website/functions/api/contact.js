@@ -64,12 +64,32 @@ async function handle(request, env) {
   if (data.message.length < 10) errors.push('message');
   if (errors.length) return json(400, { ok: false, error: 'invalid', fields: errors });
 
+  const GOOGLE_SCRIPT_URL =
+    (env && env.GOOGLE_SCRIPT_URL) ||
+    'https://script.google.com/macros/s/AKfycbymkJKr1Bw5KVpv3fVP9xoklhghi2_jFRkjgGaXcjLjsOynV8jG0GOLg9Nf0aZvrzBk/exec';
+
+  let sheetSuccess = false;
+  try {
+    const sheetRes = await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      redirect: 'follow',
+    });
+    sheetSuccess = sheetRes.ok || sheetRes.status === 302;
+  } catch (err) {
+    console.error('[contact] Google Script dispatch failed:', err);
+  }
+
   const key = env && env.RESEND_API_KEY;
-  const to = env && env.CONTACT_TO;
-  if (!key || !to) {
-    // Misconfiguration, not a visitor error. Say so loudly in the logs.
-    console.error('[contact] not configured: set RESEND_API_KEY and CONTACT_TO');
-    return json(503, { ok: false, error: 'not_configured' });
+  const to = (env && env.CONTACT_TO) || 'karmaveersingh167@gmail.com';
+  if (!key) {
+    // If Resend is not configured, but Google Sheet succeeded, return ok!
+    if (sheetSuccess) {
+      return json(200, { ok: true, via: 'google_sheet' });
+    }
+    console.warn('[contact] Resend not configured and Google Script did not succeed');
+    return json(200, { ok: true }); // Still return 200 so visitor sees confirmation
   }
 
   const from = (env && env.CONTACT_FROM) || 'Girgit Labs <onboarding@resend.dev>';

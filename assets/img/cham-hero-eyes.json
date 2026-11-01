@@ -1,18 +1,18 @@
 {
-  "width": 1191,
-  "height": 1200,
-  "eyes": [
-    {
-      "cx": 50.25,
-      "cy": 27.5,
-      "r": 9.7,
-      "area": 41788
-    },
-    {
-      "cx": 80.2,
-      "cy": 26.8,
-      "r": 5.08,
-      "area": 11514
-    }
-  ]
+ "width": 1191,
+ "height": 1200,
+ "eyes": [
+  {
+   "cx": 50.25,
+   "cy": 27.5,
+   "r": 9.7,
+   "area": 41788
+  },
+  {
+   "cx": 74.22,
+   "cy": 27.83,
+   "r": 9.74,
+   "note": "sphere mostly behind the head; mask starts at the eyelid"
+  }
+ ]
 }

@@ -415,8 +415,8 @@ button { font: inherit; color: inherit; }
 /* ---------- Appearing animations ---------- */
 @media (prefers-reduced-motion: no-preference) {
   /* Headings: words rise one by one. */
-  .js [data-split] .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
-  .js [data-split] .w > span { display: inline-block; transform: translateY(110%); transition: transform 800ms var(--ease); transition-delay: calc(var(--i) * 70ms); }
+  .js [data-split] .w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.14em 0.12em 0.16em; margin: -0.14em -0.12em -0.16em;   /* room for the whole letter: tight tracking and line-height otherwise shave its edges */ }
+  .js [data-split] .w > span { display: inline-block; transform: translateY(150%); transition: transform 800ms var(--ease); transition-delay: calc(var(--i) * 70ms); }
   .js [data-split].in-view .w > span { transform: none; }
 
   /* Hand-written asides write themselves on, left to right. */
@@ -466,6 +466,23 @@ button { font: inherit; color: inherit; }
 .tile-peek { width: clamp(130px, 14vw, 180px); height: auto; right: 6%; bottom: -8px; transform: translateY(105%); }
 .tile:hover .tile-peek, .tile:focus-within .tile-peek { transform: translateY(6%); }
 .footer-cham { width: clamp(150px, 18vw, 260px); height: auto; left: 8%; bottom: 56%; }
+/* Looser letters, so the heavy glyphs no longer run into each other. */
+.footer-word { letter-spacing: -0.015em; }
+/* The chameleon peeks over the end of "labs", one paw gripping the top of the b's bowl, the other the
+   top of the s. Sized and placed in em of the wordmark, from Unbounded 800's own metrics, so he
+   stays on the letters at any width:
+   - the s's box starts where the b ends; both letters' x-height tops sit 0.615em above the box
+     bottom (line-height 0.8 puts the baseline 0.025em above it; x-height 0.59em);
+   - the image's ledge (where his paws grip) is 81.6% down it; drawn 1.3em wide, that ledge is
+     0.191em above the image bottom, so the image bottom goes at 0.615 - 0.191 = 0.424em;
+   - centred 0.1em into the s's box, his paws land on the b's bowl and on the s. */
+.footer-s { position: relative; display: inline-block; }
+.footer-s .footer-cham {
+  left: 0.1em; bottom: 0.424em; width: 1.3em; z-index: 1;
+  translate: -50% 0; transform: none;
+  transition: transform 900ms var(--pop), opacity 400ms var(--ease);
+}
+.js .footer-mark:not(.in-view) .footer-s .footer-cham { transform: translateY(18%); opacity: 0; }   /* rises into place once seen */
 
 @media (prefers-reduced-motion: no-preference) {
   .mascot-art img { animation: breathe-cham 3.6s ease-in-out infinite; }

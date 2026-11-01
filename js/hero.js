@@ -22,12 +22,27 @@ function init() {
   const eyes = [...hero.querySelectorAll('.sh-eye')].map((e) => ({ node: e, pupil: e.querySelector('.sh-pupil'), far: e.dataset.eye === 'far' }));
   const [near, far] = eyes;
   const setState = (s) => { hero.dataset.state = s; };
+  // Each headline word in its own box, so the words can rise into place one by one.
+  const words = lines.flatMap((line) => {
+    const parts = line.textContent.split(/(\s+)/);
+    line.textContent = '';
+    return parts.map((w) => {
+      if (!w.trim()) { line.append(w); return null; }
+      const span = document.createElement('span');
+      span.className = 'sh-w'; span.textContent = w; line.append(span);
+      return span;
+    }).filter(Boolean);
+  });
 
   /* ---------- Eyes: each pupil moves on its own ---------- */
   const look = (eye, nx, ny) => {
-    const m = eye.far ? 24 : 30;                       // % of the eye box the pupil may travel
-    eye.pupil.style.setProperty('--px', `${(nx * m).toFixed(1)}%`);
-    eye.pupil.style.setProperty('--py', `${(ny * m).toFixed(1)}%`);
+    // Offsets are % of the pupil's own size. The far eye's pupil rests where the render's pupil
+    // is (forward on a sphere mostly behind the head): it can glance forward, up and down, but
+    // not back into the head.
+    const px = eye.far ? 138 + Math.max(0, nx) * 19 + Math.min(0, nx) * 4 : nx * 30;
+    const py = eye.far ? Math.max(-80, Math.min(0, -32 + ny * 30)) : ny * 30;   // far: clear of the eyelid's curve
+    eye.pupil.style.setProperty('--px', `${px.toFixed(1)}%`);
+    eye.pupil.style.setProperty('--py', `${py.toFixed(1)}%`);
   };
   const lookAt = (eye, x, y) => {
     const r = eye.node.getBoundingClientRect();
@@ -101,8 +116,10 @@ function init() {
   gsap.set(wipe, { scaleX: 0 });          // explicit start, so the wipe can never flash in early
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
 
-  // 0–0.7s: establish both worlds.
-  tl.from(el('checker'), { x: -320, rotation: -25, duration: 0.55 }, 0)
+  // 0–0.7s: establish both worlds. The nav drops in alongside, item by item.
+  tl.from(['.nav-logo', ...document.querySelectorAll('.nav-links li'), '.nav > .pill'], { y: -22, opacity: 0, duration: 0.5, stagger: 0.05, ease: 'power3.out', clearProps: 'transform,opacity' }, 0.05)
+    .from(hero.querySelector('.sh-plinth'), { scaleX: 0.25, opacity: 0, duration: 0.8, ease: 'power3.out' }, 0.15)
+    .from(el('checker'), { x: -320, rotation: -25, duration: 0.55 }, 0)
     .from(el('blue'), { y: -720, duration: 0.5 }, 0.05)
     .from(el('pink'), { scale: 0, duration: 0.6, ease: 'back.out(2)' }, 0.1)
     .from(el('hazard'), { x: 720, duration: 0.45 }, 0.2)
@@ -136,6 +153,7 @@ function init() {
   // ~2s: a sharp acid wipe across both worlds reveals the headline.
   tl.to(wipe, { scaleX: 1, transformOrigin: 'left center', duration: 0.2, ease: 'power4.in' }, 1.95)
     .set(lines, { visibility: 'visible' }, 2.15)
+    .from(words, { yPercent: 115, duration: 0.6, stagger: 0.055, ease: 'expo.out' }, 2.15)   // words rise as the wipe passes
     .to(wipe, { scaleX: 0, transformOrigin: 'right center', duration: 0.26, ease: 'power4.out' }, 2.15)
     .call(startIdle, null, 2.45);
 

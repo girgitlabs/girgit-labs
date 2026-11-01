@@ -2,8 +2,26 @@
 import { ACCENTS, BODIES, chameleon, PIXELS, SCRIBBLES, sticker, badge } from './art.js';
 import './hero.js';   // Section 01: the split-screen hero
 import './lab.js';    // Section 02: the Adaptation Laboratory
+import './hide.js';   // Section 03: the Hidden Girgit
+import './eyes.js';   // Section 04: the eye wall (and Section 05's opening panel)
+import './s5.js';     // Section 05: small hand-made motion (statement, services, eyes, tongue)
+import './footer-banner.js';   // Footer: the framed banner with the logo
+import './analytics.js';   // PostHog custom analytics
 
 document.documentElement.classList.add('js');   // reveal animations only hide content once JS is running
+
+// Scroll scenes measure where their sections sit once, at load. Anything that changes the page's
+// height afterwards (fonts arriving, a video's size, a late image) would leave them firing early,
+// so re-measure whenever the height changes.
+if (window.ScrollTrigger && 'ResizeObserver' in window) {
+  let h = 0, t = 0;
+  new ResizeObserver(() => {
+    const now = document.documentElement.scrollHeight;
+    if (Math.abs(now - h) < 2) return;
+    h = now; clearTimeout(t); t = setTimeout(() => window.ScrollTrigger.refresh(), 150);
+  }).observe(document.body);
+  document.fonts?.ready.then(() => window.ScrollTrigger.refresh());
+}
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const ACCENT = ACCENTS.lime.hex;
 const $ = (s, r = document) => r.querySelector(s);
@@ -241,7 +259,7 @@ for (const b of $$('.who-list button')) {
   const form = $('.form'), status = $('.form-status'), submit = form.querySelector('[type="submit"]');
   const fallback = (lead) => {
     status.textContent = `${lead} Email us instead: `;
-    status.append(Object.assign(document.createElement('a'), { href: 'mailto:hello@girgitlabs.com', textContent: 'hello@girgitlabs.com' }));
+    status.append(Object.assign(document.createElement('a'), { href: 'mailto:connect@girgitlabs.design', textContent: 'connect@girgitlabs.design' }));
   };
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -257,11 +275,31 @@ for (const b of $$('.who-list button')) {
     submit.disabled = true;
     status.textContent = 'Sending…';
     try {
-      const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-      const body = await res.json().catch(() => ({}));
-      if (res.ok && body.ok) { form.reset(); status.textContent = "Sent. You'll hear back within one working day, from the person who'd run the project."; }
-      else if (res.status === 400 && body.fields) { body.fields.forEach((n) => form.elements[n]?.setAttribute('aria-invalid', 'true')); status.textContent = 'Check the highlighted fields.'; }
-      else fallback("We couldn't send that just now.");
+      let sent = false;
+      try {
+        const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        const body = await res.json().catch(() => ({}));
+        if (res.ok && body.ok) sent = true;
+      } catch (_) {}
+
+      if (!sent) {
+        // Direct fallback to Google Sheet Web App
+        await fetch('https://script.google.com/macros/s/AKfycbymkJKr1Bw5KVpv3fVP9xoklhghi2_jFRkjgGaXcjLjsOynV8jG0GOLg9Nf0aZvrzBk/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        sent = true;
+      }
+
+      if (sent) {
+        form.reset();
+        status.textContent = "Sent. You'll hear back within one working day, from the person who'd run the project.";
+        try { window.posthog?.capture('contact_form_submitted', { build: data.build }); } catch (_) {}
+      } else {
+        fallback("We couldn't send that just now.");
+      }
     } catch { fallback("We couldn't send that just now."); }
     finally { submit.disabled = false; }
   });
@@ -300,7 +338,7 @@ for (const h of $$('[data-split]')) {
   h.setAttribute('aria-label', h.textContent.replace(/\s+/g, ' ').trim());
 }
 $$('[data-stagger]').forEach((g) => [...g.children].forEach((c, i) => c.style.setProperty('--i', i)));
-onView($$('[data-split], [data-write], [data-stagger], .footer-mark'), (el) => el.classList.add('in-view'));
+onView($$('[data-split], [data-write], [data-stagger], .deco'), (el) => el.classList.add('in-view'));
 
 /* ---------- Footer: Mumbai's local time ---------- */
 {
