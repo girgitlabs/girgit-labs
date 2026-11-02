@@ -612,3 +612,26 @@ img { height: auto; }
 .mascot { height: 97%; width: auto; aspect-ratio: 1191 / 1200; }
 .mascot-art { display: block; width: 100%; height: 100%; }
 .mascot-art img { width: 100%; height: 100%; max-width: none; object-fit: contain; }
+
+/* ==========================================================================
+   v2.6: section flow. Ivory bridges between the immersive sections, so each scene
+   starts and ends cleanly instead of butting into the next.
+   ========================================================================== */
+/* Nothing may make the page wider than the window. The tilted ticker and the decorations bleed
+   past the edges by design; each section clips its own sideways overflow (clip, not hidden, so
+   the sticky scenes still stick), and the root never scrolls sideways. Without this the page
+   could shift left and show the paper layer in a strip down the right edge. */
+html { overflow-x: clip; }
+main > *, .ft { overflow-x: clip; }
+
+.bridge { display: grid; justify-items: center; gap: clamp(0.7rem, 1.6vw, 1.1rem); padding: clamp(3.5rem, 8vw, 6.5rem) var(--gutter); text-align: center; }
+.bridge--ticker { padding-top: clamp(3rem, 6vw, 5rem); }
+.bridge--ticker .ticker { justify-self: stretch; margin: 0 calc(-1 * var(--gutter) - 2vw) clamp(1.5rem, 4vw, 3rem); }
+.bridge-kicker { display: flex; align-items: center; gap: 0.9rem; margin: 0; font: 700 0.74rem/1 var(--satoshi, var(--text)); letter-spacing: 0.16em; text-transform: uppercase; color: var(--graphite); }
+.bridge-kicker::before, .bridge-kicker::after { content: ''; width: clamp(2rem, 8vw, 5.5rem); height: 1px; background: currentColor; opacity: 0.45; }
+.bridge-aside { margin: 0; max-width: 24ch; font-size: clamp(1.6rem, 3vw, 2.4rem); color: var(--ink); }
+.bridge-arrow svg { display: block; width: clamp(1.6rem, 2.6vw, 2.2rem); height: auto; }
+@media (prefers-reduced-motion: no-preference) {
+  .bridge-arrow.in-view svg { animation: bridge-nudge 2.4s var(--ease) 600ms infinite; }
+  @keyframes bridge-nudge { 0%, 60%, 100% { translate: 0 0; } 30% { translate: 0 8px; } }
+}

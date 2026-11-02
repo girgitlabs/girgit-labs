@@ -76,11 +76,10 @@ const DESIGNS = {
       ball: { cx: 50, cy: 50, r: 23, shape: 'circle', iris: 12 },
     };
   },
-  // A soft square eye: a rounded block with a heavy lid line.
+  // A soft square eye: a rounded block around a rounded white eye (no brow line over it).
   block: (c) => ({
     art: `<rect x="12" y="16" width="76" height="68" rx="20" fill="${c.a}" stroke="${INK}" stroke-width="${K}"/>
-      <rect x="22" y="28" width="56" height="46" rx="16" fill="${PAL.white}" stroke="${INK}" stroke-width="${K - 1}"/>
-      <path d="M22 34 Q50 18 78 34" fill="none" stroke="${INK}" stroke-width="${K + 1}" stroke-linecap="round"/>`,
+      <rect x="22" y="28" width="56" height="46" rx="16" fill="${PAL.white}" stroke="${INK}" stroke-width="${K - 1}"/>`,
     ball: { cx: 50, cy: 51, r: 22, shape: 'circle', iris: 13 },
   }),
 };

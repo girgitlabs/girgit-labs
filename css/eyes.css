@@ -2,7 +2,7 @@
    slides up over it. The wall is sticky; the calm ivory panel that follows in the page scrolls up
    over it, so it physically covers the grid while the grid drifts upward. */
 
-.eyes { position: relative; isolation: isolate; background: var(--black); }
+.eyes { position: relative; isolation: isolate; background: var(--black); border-radius: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem) 0 0; overflow: clip; }   /* clip, not hidden: the wall stays sticky */
 .eyes-stick { position: sticky; top: var(--nav-h); z-index: 0; height: calc(100svh - var(--nav-h)); overflow: hidden; }
 .eyes-grid { display: grid; grid-template-columns: repeat(var(--cols, 10), 1fr); will-change: transform; }
 

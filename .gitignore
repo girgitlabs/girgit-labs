@@ -26,3 +26,7 @@ desktop.ini
 .DS_Store
 
 *.zip
+
+# Design source files and heavy exports (must not be uploaded to Cloudflare Pages)
+exports/
+source-images/
