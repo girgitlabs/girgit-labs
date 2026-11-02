@@ -112,7 +112,7 @@ function init() {
     found = false; searched = 0; taps = 0; searchStart = 0; pop = 1;
     section.dataset.state = 'search';
     leaves.forEach((l) => l.classList.remove('part'));
-    hint.textContent = 'Somewhere in here is Girgit. Look for two yellow eyes.';
+    hint.textContent = 'Look for two yellow eyes.';
     button.textContent = 'Show me Girgit';
     hideFrom(pointer || eyeAt(cur));
     setSpotLeaves();

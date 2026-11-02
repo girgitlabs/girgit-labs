@@ -17,7 +17,7 @@
   <meta property="og:description" content="A design studio with no house style. High-quality digital experiences, built fast: websites designed, built and live in seven days.">
   <meta property="og:url" content="https://www.girgitlabs.design/">
   <meta property="og:image" content="https://www.girgitlabs.design/assets/img/cham-hero.webp">
-  <meta property="og:image:alt" content="Girgit Labs — Digital Design Studio">
+  <meta property="og:image:alt" content="Girgit Labs | Digital Design Studio">
   <meta property="og:image:width" content="1191">
   <meta property="og:image:height" content="1200">
   <meta property="og:locale" content="en_US">
@@ -27,7 +27,7 @@
   <meta name="twitter:title" content="Girgit Labs | Digital design studio. Websites in 7 days.">
   <meta name="twitter:description" content="A design studio with no house style. High-quality digital experiences, built fast: websites designed, built and live in seven days.">
   <meta name="twitter:image" content="https://www.girgitlabs.design/assets/img/cham-hero.webp">
-  <meta name="twitter:image:alt" content="Girgit Labs — Digital Design Studio">
+  <meta name="twitter:image:alt" content="Girgit Labs | Digital Design Studio">
 
   <!-- AI & Search Discoverability -->
   <link rel="sitemap" type="application/xml" href="sitemap.xml">
@@ -190,6 +190,7 @@
   <link rel="stylesheet" href="css/hide.css">
   <link rel="stylesheet" href="css/eyes.css">
   <link rel="stylesheet" href="css/s5.css">
+  <link rel="stylesheet" href="css/story.css">
   <link rel="stylesheet" href="css/footer.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
@@ -221,73 +222,39 @@
     <nav aria-label="Main">
       <ul class="nav-links" role="list">
         <li><a class="pill" href="#what">what we do</a></li>
-        <li><a class="pill" href="#work">work</a></li>
         <li><a class="pill" href="#approach">how we work</a></li>
+        <li><a class="pill" href="#work">work</a></li>
       </ul>
     </nav>
     <a class="pill pill--ink magnetic" href="#talk">↳ let's talk</a>
   </header>
 
   <main id="main">
-    <!-- SECTION 01: THE SPLIT-SCREEN HERO.
-         Left: controlled chaos (SVG collage, choreographed by js/hero.js).
-         Right: the observer. The chameleon is a STILL 3D render; only its pupils are live
-         (vector pupils clipped to a mask of the render's own eye whites), plus breathing and
-         small whole-figure turns. It is not a rigged 3D model. -->
-    <section class="sh" id="top" aria-labelledby="hero-title" data-state="intro">
-      <div class="sh-left" aria-hidden="true">
-        <svg class="sh-chaos" viewBox="0 0 600 900" preserveAspectRatio="xMidYMid slice" focusable="false">
-          <defs>
-            <pattern id="sh-chk" width="64" height="64" patternUnits="userSpaceOnUse"><rect width="64" height="64" fill="#F4EFE5"/><rect width="32" height="32" fill="#111"/><rect x="32" y="32" width="32" height="32" fill="#111"/></pattern>
-            <pattern id="sh-dots" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="9" cy="9" r="3.2" fill="#F4EFE5"/></pattern>
-            <pattern id="sh-scales" width="26" height="22" patternUnits="userSpaceOnUse"><rect width="26" height="22" fill="#FF168C"/><circle cx="0" cy="0" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/><circle cx="26" cy="0" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/><circle cx="13" cy="11" r="10" fill="#FF168C" stroke="#111" stroke-width="2"/><circle cx="0" cy="22" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/><circle cx="26" cy="22" r="10" fill="#FFE500" stroke="#111" stroke-width="2"/></pattern>
-            <pattern id="sh-hazard" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="40" height="40" fill="#111"/><rect width="20" height="40" fill="#43FF18"/></pattern>
-          </defs>
-          <rect width="600" height="900" fill="#111"/>
-          <g class="sh-el" data-el="checker"><rect x="-90" y="470" width="440" height="440" fill="url(#sh-chk)" transform="rotate(-12 130 690)"/></g>
-          <g class="sh-el" data-el="blue"><rect x="400" y="-80" width="160" height="640" fill="#173BFF"/></g>
-          <g class="sh-el" data-el="hazard"><rect x="-40" y="380" width="700" height="56" fill="url(#sh-hazard)" transform="rotate(-8 300 408)"/></g>
-          <g class="sh-el" data-el="pink"><circle cx="310" cy="330" r="200" fill="#FF168C"/></g>
-          <g class="sh-el" data-el="scales"><path d="M380 560 C470 520 600 560 610 660 C620 780 520 860 420 830 C330 800 300 610 380 560 Z" fill="url(#sh-scales)" stroke="#111" stroke-width="4"/></g>
-          <g class="sh-el" data-el="dots"><rect x="40" y="40" width="200" height="170" fill="url(#sh-dots)"/></g>
-          <g class="sh-el" data-el="arrow"><path d="M30 250 L250 330 L30 410 L80 330 Z" fill="#FFE500" stroke="#111" stroke-width="5" stroke-linejoin="round"/></g>
-          <g class="sh-el" data-el="eye">
-            <circle cx="310" cy="330" r="150" fill="#43FF18" stroke="#111" stroke-width="8"/>
-            <circle cx="310" cy="330" r="124" fill="none" stroke="#111" stroke-width="5"/>
-            <circle cx="310" cy="330" r="98" fill="none" stroke="#111" stroke-width="5"/>
-            <circle cx="310" cy="330" r="72" fill="#FFE500" stroke="#111" stroke-width="6"/>
-            <g class="sh-el" data-el="pupil"><circle cx="310" cy="330" r="38" fill="#111"/><circle cx="296" cy="316" r="10" fill="#F4EFE5"/></g>
-          </g>
-          <g class="sh-el" data-el="marks" fill="none" stroke="#F4EFE5" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M440 640 l26 26 l-26 26 M476 640 l26 26 l-26 26 M512 640 l26 26 l-26 26"/>
-            <path d="M80 760 h44 M102 738 v44"/>
-            <circle cx="520" cy="130" r="34"/>
-          </g>
-          <g class="sh-el" data-el="ring"><circle cx="150" cy="560" r="60" fill="none" stroke="#FFE500" stroke-width="14"/></g>
-        </svg>
-      </div>
-
-      <div class="sh-right">
-        <div class="sh-stage">
-          <div class="sh-figure" data-figure>
-            <img src="assets/img/cham-hero.webp" width="1191" height="1200" alt="Girgit, the Girgit Labs chameleon, watching" fetchpriority="high">
-            <div class="sh-eyes" aria-hidden="true">
-              <span class="sh-eye" data-eye="near" style="--cx:50.25%;--cy:27.5%;--r:9.7%"><i class="sh-pupil"></i></span>
-              <span class="sh-eye sh-eye--far" data-eye="far" style="--cx:74.22%;--cy:27.83%;--r:9.74%"><i class="sh-pupil"></i></span>
-            </div>
-          </div>
-          <span class="sh-plinth" aria-hidden="true"></span>
+    <!-- SECTION 01: THE HERO, Girgit's living skin. The whole hero is chameleon skin, drawn live by a
+         WebGL shader (js/skin.js): thousands of domed scales, the headline written by the scales
+         themselves (they sample a mask of the real h1), and a colour wave rippling out wherever the
+         pointer goes; a click washes the skin into a new palette. Scrolling pulls back to reveal whose
+         skin it is: the supplied photo of Girgit mid colour-change (assets/img/girgit-skin.webp), in a
+         match cut that starts close on his flank and zooms out to the whole animal. No WebGL, no JS or reduced motion: a still version with
+         the headline as plain text. -->
+    <div class="sk-track">
+      <section class="sk" id="top" aria-labelledby="hero-title">
+        <canvas class="sk-canvas" aria-hidden="true"></canvas>
+        <div class="sk-copy">
+          <p class="sk-kicker">Digital design studio · Mumbai, working worldwide</p>
+          <h1 class="sk-title" id="hero-title"><span>You missed it.</span> <span>We didn't.</span></h1>
+          <p class="sk-sub">We don't have a house style. We have yours.</p>
+          <p class="sk-ctas"><a class="sk-btn sk-btn--solid" href="#talk">Start a project</a><a class="sk-btn" href="#work">See the work</a></p>
         </div>
-      </div>
-
-      <h1 class="sh-title" id="hero-title">
-        <span class="sh-cell sh-cell--left"><span class="sh-line">You missed it.</span></span>
-        <span class="sh-cell sh-cell--right"><span class="sh-line">We didn't.</span></span>
-        <span class="sh-wipe" aria-hidden="true"></span>
-      </h1>
-
-      <a class="sh-scroll" href="#what"><span class="sh-scroll-line" aria-hidden="true"><i></i></span>scroll</a>
-    </section>
+        <figure class="sk-owner" aria-hidden="true">
+          <span class="sk-owner-shadow"></span>
+          <img src="assets/img/girgit-skin.webp" width="1266" height="970" alt="" loading="lazy">
+          <figcaption class="hand">(that was his skin.)</figcaption>
+        </figure>
+        <p class="sk-hint" aria-hidden="true">move across his skin · click to change it</p>
+        <a class="sk-scroll" href="#what">whose skin is this? <span aria-hidden="true">↓</span></a>
+      </section>
+    </div>
 
     <!-- SECTION 02: THE ADAPTATION LABORATORY.
          One pinned scene: scroll scrubs a stitched film of Girgit crossing five rocks and
@@ -308,7 +275,7 @@
           <ol class="lab-caps">
           <li class="lab-cap" data-cap="0">
             <img class="lab-cap-img" src="assets/img/lab/lab-rock-1.webp" width="1600" height="695" alt="" loading="lazy">
-            <p class="lab-num"><span class="lab-n">01</span> <span class="lab-service">Branding</span></p>
+            <p class="lab-num"><span class="lab-n">01</span> <span class="lab-service">Branding and visual identity</span></p>
             <h3 class="lab-head">We find your kind of different.</h3>
             <p class="lab-copy">Distinctive identities built around what makes you different.</p>
           </li>
@@ -338,22 +305,27 @@
           </li>
           </ol>
         </div>
-        <ol class="lab-progress" aria-label="Capabilities"><li><button type="button" aria-label="Jump to Branding"><span>01</span></button></li><li><button type="button" aria-label="Jump to UI/UX and product design"><span>02</span></button></li><li><button type="button" aria-label="Jump to Website design and development"><span>03</span></button></li><li><button type="button" aria-label="Jump to App design"><span>04</span></button></li><li><button type="button" aria-label="Jump to Motion and creative experimentation"><span>05</span></button></li></ol>
+        <ol class="lab-progress" aria-label="Capabilities"><li><button type="button" aria-label="Jump to Branding and visual identity"><span>01</span></button></li><li><button type="button" aria-label="Jump to UI/UX and product design"><span>02</span></button></li><li><button type="button" aria-label="Jump to Website design and development"><span>03</span></button></li><li><button type="button" aria-label="Jump to App design"><span>04</span></button></li><li><button type="button" aria-label="Jump to Motion and creative experimentation"><span>05</span></button></li></ol>
       </div>
     </section>
 
 
-    <!-- Between the lab and the jungle: room to breathe, the ticker, and a cue for what comes next. -->
+    <!-- Between the lab and the eye wall: room to breathe, the ticker, and a cue for what comes next.
+         The aside is from the approved copy (content/08-site-v2.md). -->
     <div class="bridge bridge--ticker">
       <div class="ticker" aria-hidden="true"><div class="ticker-track hand">
         <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
         <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
       </div></div>
-      <p class="bridge-kicker" data-reveal>Look closer</p>
-      <span class="bridge-arrow" aria-hidden="true" data-reveal><svg viewBox="0 0 60 90" fill="none" stroke="#1C1A17" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M30 8 C 21 30, 39 52, 30 78"/><path d="M16 63 L30 80 L44 63"/></svg></span>
+      <p class="bridge-kicker" data-reveal>Eyes everywhere</p>
+      <p class="bridge-aside hand" data-reveal>(we were watching. that's kind of the job.)</p>
     </div>
 
-    <!-- SECTION 03: THE HIDDEN GIRGIT.
+    <!-- SECTION 03, THE HIDDEN GIRGIT ("You found us."), parked 2026-11-02: kept whole in this template, so it
+         is not rendered and its video is not loaded. To bring it back, move the section out of the
+         template (js/hide.js wires it up when it finds a .hide section). -->
+    <template id="hide-section">
+    <!-- THE HIDDEN GIRGIT.
          The supplied clay jungle (a looping video, its still as the poster) with Girgit, the
          supplied clay render, camouflaged inside it: only his two yellow eyes stand out. Search
          with the pointer or by tapping; the button always works (js/hide.js, js/jungle.js). -->
@@ -372,16 +344,11 @@
         <p class="hide-sub">We look closer. We notice more. We find the thing that makes the difference.</p>
       </div>
       <div class="hide-ui">
-        <p class="hide-hint" aria-live="polite">Somewhere in here is Girgit. Look for two yellow eyes.</p>
+        <p class="hide-hint" aria-live="polite">Look for two yellow eyes.</p>
         <button class="hide-btn" type="button">Show me Girgit</button>
       </div>
     </section>
-
-    <!-- Between the jungle and the eye wall. The aside is from the approved copy (content/08-site-v2.md). -->
-    <div class="bridge">
-      <p class="bridge-kicker" data-reveal>Eyes everywhere</p>
-      <p class="bridge-aside hand" data-reveal>(we were watching. that's kind of the job.)</p>
-    </div>
+    </template>
 
     <!-- SECTION 04: THE EYES EVERYWHERE, and the opening of SECTION 05.
          A sticky wall of square tiles, each a flat vector eye whose pupil moves on its own
@@ -391,6 +358,23 @@
       <div class="eyes-cover">
         <h2 class="eyes-title" id="eyes-title">We're always looking.</h2>
         <p class="eyes-sub">For the detail. The possibility. The thing nobody has tried yet.</p>
+      </div>
+    </section>
+
+    <!-- THE NAME. Approved copy, unchanged (content/08-site-v2.md, section 2). After "We're always
+         looking": the name is about attention. Hover, tap or focus a Hindi word and it swaps to English (js/site.js). -->
+    <section class="s5 st-dark st-name" id="name" aria-labelledby="name-title">
+      <div class="s5-wrap st-name-grid">
+        <div class="st-name-copy">
+          <p class="s5-kicker" data-reveal>The name</p>
+          <h2 class="st-name-title" id="name-title" data-reveal>In Hindi, calling someone a <span class="hi st-deva" lang="hi" data-en="chameleon" tabindex="0" role="button">गिरगिट</span> is not a compliment.</h2>
+          <p class="st-name-line" data-reveal><i>Girgit ki tarah</i> <span class="hi st-deva" lang="hi" data-en="change colour" tabindex="0" role="button">रंग बदलना</span>: to change colour like a chameleon. It's what you call a person who won't stay the same.</p>
+          <p class="st-name-turn" data-reveal>We took the name anyway.</p>
+          <p class="st-name-line" data-reveal>Because changing colour isn't dishonesty. It's attention. A chameleon answers to where it is. Nothing about it is fixed except the attention.</p>
+          <p class="st-name-line st-name-line--strong" data-reveal>That's the whole job. The work should belong to you: carry your <span class="hi st-deva" lang="hi" data-en="temperament" tabindex="0" role="button">मिज़ाज</span>, your market, your ambition. Not our portfolio.</p>
+          <p class="st-aside hand" data-reveal>(yes, it's an insult. we checked.)</p>
+        </div>
+        <img class="st-name-girgit" src="assets/img/cham-lime.webp" width="1183" height="1200" alt="Girgit, the Girgit Labs chameleon, in lime green" loading="lazy" data-reveal>
       </div>
     </section>
 
@@ -408,11 +392,40 @@
       </div>
     </section>
 
-    <section class="s5" id="services" aria-labelledby="services-title">
+    <!-- THE SEVEN DAYS and WHY THE SPEED IS REAL. Approved copy (content/08-site-v2.md, sections 5 and 6). -->
+    <section class="s5 st-days" id="seven-days" aria-labelledby="days-title">
       <div class="s5-wrap">
         <img class="deco deco--seven" src="assets/img/prop-seven.webp" width="451" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.1">
+        <div class="s5-head"><p class="s5-kicker">The seven days</p><h2 class="s5-h2" id="days-title">Seven days, from approved scope to live.</h2></div>
+        <p class="st-lede" data-reveal>Not a rough first draft. A website you would be happy to send to an investor on day eight.</p>
+        <ol class="st-days-list" role="list">
+          <li class="st-day" style="--day: var(--yellow)" data-reveal><span class="st-day-tag">Before the clock</span><p>Content collected, references studied, sitemap agreed, visual direction set, scope signed off.</p></li>
+          <li class="st-day" style="--day: var(--acid)" data-reveal><span class="st-day-tag">Day 1</span><p>Direction, on screen, not in a deck.</p></li>
+          <li class="st-day" style="--day: var(--pink)" data-reveal><span class="st-day-tag">Day 3</span><p>The real thing, in a browser, on your phone.</p></li>
+          <li class="st-day" style="--day: var(--blue)" data-reveal><span class="st-day-tag">Day 7</span><p>Live.</p></li>
+        </ol>
+        <p class="st-small" data-reveal>One revision round is included. If it's genuinely bigger than seven days, we say so before you pay anything, ship a complete V1 in seven, and take the rest into Phase 2.</p>
+        <p class="st-aside hand" data-reveal>(how the week actually runs)</p>
+      </div>
+    </section>
+
+    <section class="s5 st-dark st-why" id="why" aria-labelledby="why-title">
+      <div class="s5-wrap">
+        <img class="deco deco--hourglass" src="assets/img/prop-hourglass.webp" width="489" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.08">
+        <div class="s5-head"><p class="s5-kicker">Why the speed is real</p><h2 class="s5-h2" id="why-title">Fast isn't a discount.</h2></div>
+        <ol class="st-why-cols" role="list">
+          <li data-reveal><span class="st-why-n">01</span><h3>A small senior team.</h3><p>Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.</p></li>
+          <li data-reveal><span class="st-why-n">02</span><h3>No handoff.</h3><p>The designer builds the frontend. The person who drew it ships it.</p></li>
+          <li data-reveal><span class="st-why-n">03</span><h3>The slow part happens first.</h3><p>Research, references, sitemap, direction and scope are settled before day one. Seven days of building, not seven days of deciding.</p></li>
+        </ol>
+        <p class="st-aside hand" data-reveal>(fast, not cheap. different thing.)</p>
+      </div>
+    </section>
+
+    <section class="s5" id="services" aria-labelledby="services-title">
+      <div class="s5-wrap">
         <span class="deco deco--checker" aria-hidden="true" data-parallax="0.06"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#F4EFE5"/><rect x="0" y="0" width="20" height="20" fill="#111111"/><rect x="40" y="0" width="20" height="20" fill="#111111"/><rect x="20" y="20" width="20" height="20" fill="#111111"/><rect x="60" y="20" width="20" height="20" fill="#111111"/><rect x="0" y="40" width="20" height="20" fill="#111111"/><rect x="40" y="40" width="20" height="20" fill="#111111"/><rect x="20" y="60" width="20" height="20" fill="#111111"/><rect x="60" y="60" width="20" height="20" fill="#111111"/><rect x="2" y="2" width="76" height="76" fill="none" stroke="#111111" stroke-width="4"/></svg></span>
-        <div class="s5-head"><p class="s5-kicker">What we do</p><h2 class="s5-h2" id="services-title">Five things, done properly.</h2></div>
+        <div class="s5-head"><p class="s5-kicker">What we do, in detail</p><h2 class="s5-h2" id="services-title">Five things, done properly.</h2></div>
         <ol class="svc-list" role="list">
           <li class="svc" style="--svc: var(--pink)" data-reveal>
             <span class="svc-n">01</span>
@@ -445,6 +458,32 @@
             <ul class="svc-tags" role="list"><li>Motion graphics</li><li>Video editing</li><li>Product films</li><li>AI-assisted production</li></ul>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <!-- WHO WE'RE FOR. Approved copy (content/08-site-v2.md, section 7). -->
+    <section class="s5 st-fit" id="who" aria-labelledby="who-title">
+      <div class="s5-wrap">
+        <img class="st-fit-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy" data-reveal>
+        <div class="s5-head"><p class="s5-kicker">Who we're for</p><h2 class="s5-h2" id="who-title">We work best with</h2></div>
+        <div class="st-fit-grid">
+          <ul class="st-fit-list st-fit-list--yes" role="list">
+            <li data-reveal>Founders who need an idea to exist by a date.</li>
+            <li data-reveal>Businesses whose digital presence is a decade behind the company.</li>
+            <li data-reveal>Agencies who need real design capacity, quietly.</li>
+            <li data-reveal>Creators building something bigger than a profile.</li>
+          </ul>
+          <div class="st-fit-less" data-reveal>
+            <h3 class="st-fit-h3">Less well with</h3>
+            <ul class="st-fit-list st-fit-list--no" role="list">
+              <li>Anyone shopping purely on price.</li>
+              <li>Anyone who wants to art-direct the art director.</li>
+            </ul>
+            <img class="st-fit-sleep" src="assets/img/cham-sleep.webp" width="1000" height="529" alt="" aria-hidden="true" loading="lazy">
+          </div>
+        </div>
+        <p class="st-close" data-reveal>We'll recommend the direction and argue for it. You approve the big calls.</p>
+        <p class="st-aside hand" data-reveal>(be honest. which one are you?)</p>
       </div>
     </section>
 
@@ -546,7 +585,7 @@
         <nav class="ft-cols" aria-label="Footer">
           <div>
             <p class="ft-label">Explore</p>
-            <ul class="ft-links" role="list"><li><a href="#what">What we do</a></li><li><a href="#work">Work</a></li><li><a href="#approach">How we work</a></li><li><a href="#talk">Let's talk</a></li></ul>
+            <ul class="ft-links" role="list"><li><a href="#what">What we do</a></li><li><a href="#approach">How we work</a></li><li><a href="#work">Work</a></li><li><a href="#talk">Let's talk</a></li></ul>
           </div>
           <div>
             <p class="ft-label">Studio</p>

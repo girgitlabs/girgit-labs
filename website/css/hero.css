@@ -1,5 +1,9 @@
-/* SECTION 01 — the split-screen hero (BRIEF.md palette, Satoshi).
-   Left: controlled chaos. Right: the observer. Headline wipes in at ~2s. */
+/* SECTION 01 — the hero, Girgit's living skin (js/skin.js). The hero is chameleon skin drawn by a WebGL
+   shader; the headline is written by the scales (the real h1 stays in place, transparent, as the
+   mask and for screen readers). It sits in a track one screen taller than itself: scrolling pulls the
+   camera back in a match cut, from close on his flank out to the whole animal, the supplied photo of
+   Girgit mid colour-change. Without WebGL, JS or with reduced motion: a still green version with the
+   headline as plain text. The palette below is the site's (BRIEF.md). */
 
 :root {
   --ivory: #F4EFE5;
@@ -14,118 +18,54 @@
   --satoshi: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
-.sh {
-  --split: 50%;
-  position: relative;
-  isolation: isolate;
-  display: grid;
-  grid-template-columns: var(--split) 1fr;
-  height: calc(100svh - var(--nav-h));
-  min-height: 34rem;
-  overflow: hidden;
-  background: var(--ivory);
+.sk-track { position: relative; background: #0C2414; }
+.sk {
+  position: relative; isolation: isolate; overflow: hidden;
+  height: calc(100svh - var(--nav-h)); min-height: 34rem;
+  background: radial-gradient(120% 100% at 30% 40%, #1F6A30 0%, #12401F 55%, #0C2414 100%);
+  color: var(--ivory); font-family: var(--satoshi);
 }
+.sk-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; }
 
-/* ---------- Left: controlled chaos ---------- */
-.sh-left { position: relative; min-width: 0; overflow: hidden; background: var(--black); }
-.sh-chaos { position: absolute; inset: 0; width: 100%; height: 100%; }
-/* A dark floor under the headline, faded in as the motion calms for the reveal. */
-.sh-left::after {
-  content: ""; position: absolute; inset: auto 0 0 0; height: 48%;
-  background: linear-gradient(to top, rgb(17 17 17 / 0.9) 20%, transparent);
-  opacity: 0; transition: opacity 400ms var(--ease); pointer-events: none;
-}
-.sh[data-state="title"] .sh-left::after,
-.sh[data-state="idle"] .sh-left::after { opacity: 1; }
+/* ---------- The copy: the h1 is the mask the scales read; once the skin draws it, it goes transparent ---------- */
+.sk-copy { position: relative; z-index: 2; display: grid; align-content: center; height: 100%; padding: 0 var(--gutter); max-width: 92rem; margin: 0 auto; }
+.sk-kicker { margin: 0 0 clamp(1rem, 3svh, 2rem); font: 700 0.76rem/1.4 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: rgb(244 239 229 / 0.85); }
+.sk-title { margin: 0; font: 900 clamp(3.4rem, 10.4vw, 11rem)/0.9 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; color: #E6F25A; }
+.sk-title span { display: block; width: fit-content; }
+.sk.has-skin .sk-title { color: transparent; }
+.sk-sub { margin: clamp(1.2rem, 4svh, 2.4rem) 0 0; font: 500 clamp(1.1rem, 1.6vw, 1.45rem)/1.4 var(--satoshi); color: var(--ivory); text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
+.sk-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: clamp(1.2rem, 3svh, 2rem) 0 0; }
+.sk-btn { display: inline-flex; align-items: center; min-height: 3.2rem; padding: 0.8rem 1.5rem; border: 2px solid var(--ivory); border-radius: 999px; color: var(--ivory); text-decoration: none; font: 700 1rem/1 var(--satoshi); backdrop-filter: blur(4px); transition: translate 200ms var(--ease), background-color 200ms var(--ease), color 200ms var(--ease); }
+.sk-btn--solid { background: var(--ivory); color: var(--black); }
+.sk-btn:hover { translate: 0 -2px; }
+.sk-btn:not(.sk-btn--solid):hover { background: var(--ivory); color: var(--black); }
+.sk-btn:focus-visible, .sk-scroll:focus-visible { outline: 3px solid #E6F25A; outline-offset: 3px; }
 
-/* ---------- Right: the observer ---------- */
-.sh-right {
-  position: relative; min-width: 0; overflow: hidden;
-  display: grid; place-items: center;
-  background: radial-gradient(120% 90% at 50% 38%, #FBF8F1 0%, var(--ivory) 52%, #E4DCCC 100%);
-}
-.sh-stage { position: relative; width: min(74%, 58svh); translate: 0 -9%; }
-.sh-figure { position: relative; z-index: 1; aspect-ratio: 1191 / 1200; transform: rotate(var(--turn, 0deg)); transform-origin: 50% 88%; transition: transform 900ms var(--ease); }
-.sh-figure img { display: block; width: 100%; height: 100%; max-width: none; }
-.sh-plinth { position: absolute; z-index: 0; left: 50%; bottom: -3%; width: 72%; height: 9%; translate: -50% 0; border-radius: 50%; background: radial-gradient(closest-side, rgb(20 33 24 / 0.26), transparent); }
+.sk-hint, .sk-scroll { position: absolute; z-index: 2; bottom: clamp(1rem, 3svh, 1.8rem); margin: 0; font: 700 0.74rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: rgb(244 239 229 / 0.85); }
+.sk-hint { left: var(--gutter); }
+.sk-scroll { right: var(--gutter); color: var(--ivory); text-decoration: none; }
+html:not(.js) .sk-hint, .sk:not(.has-skin) .sk-hint { display: none; }
 
-/* Live pupils inside the render's own eye whites (mask from source-images/eyes.py). */
-.sh-eyes {
-  position: absolute; inset: 0;
-  -webkit-mask: url('../assets/img/cham-hero-eyes.png') 0 0 / 100% 100% no-repeat;
-          mask: url('../assets/img/cham-hero-eyes.png') 0 0 / 100% 100% no-repeat;
+/* ---------- Whose skin: the match cut (js/skin.js sets --zoom, --fade, --cap, --reveal as you scroll) ----------
+   He stands centred in the lower middle of the hero, about two-thirds of its height. The cut starts
+   close on his flank (scaled up around the orange band, where his scales look like the skin's) and
+   pulls back to the whole animal while the generated skin shrinks and dims behind him. */
+.sk-owner {
+  position: absolute; z-index: 3; left: 50%; bottom: 13%; width: min(86vw, calc((100svh - var(--nav-h)) * 0.86)); margin: 0;
+  translate: -50% 0; opacity: var(--fade, 0); pointer-events: none;
 }
-.sh-eye {
-  position: absolute;
-  left: calc(var(--cx) - var(--r));
-  top: calc(var(--cy) - var(--r) * 0.9925);       /* r is a % of width; the render is 1191 x 1200 */
-  width: calc(var(--r) * 2);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle at 36% 30%, #FFFEF9 0%, #F3ECDD 42%, #D7CCB7 78%, #B9AC95 100%);
-}
-/* The far eye is a sphere mostly hidden behind the head: the box is the whole sphere and the
-   mask shows only the part in front of the eyelid. The render's own eyeball surface shows
-   through (its baked pupil was removed in the image); only the live pupil and highlight are drawn. */
-.sh-eye--far { background: none; }
-.sh-eye--far .sh-pupil { width: 23%; }
-.sh-pupil {
-  position: absolute; left: 50%; top: 50%; width: 32%; aspect-ratio: 1; border-radius: 50%;   /* the render's own pupil size */
-  background: radial-gradient(circle, #050505 0 58%, #1D1A16 74%, #000 100%);
-  translate: calc(-50% + var(--px, 0%)) calc(-50% + var(--py, 0%));
-  transition: translate 150ms cubic-bezier(0.2, 0.9, 0.2, 1);  /* fast saccades */
-}
-/* The highlight is the light source, so it stays put as the pupil moves under it: small and soft-edged. */
-.sh-eye::after { content: ""; position: absolute; z-index: 2; left: 31%; top: 24%; width: 11%; height: 8%; border-radius: 50%; background: radial-gradient(closest-side, #fff 45%, rgb(255 255 255 / 0)); opacity: 0.9; }
-/* The far eye's highlight rides on its pupil (a free-floating dot reads as a speck there). */
-.sh-eye--far::after { display: none; }
-.sh-eye--far .sh-pupil::after { content: ""; position: absolute; left: 50%; top: 16%; width: 28%; height: 22%; border-radius: 50%; background: radial-gradient(closest-side, #fff 45%, rgb(255 255 255 / 0)); opacity: 0.9; }
+.sk-owner img { position: relative; z-index: 1; display: block; width: 100%; height: auto; transform: scale(var(--zoom, 4)); transform-origin: 52% 42%; filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.4)); }
+.sk-owner-shadow { position: absolute; z-index: 0; left: 6%; right: 8%; bottom: -2%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent); opacity: var(--cap, 0); }
+.sk-owner figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: clamp(0.8rem, 2svh, 1.4rem); text-align: center; font-size: clamp(1.4rem, 2.2vw, 2rem); color: var(--ivory); opacity: var(--cap, 0); }
+.sk.has-skin .sk-copy, .sk.has-skin .sk-hint, .sk.has-skin .sk-scroll { opacity: calc(1 - var(--reveal, 0) * 1.6); }
+.sk:not(.has-skin) .sk-owner { display: none; }
 
-/* ---------- Headline ---------- */
-.sh-title {
-  position: absolute; z-index: 4; inset: auto 0 clamp(2.4rem, 7svh, 4.6rem) 0;
-  display: grid; grid-template-columns: var(--split) 1fr;
-  margin: 0; pointer-events: none;
-  font: 900 clamp(2.5rem, 5.6vw, 7rem)/0.88 var(--satoshi);   /* "YOU MISSED IT." is 7.05em wide: at 5.6vw it fits its half-column (42vw at the widest gutter) */
-  letter-spacing: -0.055em; text-transform: uppercase;
-}
-.sh-cell { min-width: 0; overflow: hidden; padding: 0 var(--gutter); }
-.sh-cell--left { color: var(--ivory); }
-.sh-cell--right { color: var(--black); }
-.sh-line { display: block; padding-bottom: 0.05em; white-space: nowrap; }
-.sh-wipe { position: absolute; z-index: 2; inset: -0.1em 0; background: var(--acid); transform: scaleX(0); transform-origin: left; }
-.js .sh[data-state="intro"] .sh-line { visibility: hidden; }
-.sh-w { display: inline-block; }                  /* each word rises on its own (js/hero.js) */
+/* With the skin running, the hero sticks in its track while the reveal plays. */
+.sk-track.is-live { height: calc(200svh - var(--nav-h)); }
+.sk-track.is-live > .sk { position: sticky; top: var(--nav-h); }
 
-/* ---------- Scroll indicator ---------- */
-.sh-scroll {
-  position: absolute; z-index: 5; left: var(--split); bottom: 0.9rem; translate: -50% 0;
-  display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: 999px;
-  background: var(--black); color: var(--ivory); text-decoration: none;
-  font: 700 0.64rem var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase;
-}
-.sh-scroll-line { position: relative; width: 1px; height: 14px; overflow: hidden; background: rgb(244 239 229 / 0.35); }
-.sh-scroll-line i { position: absolute; left: 0; top: -40%; width: 1px; height: 40%; background: var(--acid); }
-
-@media (prefers-reduced-motion: no-preference) {
-  .sh-figure img { transform-origin: 50% 90%; animation: sh-breathe 3.8s ease-in-out infinite; }
-  @keyframes sh-breathe { 50% { scale: 1.012; } }
-  .sh-scroll-line i { animation: sh-drip 1.6s ease-in-out infinite; }
-  /* The scroll pill opens from its centre once the hero has settled. */
-  .js .sh-scroll { clip-path: inset(0 50% 0 50% round 999px); transition: clip-path 650ms var(--ease) 150ms; }
-  .js .sh[data-state="idle"] .sh-scroll { clip-path: inset(0 0 0 0 round 999px); }
-  @keyframes sh-drip { to { top: 110%; } }
-}
-@media (prefers-reduced-motion: reduce) {
-  .sh-pupil { transition: none; }
-}
-
-/* ---------- Phones: the two worlds stack ---------- */
 @media (max-width: 760px) {
-  .sh { grid-template-columns: 1fr; grid-template-rows: 46% 54%; }
-  .sh-stage { width: min(68%, 34svh); translate: 0 -10%; }
-  .sh-title { inset: 0; grid-template-columns: 1fr; grid-template-rows: 46% 54%; align-items: end; font-size: clamp(2.3rem, 11vw, 3.6rem); }
-  .sh-cell { padding-bottom: 1rem; }
-  .sh-cell--right { padding-bottom: 3.2rem; }
-  .sh-scroll { left: 50%; }
+  .sk-title { font-size: clamp(3rem, 15vw, 5rem); }
+  .sk-hint { display: none; }
+  .sk-owner { bottom: 18%; width: 92vw; }
 }

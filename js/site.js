@@ -1,6 +1,6 @@
 // Girgit Labs site v2: every section's interaction and scroll animation.
 import { ACCENTS, BODIES, chameleon, PIXELS, SCRIBBLES, sticker, badge } from './art.js';
-import './hero.js';   // Section 01: the split-screen hero
+import './skin.js';   // Section 01: the hero, Girgit's living skin (WebGL)
 import './lab.js';    // Section 02: the Adaptation Laboratory
 import './hide.js';   // Section 03: the Hidden Girgit
 import './eyes.js';   // Section 04: the eye wall (and Section 05's opening panel)
@@ -93,6 +93,7 @@ for (const el of $$('.hi')) {
   el.addEventListener('focus', () => show(true));
   el.addEventListener('blur', () => show(false));
   el.addEventListener('click', () => show(!el.classList.contains('is-en')));
+  el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(!el.classList.contains('is-en')); } });
 }
 
 /* ---------- 2. Sticker pile: drop in, grab, throw; the chameleon moves when disturbed ---------- */

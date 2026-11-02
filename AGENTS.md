@@ -8,12 +8,19 @@
   hand; copy `website/` over it with `python tools/check_site.py --sync`.
 - The latest homepage carries `<meta name="girgit-site-version" content="v2-latest ...">`.
   A page without that marker is an older build.
-- What the latest site has: the split-screen hero, the Adaptation Lab film
-  (`assets/video/lab.mp4`, `lab-m.mp4`), the hide-and-seek jungle (`assets/video/jungle.mp4`),
-  the eye wall, services, the work grid linking to `work/clay-and-glaze/` and `work/ld-screw/`,
-  and the framed footer banner. Contact email: connect@girgitlabs.design.
+- What the latest site has, in story order: the hero (Girgit's living skin: a WebGL shader of chameleon
+  scales, `js/skin.js`, the headline written by the scales, colour waves from the pointer; scrolling
+  pulls back in a match cut to the photo `assets/img/girgit-skin.webp`), the Adaptation Lab film
+  (`assets/video/lab.mp4`, `lab-m.mp4`), the ticker bridge, the eye wall, the name, how we work, the
+  seven days, why the speed is real, the services, who we're for (`css/story.css`), the work grid
+  linking to `work/clay-and-glaze/` and `work/ld-screw/`, let's talk, and the framed footer banner.
+  Contact email: connect@girgitlabs.design.
+- The hide-and-seek jungle ("You found us.") is parked inside `<template id="hide-section">`:
+  not shown, kept intact. Do not delete it; to bring it back, move the section out of the template.
 
 ## Older builds: never restore these
+
+- The split-screen hero (`.sh`, `js/hero.js`), replaced by the living skin on 2026-11-02 (in git history).
 
 - The "mascot" homepage from commit `90c32bc` (`<section class="hero">`, `class="mascot"`,
   `<section class="finale">`). It replaced the latest homepage by mistake on 2026-11-01.

@@ -1,0 +1,84 @@
+/* THE STORY SECTIONS, between the eye wall and the work: the name, the seven days, why the speed is
+   real, and who we're for. Copy is the approved copy (content/08-site-v2.md). They reuse Section
+   05's editorial frame (.s5, .s5-wrap, kicker, heading, reveal-on-scroll); two run dark, so the
+   page alternates ivory and ink instead of one long ivory stretch. Girgit appears only as the
+   supplied 3D renders. */
+
+.st-dark { background: var(--black); color: var(--ivory); }
+.st-dark .s5-kicker { color: #A9A397; }
+.st-dark .s5-wrap, .st-days .s5-wrap { padding-bottom: clamp(4.5rem, 11vw, 9rem); }
+.st-aside { margin: clamp(1.8rem, 4vw, 2.8rem) 0 0; font-size: clamp(1.4rem, 2.2vw, 1.9rem); color: var(--olive); rotate: -2deg; transform-origin: left center; }
+.st-dark .st-aside { color: #C9C2B4; }
+
+/* ---------- The name: big type, nothing else competing; Girgit in lime beside it ---------- */
+.st-name-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr); gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+.st-name-copy { display: grid; gap: clamp(1rem, 2vw, 1.4rem); }
+.st-name-copy .s5-kicker { margin-bottom: 0.2rem; }
+.st-name-title { margin: 0; max-width: 20ch; font: 900 clamp(2.2rem, 4.6vw, 4.6rem)/0.98 var(--satoshi); letter-spacing: -0.045em; }
+.st-deva { font-family: var(--deva); font-weight: 800; color: var(--acid); letter-spacing: 0; cursor: help; }
+/* The Hindi words swap to English on hover, tap or focus (js/site.js): the English on an acid highlight. */
+.st-name .hi { border-bottom-color: rgb(67 255 24 / 0.6); }
+.st-name .hi.is-en { font-family: var(--satoshi); font-weight: 800; color: var(--black); background: var(--acid); }
+.st-name .hi:focus-visible { outline: 3px solid var(--acid); outline-offset: 3px; }
+.st-name-line { margin: 0; max-width: 40ch; font: 500 clamp(1.08rem, 1.5vw, 1.4rem)/1.55 var(--satoshi); color: #D9D3C7; }
+.st-name-line i { font-style: italic; color: var(--ivory); }
+.st-name-line--strong { color: var(--ivory); font-weight: 700; }
+.st-name-turn { margin: clamp(0.6rem, 2vw, 1.4rem) 0; font: 900 clamp(2.6rem, 6.4vw, 6.2rem)/0.88 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; color: var(--acid); }
+.st-name-girgit { justify-self: center; width: 100%; max-width: 30rem; height: auto; filter: drop-shadow(0 30px 40px rgb(0 0 0 / 0.45)); }
+
+/* ---------- The seven days: four cards, Before the clock to Live ---------- */
+.st-lede { max-width: 36ch; margin: 0 0 clamp(2rem, 4vw, 3rem); font: 500 clamp(1.15rem, 1.8vw, 1.6rem)/1.45 var(--satoshi); color: #2F2D28; }
+.st-days-list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(0.8rem, 1.6vw, 1.4rem); margin: 0; padding: 0; list-style: none; }
+.st-day {
+  display: grid; align-content: start; gap: 1rem; min-height: 13rem; padding: clamp(1.1rem, 1.8vw, 1.6rem);
+  border: 2px solid var(--black); border-radius: 1.1rem; background: #FFFDF8;
+  transition: transform 300ms var(--ease), box-shadow 300ms var(--ease);
+}
+.st-day:nth-child(odd) { rotate: -1deg; } .st-day:nth-child(even) { rotate: 1deg; }
+.st-day:hover { transform: translateY(-6px); box-shadow: 6px 6px 0 var(--black); }
+.st-day-tag { justify-self: start; padding: 0.4rem 0.75rem; border: 1.5px solid var(--black); border-radius: 999px; background: var(--day); color: var(--day-ink, var(--black)); font: 800 0.76rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase; }
+.st-day p { margin: 0; font: 600 clamp(1.02rem, 1.3vw, 1.2rem)/1.4 var(--satoshi); }
+.st-day:last-child { --day-ink: #FFFFFF; }
+.st-day:last-child p { font: 900 clamp(2.6rem, 4.4vw, 4rem)/0.9 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; }
+.st-small { max-width: 62ch; margin: clamp(1.8rem, 4vw, 2.6rem) 0 0; font: 500 0.98rem/1.6 var(--satoshi); color: #5E5A50; }
+
+/* ---------- Why the speed is real: three columns on ink ---------- */
+.st-why-cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1.6rem, 4vw, 3.5rem); margin: 0; padding: 0; list-style: none; }
+.st-why-cols li { padding-top: 1.4rem; border-top: 1px solid rgb(244 239 229 / 0.25); }
+.st-why-n { font: 700 0.74rem/1 var(--satoshi); letter-spacing: 0.16em; color: var(--acid); }
+.st-why-cols h3 { margin: 0.9rem 0 0.8rem; font: 900 clamp(1.5rem, 2.4vw, 2.3rem)/1 var(--satoshi); letter-spacing: -0.035em; text-transform: uppercase; }
+.st-why-cols p { margin: 0; max-width: 34ch; font: 500 1.05rem/1.6 var(--satoshi); color: #D9D3C7; }
+.deco--hourglass { right: 4%; top: clamp(2.5rem, 6vw, 4.5rem); width: clamp(60px, 7vw, 120px); rotate: -8deg; }
+
+/* ---------- Who we're for: ticks for the best fits, the rest asleep ---------- */
+.st-fit .s5-wrap { padding-top: clamp(6rem, 13vw, 11rem); }                  /* room for Girgit to peek over the heading */
+.st-fit-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: clamp(1.6rem, 5vw, 4.5rem); align-items: start; }
+.st-fit-list { margin: 0; padding: 0; list-style: none; }
+.st-fit-list li { position: relative; padding: 1rem 0 1rem 3rem; border-bottom: 1px solid rgb(17 17 17 / 0.16); }
+.st-fit-list li::before {
+  content: ''; position: absolute; left: 0; top: 1.05rem; width: 1.9rem; height: 1.9rem; border: 2px solid var(--black); border-radius: 50%;
+  background: var(--acid) no-repeat center / 62% url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 10.5l4 4 8-9'/%3E%3C/svg%3E");
+}
+.st-fit-list--yes li { font: 800 clamp(1.25rem, 2.1vw, 1.9rem)/1.2 var(--satoshi); letter-spacing: -0.025em; }
+.st-fit-less { padding: clamp(1.3rem, 2.4vw, 2rem); border-radius: 1.2rem; background: #EAE3D3; }
+.st-fit-h3 { margin: 0 0 0.4rem; font: 900 clamp(1.3rem, 2vw, 1.8rem)/1 var(--satoshi); letter-spacing: -0.035em; text-transform: uppercase; }
+.st-fit-list--no li { font: 600 1.08rem/1.4 var(--satoshi); color: #4A463F; }
+.st-fit-list--no li::before {
+  background-color: var(--pink);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23111' stroke-width='3.2' stroke-linecap='round'%3E%3Cpath d='M5.5 5.5l9 9M14.5 5.5l-9 9'/%3E%3C/svg%3E");
+}
+.st-fit-sleep { display: block; width: min(80%, 18rem); height: auto; margin: 1.2rem 0 0 auto; }
+/* He peeks over the top right of the section, clear of the kicker and heading. */
+.st-fit-peek { position: absolute; z-index: 1; right: clamp(0.5rem, 4vw, 4rem); top: clamp(0.5rem, 2vw, 1.5rem); width: clamp(110px, 12vw, 190px); height: auto; pointer-events: none; }
+.st-close { max-width: 24ch; margin: clamp(2.5rem, 5vw, 4rem) 0 0; font: 900 clamp(1.7rem, 3.2vw, 2.9rem)/1 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; }
+
+@media (max-width: 1000px) {
+  .st-days-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 760px) {
+  .st-name-grid, .st-why-cols, .st-fit-grid { grid-template-columns: 1fr; }
+  .st-name-girgit { max-width: 16rem; order: -1; }
+  .st-days-list { grid-template-columns: 1fr; }
+  .st-day { min-height: 0; }
+  .st-fit-peek { width: 92px; top: 0.6rem; }
+}
