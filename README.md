@@ -9,7 +9,8 @@ Website and site content for [girgitlabs.com](https://girgitlabs.com).
 | `website/` | The site. Plain HTML, CSS and JS — no framework, no build step. |
 | `content/` | The approved site copy, as markdown. Source of truth for wording. |
 | `video-prompts/` | Generation prompts for the two hero videos. |
-| `_archive/website-video/` | The previous cinematic video site, kept unchanged so it stays recoverable. |
+| `AGENTS.md` | Which version is the latest, and the check to run before every push. Read it first. |
+| `tools/check_site.py` | Fails on any older build; `--sync` copies `website/` over the root mirror. |
 | `PLAN.md` | The rebuild plan and milestones. |
 
 ## The site
@@ -33,7 +34,8 @@ Every production host supports Range natively, so this only matters locally.
 ## Deploying
 
 Hosted on **Cloudflare Pages**, connected to this GitHub repository. Every push to
-`main` redeploys automatically.
+`main` redeploys automatically. Before pushing, run `python tools/check_site.py --sync`
+(see `AGENTS.md`); push only when it prints `OK`.
 
 ### Why Cloudflare and not Vercel
 
