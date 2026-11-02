@@ -2,8 +2,8 @@
 // stays square); each holds a flat eye from js/eye-tiles.js. Pupils move by CSS (eight look paths,
 // varied durations and offsets), so there is no per-eye script loop. One small controller adds the
 // occasional glance toward the pointer. Off screen, every animation is paused.
-// Scroll: the wall is sticky; scrolling shatters it (GSAP, scrubbed), then SECTION 05's ivory panel
-// scrolls up over the empty dark and its headline rises word by word.
+// Scroll: the wall is sticky; scrolling shatters it (a GSAP timeline, driven by the section's live
+// position on screen), then SECTION 05's ivory panel rises over it and its headline rises word by word.
 import { tile, tileMarkup } from './eye-tiles.js';
 
 const section = document.querySelector('.eyes');
@@ -79,19 +79,29 @@ function init() {
   if (gsap && ST && !reduce) {
     gsap.registerPlugin(ST);
     let tl = null;
+    // The shatter's progress is read from where the section actually is on screen, every scroll:
+    // 0 until its top reaches the nav, 1 after 0.9 of a screen more. No positions are cached, so
+    // nothing that changes the page's height above it can make the wall look already broken.
+    let target = 0, shown = 0, raf = 0;
+    const measure = () => {
+      const len = (stick.clientHeight || window.innerHeight) * 0.9;
+      target = Math.min(1, Math.max(0, (navH() - section.getBoundingClientRect().top) / len));
+    };
+    const glide = () => {                                    // a little inertia, like a scrub
+      shown += (target - shown) * 0.16;
+      if (Math.abs(target - shown) < 0.0008) shown = target;
+      tl?.progress(shown);
+      raf = shown === target ? 0 : requestAnimationFrame(glide);
+    };
+    const onScroll = () => { measure(); if (!raf) raf = requestAnimationFrame(glide); };
+    addEventListener('scroll', onScroll, { passive: true });
+    addEventListener('resize', onScroll, { passive: true });
     makeShatter = () => {
-      if (tl) { tl.scrollTrigger?.kill(); tl.kill(); gsap.set(tiles, { clearProps: 'transform,opacity' }); }
+      if (tl) { tl.kill(); gsap.set(tiles, { clearProps: 'transform,opacity' }); }
       const W = stick.clientWidth || window.innerWidth, H = stick.clientHeight || window.innerHeight;
       const size = W / cols, cx = W / 2, cy = H * 0.45;
       const far = Math.hypot(W / 2, H * 0.6);
-      tl = gsap.timeline({
-        defaults: { ease: 'none' },
-        scrollTrigger: {
-          trigger: section, start: () => `top ${navH()}`,
-          end: () => `+=${Math.round((stick.clientHeight || window.innerHeight) * 0.9)}`,
-          scrub: 0.7, invalidateOnRefresh: true,
-        },
-      });
+      tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
       tiles.forEach((t, i) => {
         const col = i % cols, row = Math.floor(i / cols);
         const x = (col + 0.5) * size, y = (row + 0.5) * size;
@@ -108,6 +118,7 @@ function init() {
         }, start);
       });
       tl.to({}, { duration: 0.06 });                                              // a beat of empty dark
+      measure(); shown = target; tl.progress(shown);                             // start where the page is
     };
     gsap.set(grid, { yPercent: 0 });
     makeShatter();

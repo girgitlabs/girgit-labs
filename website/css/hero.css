@@ -46,16 +46,31 @@
 .sk-scroll { right: var(--gutter); color: var(--ivory); text-decoration: none; }
 html:not(.js) .sk-hint, .sk:not(.has-skin) .sk-hint { display: none; }
 
-/* ---------- Whose skin: the match cut (js/skin.js sets --zoom, --fade, --cap, --reveal as you scroll) ----------
-   He stands centred in the lower middle of the hero, about two-thirds of its height. The cut starts
-   close on his flank (scaled up around the orange band, where his scales look like the skin's) and
-   pulls back to the whole animal while the generated skin shrinks and dims behind him. */
+/* ---------- Whose skin: the colour wave (js/skin.js sets --fade, --wave, --cap, --reveal as you scroll) ----------
+   He stands centred in the lower middle of the hero, about two-thirds of its height. He fades in
+   camouflaged, in the skin's own greens (a recoloured copy of the photo), so he is barely there; then a
+   colour wave sweeps across him from head to tail: the real photo shows through behind its front, and
+   a glowing band (turquoise into orange, clipped to his silhouette) rides the front, the way a real
+   chameleon's colour change travels across its body. */
 .sk-owner {
   position: absolute; z-index: 3; left: 50%; bottom: 13%; width: min(86vw, calc((100svh - var(--nav-h)) * 0.86)); margin: 0;
-  translate: -50% 0; opacity: var(--fade, 0); pointer-events: none;
+  translate: -50% 0; opacity: var(--fade, 0); scale: calc(1.04 - var(--fade, 0) * 0.04); pointer-events: none;
 }
-.sk-owner img { position: relative; z-index: 1; display: block; width: 100%; height: auto; transform: scale(var(--zoom, 4)); transform-origin: 52% 42%; filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.4)); }
-.sk-owner-shadow { position: absolute; z-index: 0; left: 6%; right: 8%; bottom: -2%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent); opacity: var(--cap, 0); }
+.sk-owner img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
+.sk-owner-camo { filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.4)); }
+.sk-owner-colour, .sk-owner-wave { position: absolute !important; inset: 0; z-index: 2; }
+/* The front runs from his head (left) to his tail (right); --wave 0..1 carries it across. */
+.sk-owner-colour {
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--wave, 0) * 124% - 24%), transparent calc(var(--wave, 0) * 124% - 8%));
+  mask-image: linear-gradient(90deg, #000 calc(var(--wave, 0) * 124% - 24%), transparent calc(var(--wave, 0) * 124% - 8%));
+}
+.sk-owner-wave {
+  background: linear-gradient(90deg, transparent calc(var(--wave, 0) * 124% - 30%), rgb(25 200 190 / 0.42) calc(var(--wave, 0) * 124% - 16%), rgb(60 110 255 / 0.38) calc(var(--wave, 0) * 124% - 11%), rgb(255 140 40 / 0.5) calc(var(--wave, 0) * 124% - 7%), transparent calc(var(--wave, 0) * 124% - 1%));
+  -webkit-mask: url('../assets/img/girgit-skin.webp') center / 100% 100% no-repeat;
+  mask: url('../assets/img/girgit-skin.webp') center / 100% 100% no-repeat;
+  mix-blend-mode: screen; opacity: var(--glow, 0);
+}
+.sk-owner-shadow { position: absolute; z-index: 0; left: 6%; right: 8%; bottom: -2%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent); opacity: var(--fade, 0); }
 .sk-owner figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: clamp(0.8rem, 2svh, 1.4rem); text-align: center; font-size: clamp(1.4rem, 2.2vw, 2rem); color: var(--ivory); opacity: var(--cap, 0); }
 .sk.has-skin .sk-copy, .sk.has-skin .sk-hint, .sk.has-skin .sk-scroll { opacity: calc(1 - var(--reveal, 0) * 1.6); }
 .sk:not(.has-skin) .sk-owner { display: none; }

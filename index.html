@@ -234,8 +234,8 @@
          WebGL shader (js/skin.js): thousands of domed scales, the headline written by the scales
          themselves (they sample a mask of the real h1), and a colour wave rippling out wherever the
          pointer goes; a click washes the skin into a new palette. Scrolling pulls back to reveal whose
-         skin it is: the supplied photo of Girgit mid colour-change (assets/img/girgit-skin.webp), in a
-         match cut that starts close on his flank and zooms out to the whole animal. No WebGL, no JS or reduced motion: a still version with
+         skin it is: the supplied photo of Girgit. He appears camouflaged in the skin's own greens, then a
+         colour wave sweeps across him from head to tail and brings out his real colours. No WebGL, no JS or reduced motion: a still version with
          the headline as plain text. -->
     <div class="sk-track">
       <section class="sk" id="top" aria-labelledby="hero-title">
@@ -248,7 +248,9 @@
         </div>
         <figure class="sk-owner" aria-hidden="true">
           <span class="sk-owner-shadow"></span>
-          <img src="assets/img/girgit-skin.webp" width="1266" height="970" alt="" loading="lazy">
+          <img class="sk-owner-camo" src="assets/img/girgit-skin-camo.webp" width="1266" height="970" alt="" loading="lazy">
+          <img class="sk-owner-colour" src="assets/img/girgit-skin.webp" width="1266" height="970" alt="" loading="lazy">
+          <span class="sk-owner-wave"></span>
           <figcaption class="hand">(that was his skin.)</figcaption>
         </figure>
         <p class="sk-hint" aria-hidden="true">move across his skin · click to change it</p>

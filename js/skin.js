@@ -4,8 +4,8 @@
 // its centre and flushes the palette's light colour inside the letters. Moving the pointer sends
 // colour waves (turquoise, blue, an orange core) rippling out through the scales, the way a real
 // chameleon's chromatophores do; a click washes the whole skin into the next palette, spreading from
-// the click. Scrolling pulls the camera back: the scales shrink and dim while the photo of Girgit
-// mid colour-change comes in as a match cut, from close on his flank out to the whole animal.
+// the click. Scrolling pulls the camera back: the scales shrink and dim while Girgit (the supplied
+// photo) appears camouflaged in the skin's greens, then a colour wave sweeps his real colours in.
 // The scales are generated, not drawn; Girgit himself only appears as the supplied image.
 // No WebGL, a shader that fails, or no JS: the still CSS version with the headline as plain text.
 // Reduced motion: one still frame of the skin (with the headline), no waves, no pull-back.
@@ -205,23 +205,24 @@ function init() {
     try { window.posthog?.capture('hero_skin_washed', { palette: pal }); } catch { /* fine */ }
   });
 
-  /* ---------- Scroll: the camera pulls back; the match cut reveals whose skin it is ----------
-     reveal 0..1 over the track. The photo fades in early, while it is still zoomed 4x onto his flank
-     (which reads as more of the same skin), then pulls back to the whole animal; his shadow and the
-     caption arrive at the end. */
+  /* ---------- Scroll: the camera pulls back; a colour wave reveals whose skin it is ----------
+     reveal 0..1 over the track. He fades in camouflaged (the skin's greens) while the skin shrinks and
+     dims; then the wave sweeps him head to tail and his real colours come through; the caption last. */
   track?.classList.add('is-live');
   const navH = () => document.querySelector('.nav')?.offsetHeight || 0;
   const clamp01 = (v) => Math.min(1, Math.max(0, v));
-  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
   const onScroll = () => {
     const r = track.getBoundingClientRect(), span = Math.max(1, r.height - hero.offsetHeight);
     const p = clamp01((navH() - r.top) / span);
     reveal = p < 0.12 ? 0 : clamp01((p - 0.12) / 0.7);
+    const wave = ease(clamp01((reveal - 0.28) / 0.55));
     const set = (k, v) => hero.style.setProperty(k, v.toFixed(3));
     set('--reveal', reveal);
-    set('--zoom', 4 - 3 * easeOut(reveal));
-    set('--fade', clamp01((reveal - 0.04) / 0.3));
-    set('--cap', clamp01((reveal - 0.8) / 0.2));
+    set('--fade', clamp01((reveal - 0.02) / 0.24));
+    set('--wave', wave);
+    set('--glow', Math.sin(Math.PI * wave));
+    set('--cap', clamp01((reveal - 0.85) / 0.15));
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
