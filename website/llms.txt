@@ -1,0 +1,57 @@
+# Girgit Labs
+
+> A digital design studio with no house style. High-quality digital experiences, branding, UI/UX, and websites designed, built, and launched in seven days. Working worldwide from Mumbai, India.
+
+Girgit Labs is a digital design studio based in Mumbai, India, working worldwide. "Girgit" (गिरगिट) is the Hindi word for chameleon: the studio has no rigid house style, deliberately adapting its design aesthetic, brand voice, and digital architecture to the exact temperament, market, and ambition of each client. Its signature line is: "You missed it. We didn't."
+
+## The Name & Philosophy
+
+In Hindi, calling someone a गिरगिट is traditionally not a compliment: *Girgit ki tarah rang badalna* (रंग बदलना: to change colour like a chameleon) implies someone who will not stay the same. Girgit Labs reclaimed the name. Changing colour is not dishonesty; it is intense attention. A chameleon responds authentically to where it is. Nothing about it is fixed except its acute observation. In digital craft, the work must carry the client's distinct character, market positioning, and ambition, rather than reflecting an agency's repetitive template or house style.
+
+## How the Studio Works
+
+No fixed formula. No boring solutions. Girgit Labs learns first, uncovers what the concept genuinely needs, and executes with speed and precision.
+
+### Seven Days: From Scope to Live
+- **Before the Clock**: Comprehensive research, references studied, sitemap agreed, visual direction set, and scope approved.
+- **Day 1**: Tangible creative direction presented on-screen, not trapped in an abstract presentation deck.
+- **Day 3**: Interactive prototype accessible in real web browsers and on mobile devices.
+- **Day 7**: Production-ready website deployed live, including one revision cycle.
+
+### Why the Speed is Real
+- **Senior Team Only**: Three or four seasoned design engineers per project; one clear project owner. No waiting in bureaucratic approval queues.
+- **Zero Handoff Friction**: The designers who design the interface code the frontend. The person who drew the experience ships it.
+- **Front-Loaded Planning**: Strategy, sitemap, direction, and scope are finalized upfront before day one, enabling seven continuous days of pure craft and building.
+
+## Capabilities & Services
+
+1. **Branding & Visual Identity**: Distinctive visual systems built around true differentiation. Includes brand identity, logo systems, typography, color palettes, visual guidelines, graphic design, and print collateral.
+2. **UI/UX & Product Design**: Thoughtful digital experiences turning complexity into clarity. Includes web applications, dashboards, design systems, and rapid prototyping.
+3. **Website Design & Development**: High-performance websites combining strong aesthetics with purposeful technical execution. Includes 7-day marketing websites, bespoke frontend development, ecommerce frontends, and edge deployment.
+4. **App & Mobile Interface Design**: Products shaped around real human behavior, minimizing friction and maximizing user flow.
+5. **Motion & Creative Experimentation**: High-impact motion design, interactive animation, product films, and experimental creative technology.
+
+## Selected Portfolio / Work
+
+- **Clay & Glaze** (https://www.girgitlabs.design/work/clay-and-glaze/): Brand identity, bespoke packaging, and collateral for a Pondicherry-origin artisan pottery workshop transitioning into an online business.
+- **LD Screw** (https://www.girgitlabs.design/work/ld-screw/): Digital web experience and interactive product catalogue for an industrial stainless steel fastener manufacturer.
+
+## Who Girgit Labs Works With
+
+Works Best With:
+- Founders who need an idea to launch by a specific date.
+- Established businesses whose digital presence lags behind their real-world reputation.
+- Creative agencies requiring senior design and frontend capacity without management overhead.
+- Creators building enduring digital products.
+
+Less Well With:
+- Anyone shopping purely on the lowest price.
+- Anyone seeking to micromanage every design decision rather than collaborating on outcomes.
+
+## Official Contact & Links
+
+- Website: https://www.girgitlabs.design/
+- Inquiries: connect@girgitlabs.design
+- Start a Project: https://www.girgitlabs.design/#talk
+- Primary Domain: www.girgitlabs.design
+- Studio Location: Mumbai, Maharashtra, India (Serving Global Clients)
