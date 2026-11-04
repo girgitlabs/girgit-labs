@@ -83,17 +83,26 @@ if (host) {
   const banner = host.closest('.fb');
   if ('IntersectionObserver' in window) new IntersectionObserver(([e], o) => { if (e.isIntersecting) { banner.classList.add('is-in'); o.disconnect(); } }, { threshold: 0.25 }).observe(banner);
   else banner.classList.add('is-in');
-  // The eyes follow the pointer, each from where it sits.
+  // The eyes follow the pointer, each from where it sits. Cached on scroll/resize for 120fps smoothness.
   if (!reduce) {
     const eyes = [...host.querySelectorAll('[data-eye]')];
-    let queued = false, px = 0, py = 0;
+    let queued = false, px = 0, py = 0, eyeData = [];
+    const measureEyes = () => {
+      eyeData = eyes.map((e) => {
+        const r = e.parentNode.getBoundingClientRect?.() || e.getBoundingClientRect();
+        return { el: e, cx: r.left + r.width / 2, cy: r.top + r.height / 2, travel: +e.dataset.travel };
+      });
+    };
+    measureEyes();
+    addEventListener('resize', measureEyes, { passive: true });
+    addEventListener('scroll', measureEyes, { passive: true });
+
     const aim = () => {
       queued = false;
-      for (const e of eyes) {
-        const r = e.parentNode.getBoundingClientRect?.() || e.getBoundingClientRect();
-        const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
-        const dx = px - cx, dy = py - cy, d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260) * +e.dataset.travel;
-        e.setAttribute('transform', `translate(${f(dx / d * k)} ${f(dy / d * k)})`);
+      for (let i = 0; i < eyeData.length; i++) {
+        const item = eyeData[i];
+        const dx = px - item.cx, dy = py - item.cy, d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 260) * item.travel;
+        item.el.setAttribute('transform', `translate(${f(dx / d * k)} ${f(dy / d * k)})`);
       }
     };
     addEventListener('pointermove', (ev) => { px = ev.clientX; py = ev.clientY; if (!queued) { queued = true; requestAnimationFrame(aim); } }, { passive: true });

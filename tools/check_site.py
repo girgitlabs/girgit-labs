@@ -12,7 +12,7 @@ import pathlib, re, shutil, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = ROOT / 'website'
-MIRROR = ['index.html', '404.html', 'css', 'js', 'assets', 'work', 'functions', '_redirects', 'robots.txt', 'sitemap.xml', 'llms.txt', 'c83a71b29d4e41f0b65a8e23f901c5d7.txt']
+MIRROR = ['index.html', '404.html', 'css', 'js', 'assets', 'work', 'functions', '_redirects', '_headers', 'manifest.json', 'robots.txt', 'sitemap.xml', 'llms.txt', 'c83a71b29d4e41f0b65a8e23f901c5d7.txt']
 VERSION = 'v2-latest'
 
 # What the latest homepage must have, and what only older builds had.
