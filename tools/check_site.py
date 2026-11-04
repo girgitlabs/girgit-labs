@@ -12,7 +12,7 @@ import pathlib, re, shutil, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = ROOT / 'website'
-MIRROR = ['index.html', 'css', 'js', 'assets', 'work', 'functions', '_redirects']
+MIRROR = ['index.html', '404.html', 'css', 'js', 'assets', 'work', 'functions', '_redirects', 'robots.txt', 'sitemap.xml', 'llms.txt', 'c83a71b29d4e41f0b65a8e23f901c5d7.txt']
 VERSION = 'v2-latest'
 
 # What the latest homepage must have, and what only older builds had.
@@ -75,8 +75,9 @@ def refs_missing(base):
         for r in re.findall(r'srcset="([^"]+)"', s): refs += [x.strip().split(' ')[0] for x in r.split(',')]
         for u in refs:
             if not u or re.match(r'^(https?:|mailto:|data:|tel:|//|\$\{)', u) or u.startswith('/api'): continue
-            p = (f.parent / u).resolve()
-            if not (p / 'index.html' if p.is_dir() else p).exists(): out.append(f'{f.relative_to(base)} -> {u}')
+            p = (base / u.lstrip('/') if u.startswith('/') else f.parent / u).resolve()
+            target = p / 'index.html' if p.is_dir() else p
+            if not target.exists(): out.append(f'{f.relative_to(base)} -> {u}')
     return out
 
 
