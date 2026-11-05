@@ -90,6 +90,57 @@
 
 @media (max-width: 760px) {
   .cs-split, .cs-row--2, .cs-row--3 { grid-template-columns: 1fr; }
-  .cs-text { margin-left: 0; }
+  .cs-text { margin-left: 0; font-size: 1.02rem; line-height: 1.55; margin-top: 1.2rem; margin-bottom: 2rem; max-width: 100%; }
   .cs-nav .nav-links { display: none; }
+
+  /* Hero adjustments */
+  .cs-hero { padding-top: clamp(2.5rem, 7vw, 4rem); }
+  .cs-title { font-size: clamp(2.35rem, 10.5vw, 4.4rem); line-height: 0.98; word-break: break-word; }
+  .cs-outcome { font-size: clamp(1.1rem, 3.8vw, 1.35rem); line-height: 1.4; max-width: 100%; margin-top: 1rem; }
+  .cs-meta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.2rem 1rem;
+    margin-top: 1.5rem;
+    padding: 1.2rem 0 2rem;
+  }
+  .cs-meta dd { font-size: 0.94rem; line-height: 1.35; }
+
+  /* Section headings & typography */
+  .cs-sec { padding: clamp(2.8rem, 8vw, 4.5rem) 0; }
+  .cs-h2 { font-size: clamp(1.85rem, 7vw, 2.8rem); line-height: 1.05; }
+  .cs-h2.cs-serif { font-size: clamp(2.1rem, 7.5vw, 3.2rem); line-height: 1.05; }
+  .cs-lede { font-size: clamp(1.1rem, 3.8vw, 1.35rem); line-height: 1.45; }
+  .cs-brief { gap: 1.2rem; }
+  .cs-brief dd { font-size: 0.95rem; line-height: 1.5; }
+
+  /* Palette chips: responsive grid that wraps gracefully */
+  .cs-palette { margin-top: 2.2rem; }
+  .cs-chips { grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr)); gap: 0.85rem; }
+  .cs-swatch { border-radius: 0.55rem; margin-bottom: 0.4rem; }
+  .cs-chip b { font-size: 0.95rem; }
+  .cs-chip span:not(.cs-swatch) { font-size: 0.85rem; }
+  .cs-chip code { font-size: 0.78rem; }
+
+  /* Final outcome & quote */
+  .cs-quote { font-size: clamp(1.5rem, 6vw, 2.4rem); line-height: 1.25; margin-top: 2rem; max-width: 100%; }
+
+  /* Next banner & touch-friendly CTAs */
+  .cs-next { padding: clamp(3rem, 8vw, 5rem) 0; }
+  .cs-next-title { font-size: clamp(2.2rem, 8.5vw, 4.2rem); line-height: 0.95; }
+  .cs-next-actions { flex-direction: column; width: 100%; gap: 0.8rem; }
+  .cs-btn { width: 100%; justify-content: center; min-height: 3.2rem; }
+
+  /* Lightbox viewer: bottom thumb controls instead of center image overlay */
+  .cs-lightbox { padding: 1rem; }
+  .cs-lb-btn { width: 3.2rem; height: 3.2rem; }
+  .cs-lb-prev { left: calc(50% - 3.8rem); top: auto; bottom: 1.2rem; translate: none; }
+  .cs-lb-next { right: calc(50% - 3.8rem); top: auto; bottom: 1.2rem; translate: none; }
+  .cs-lightbox img { max-height: calc(100dvh - 9rem); }
+  .cs-lightbox figcaption { margin-bottom: 3.8rem; font-size: 0.82rem; text-align: center; padding: 0 1rem; }
+}
+
+@media (max-width: 420px) {
+  .cs-meta { grid-template-columns: 1fr; gap: 1rem; }
+  .cs-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
 }

@@ -1,4 +1,4 @@
-﻿/* THE STORY SECTIONS, between the eye wall and the work: the name (a dictionary entry), the seven
+/* THE STORY SECTIONS, between the eye wall and the work: the name (a dictionary entry), the seven
    days, why the speed is real, and who we're for. Copy is the approved copy (content/08-site-v2.md). They reuse Section
    05's editorial frame (.s5, .s5-wrap, kicker, heading, reveal-on-scroll); two run dark, so the
    page alternates ivory and ink instead of one long ivory stretch. Girgit appears only as the
@@ -116,6 +116,8 @@
 }
 @media (max-width: 760px) {
   .st-why-cols { grid-template-columns: 1fr; }
+  .st-dict-word { font-size: clamp(2.6rem, 13vw, 5rem); }
+  .st-dict-card { padding: calc(var(--sq) * 2 + 1.2rem) 1.2rem 1.4rem; box-shadow: 6px 6px 0 var(--black); }
   .st-dict-defs li { grid-template-columns: 2rem minmax(0, 1fr); gap: 0.7rem; }
   .st-days-list { grid-template-columns: 1fr; }
   .st-day { min-height: 0; }
