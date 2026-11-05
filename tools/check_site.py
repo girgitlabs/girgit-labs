@@ -19,7 +19,6 @@ VERSION = 'v2-latest'
 MUST = {
     'version marker': f'<meta name="girgit-site-version" content="{VERSION}',
     "hero (Girgit's living skin)": '<section class="sk" id="top"',
-    'the reveal photo of Girgit': 'assets/img/girgit-skin.webp',
     'lab film': 'class="lab-video"',
     'eye wall': '<section class="eyes" id="looking"',
     'parked jungle section (kept in its template)': '<template id="hide-section">',
@@ -29,6 +28,7 @@ MUST = {
     "who we're for": 'id="who"',
     'Clay & Glaze project link': 'href="work/clay-and-glaze/"',
     'LD Screw project link': 'href="work/ld-screw/"',
+    'Moshi project link': 'href="work/moshi/"',
     'footer banner': '<footer class="ft"',
 }
 MUST_NOT = {
@@ -38,7 +38,7 @@ MUST_NOT = {
     'drawn-chameleon lab': 'lab-scene.js',
 }
 FILES = ['assets/video/lab.mp4', 'assets/video/lab-m.mp4', 'assets/video/jungle.mp4',
-         'work/clay-and-glaze/index.html', 'work/ld-screw/index.html', 'js/lab.js', 'js/skin.js', 'js/hide.js', 'js/eyes.js']
+         'work/clay-and-glaze/index.html', 'work/ld-screw/index.html', 'work/moshi/index.html', 'js/lab.js', 'js/skin.js', 'js/hide.js', 'js/eyes.js']
 GONE = ['js/lab-scene.js', 'js/girgit.js', 'js/clay']
 
 

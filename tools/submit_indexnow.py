@@ -9,6 +9,7 @@ URLS = [
     "https://www.girgitlabs.design/",
     "https://www.girgitlabs.design/work/clay-and-glaze/",
     "https://www.girgitlabs.design/work/ld-screw/",
+    "https://www.girgitlabs.design/work/moshi/",
 ]
 
 def submit():

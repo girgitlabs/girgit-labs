@@ -28,12 +28,22 @@
   </url>
   <url>
     <loc>https://www.girgitlabs.design/work/ld-screw/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.girgitlabs.design/assets/work/ld-screw/ld-01-1920.webp</image:loc>
       <image:title>LD Screw Case Study - Girgit Labs</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.girgitlabs.design/work/moshi/</loc>
+    <lastmod>2026-11-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://www.girgitlabs.design/assets/work/moshi/moshi-01-1440.webp</image:loc>
+      <image:title>Moshi Case Study - Girgit Labs</image:title>
     </image:image>
   </url>
 </urlset>

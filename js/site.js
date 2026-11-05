@@ -248,11 +248,39 @@ for (const b of $$('.who-list button')) {
   card.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
   // Copy email
+  // On success the button pops into a "Copied!" pill, a toast rises above it and sparks burst out
+  // (no sparks with reduced motion); the status line tells screen readers. All of it resets after 2.2s.
+  const calm = matchMedia('(prefers-reduced-motion: reduce)');
+  const SPARKS = ['#43FF18', '#FFE500', '#FF168C', '#173BFF', '#F4EFE5'];
+  const burst = (b) => {
+    if (calm.matches) return;
+    const x = b.offsetLeft + b.offsetWidth / 2, y = b.offsetTop + b.offsetHeight / 2;
+    for (let i = 0; i < 12; i++) {
+      const s = document.createElement('span'), a = (i / 12) * Math.PI * 2 + Math.random() * 0.4, r = 34 + Math.random() * 30;
+      s.className = 'copy-spark'; s.setAttribute('aria-hidden', 'true');
+      s.style.cssText = `left:${x}px;top:${y}px;--c:${SPARKS[i % SPARKS.length]};--dx:${(Math.cos(a) * r).toFixed(1)}px;--dy:${(Math.sin(a) * r).toFixed(1)}px`;
+      b.parentElement.append(s);
+      setTimeout(() => s.remove(), 700);
+    }
+  };
   for (const b of $$('[data-copy]')) {
+    const label = b.textContent;
+    let timer = 0, toast = null;
     b.addEventListener('click', async () => {
       const out = b.parentElement.querySelector('.copied');
-      try { await navigator.clipboard.writeText(b.dataset.copy); out.textContent = 'copied'; setTimeout(() => { out.textContent = ''; }, 1800); }
-      catch { location.href = `mailto:${b.dataset.copy}`; }
+      try { await navigator.clipboard.writeText(b.dataset.copy); }
+      catch { location.href = `mailto:${b.dataset.copy}`; return; }
+      clearTimeout(timer); toast?.remove();
+      b.classList.remove('is-copied'); void b.offsetWidth; b.classList.add('is-copied');
+      b.textContent = '✓ Copied!';
+      if (out) out.textContent = 'Email copied to clipboard';
+      toast = document.createElement('span');
+      toast.className = 'copy-toast'; toast.setAttribute('aria-hidden', 'true');
+      const addr = document.createElement('b'); addr.textContent = b.dataset.copy;
+      toast.append('On your clipboard: ', addr);
+      b.parentElement.append(toast);
+      burst(b);
+      timer = setTimeout(() => { b.classList.remove('is-copied'); b.textContent = label; if (out) out.textContent = ''; toast?.remove(); toast = null; }, 2200);
     });
   }
 

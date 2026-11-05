@@ -28,17 +28,20 @@
 .sk-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; }
 
 /* ---------- The copy: the h1 is the mask the scales read; once the skin draws it, it goes transparent ---------- */
-.sk-copy { position: relative; z-index: 2; display: grid; align-content: center; height: 100%; padding: 0 var(--gutter); max-width: 92rem; margin: 0 auto; }
-.sk-kicker { margin: 0 0 clamp(1rem, 3svh, 2rem); font: 700 0.76rem/1.4 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: rgb(244 239 229 / 0.85); }
-.sk-title { margin: 0; font: 900 clamp(3.4rem, 10.4vw, 11rem)/0.9 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; color: #E6F25A; }
-.sk-title span { display: block; width: fit-content; }
-.sk.has-skin .sk-title { color: transparent; }
-.sk-sub { margin: clamp(1.2rem, 4svh, 2.4rem) 0 0; font: 500 clamp(1.1rem, 1.6vw, 1.45rem)/1.4 var(--satoshi); color: var(--ivory); text-shadow: 0 1px 12px rgb(0 0 0 / 0.45); }
-.sk-ctas { display: flex; flex-wrap: wrap; gap: 0.8rem; margin: clamp(1.2rem, 3svh, 2rem) 0 0; }
-.sk-btn { display: inline-flex; align-items: center; min-height: 3.2rem; padding: 0.8rem 1.5rem; border: 2px solid var(--ivory); border-radius: 999px; color: var(--ivory); text-decoration: none; font: 700 1rem/1 var(--satoshi); backdrop-filter: blur(4px); transition: translate 200ms var(--ease), background-color 200ms var(--ease), color 200ms var(--ease); }
-.sk-btn--solid { background: var(--ivory); color: var(--black); }
+/* Centred, two lines: "Why fit in" over "when you can evolve?". Each word is a span (.w) so the mask
+   follows the words wherever they wrap. Letter spacing is kept open: the letters are drawn in scales,
+   and tight spacing let neighbouring letters merge into one blob. */
+.sk-copy { position: relative; z-index: 2; display: grid; align-content: center; justify-items: center; height: 100%; padding: 0 var(--gutter); max-width: 96rem; margin: 0 auto; text-align: center; }
+.sk-title { margin: 0; font: 900 clamp(2.4rem, 6vw, 6.5rem)/1.02 var(--satoshi); letter-spacing: 0.01em; word-spacing: 0.08em; text-transform: uppercase; color: #F2F55A; text-shadow: 0 0.04em 0.3em rgb(4 20 9 / 0.8); }
+.sk-line { display: block; }
+.sk-title .w { display: inline-block; }
+.sk.has-skin .sk-title { color: transparent; text-shadow: none; }
+.sk-ctas { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin: clamp(1.6rem, 5svh, 3rem) 0 0; }
+.sk-btn { display: inline-flex; align-items: center; min-height: 3.2rem; padding: 0.8rem 1.6rem; border: 2px solid var(--ivory); border-radius: 999px; background: #0E3A1B; color: var(--ivory); text-decoration: none; font: 700 1rem/1 var(--satoshi); box-shadow: 0 6px 24px rgb(0 0 0 / 0.35); transition: translate 200ms var(--ease), background-color 200ms var(--ease), color 200ms var(--ease); }
+.sk-btn--solid { background: #F6D3EC; border-color: #F6D3EC; color: var(--black); }
 .sk-btn:hover { translate: 0 -2px; }
 .sk-btn:not(.sk-btn--solid):hover { background: var(--ivory); color: var(--black); }
+.sk-btn--solid:hover { background: #FFE6F6; }
 .sk-btn:focus-visible, .sk-scroll:focus-visible { outline: 3px solid #E6F25A; outline-offset: 3px; }
 
 .sk-hint, .sk-scroll { position: absolute; z-index: 2; bottom: clamp(1rem, 3svh, 1.8rem); margin: 0; font: 700 0.74rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: rgb(244 239 229 / 0.85); }
@@ -46,41 +49,15 @@
 .sk-scroll { right: var(--gutter); color: var(--ivory); text-decoration: none; }
 html:not(.js) .sk-hint, .sk:not(.has-skin) .sk-hint { display: none; }
 
-/* ---------- Whose skin: the colour wave (js/skin.js sets --fade, --wave, --cap, --reveal as you scroll) ----------
-   He stands centred in the lower middle of the hero, about two-thirds of its height. He fades in
-   camouflaged, in the skin's own greens (a recoloured copy of the photo), so he is barely there; then a
-   colour wave sweeps across him from head to tail: the real photo shows through behind its front, and
-   a glowing band (turquoise into orange, clipped to his silhouette) rides the front, the way a real
-   chameleon's colour change travels across its body. */
-.sk-owner {
-  position: absolute; z-index: 3; left: 50%; bottom: 13%; width: min(86vw, calc((100svh - var(--nav-h)) * 0.86)); margin: 0;
-  translate: -50% 0; opacity: var(--fade, 0); scale: calc(1.04 - var(--fade, 0) * 0.04); pointer-events: none;
-}
-.sk-owner img { position: relative; z-index: 1; display: block; width: 100%; height: auto; }
-.sk-owner-camo { filter: drop-shadow(0 24px 30px rgb(0 0 0 / 0.4)); }
-.sk-owner-colour, .sk-owner-wave { position: absolute !important; inset: 0; z-index: 2; }
-/* The front runs from his head (left) to his tail (right); --wave 0..1 carries it across. */
-.sk-owner-colour {
-  -webkit-mask-image: linear-gradient(90deg, #000 calc(var(--wave, 0) * 124% - 24%), transparent calc(var(--wave, 0) * 124% - 8%));
-  mask-image: linear-gradient(90deg, #000 calc(var(--wave, 0) * 124% - 24%), transparent calc(var(--wave, 0) * 124% - 8%));
-}
-.sk-owner-wave {
-  background: linear-gradient(90deg, transparent calc(var(--wave, 0) * 124% - 30%), rgb(25 200 190 / 0.42) calc(var(--wave, 0) * 124% - 16%), rgb(60 110 255 / 0.38) calc(var(--wave, 0) * 124% - 11%), rgb(255 140 40 / 0.5) calc(var(--wave, 0) * 124% - 7%), transparent calc(var(--wave, 0) * 124% - 1%));
-  -webkit-mask: url('../assets/img/girgit-skin.webp') center / 100% 100% no-repeat;
-  mask: url('../assets/img/girgit-skin.webp') center / 100% 100% no-repeat;
-  mix-blend-mode: screen; opacity: var(--glow, 0);
-}
-.sk-owner-shadow { position: absolute; z-index: 0; left: 6%; right: 8%; bottom: -2%; height: 9%; border-radius: 50%; background: radial-gradient(closest-side, rgb(0 0 0 / 0.55), transparent); opacity: var(--fade, 0); }
-.sk-owner figcaption { position: absolute; left: 0; right: 0; top: 100%; margin-top: clamp(0.8rem, 2svh, 1.4rem); text-align: center; font-size: clamp(1.4rem, 2.2vw, 2rem); color: var(--ivory); opacity: var(--cap, 0); }
-.sk.has-skin .sk-copy, .sk.has-skin .sk-hint, .sk.has-skin .sk-scroll { opacity: calc(1 - var(--reveal, 0) * 1.6); }
-.sk:not(.has-skin) .sk-owner { display: none; }
 
-/* With the skin running, the hero sticks in its track while the reveal plays. */
-.sk-track.is-live { height: calc(200svh - var(--nav-h)); }
-.sk-track.is-live > .sk { position: sticky; top: var(--nav-h); }
 
 @media (max-width: 760px) {
-  .sk-title { font-size: clamp(3rem, 15vw, 5rem); }
+  .sk-title { font-size: clamp(2.4rem, 11.5vw, 4.4rem); line-height: 1.04; }
   .sk-hint { display: none; }
-  .sk-owner { bottom: 18%; width: 92vw; }
+}
+
+/* Intro: the scales assemble the headline (js/skin.js), then the buttons rise in. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .sk-ctas { animation: sk-rise 800ms var(--ease) 1.1s both; }
+  @keyframes sk-rise { from { opacity: 0; translate: 0 18px; } }
 }

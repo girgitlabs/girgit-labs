@@ -236,28 +236,18 @@
     <!-- SECTION 01: THE HERO, Girgit's living skin. The whole hero is chameleon skin, drawn live by a
          WebGL shader (js/skin.js): thousands of domed scales, the headline written by the scales
          themselves (they sample a mask of the real h1), and a colour wave rippling out wherever the
-         pointer goes; a click washes the skin into a new palette. Scrolling pulls back to reveal whose
-         skin it is: the supplied photo of Girgit. He appears camouflaged in the skin's own greens, then a
-         colour wave sweeps across him from head to tail and brings out his real colours. No WebGL, no JS or reduced motion: a still version with
+         pointer goes; a click washes the skin into a new palette. No WebGL, no JS or reduced motion: a still version with
          the headline as plain text. -->
     <div class="sk-track">
       <section class="sk" id="top" aria-labelledby="hero-title">
         <canvas class="sk-canvas" aria-hidden="true"></canvas>
         <div class="sk-copy">
-          <p class="sk-kicker">Digital design studio · Mumbai, working worldwide</p>
-          <h1 class="sk-title" id="hero-title"><span>You missed it.</span> <span>We didn't.</span></h1>
-          <p class="sk-sub">We don't have a house style. We have yours.</p>
+          <!-- Each word is its own span so the scales can trace it wherever it wraps (js/skin.js). -->
+          <h1 class="sk-title" id="hero-title"><span class="sk-line"><span class="w">Why</span> <span class="w">fit</span> <span class="w">in</span></span> <span class="sk-line"><span class="w">when</span> <span class="w">you</span> <span class="w">can</span> <span class="w">evolve?</span></span></h1>
           <p class="sk-ctas"><a class="sk-btn sk-btn--solid" href="#talk">Start a project</a><a class="sk-btn" href="#work">See the work</a></p>
         </div>
-        <figure class="sk-owner" aria-hidden="true">
-          <span class="sk-owner-shadow"></span>
-          <img class="sk-owner-camo" src="assets/img/girgit-skin-camo.webp" width="1266" height="970" alt="" loading="lazy">
-          <img class="sk-owner-colour" src="assets/img/girgit-skin.webp" width="1266" height="970" alt="" loading="lazy">
-          <span class="sk-owner-wave"></span>
-          <figcaption class="hand">(that was his skin.)</figcaption>
-        </figure>
         <p class="sk-hint" aria-hidden="true">move across his skin · click to change it</p>
-        <a class="sk-scroll" href="#what">whose skin is this? <span aria-hidden="true">↓</span></a>
+        <a class="sk-scroll" href="#what">scroll <span aria-hidden="true">↓</span></a>
       </section>
     </div>
 
@@ -373,18 +363,24 @@
     <section class="s5 st-dark st-name" id="name" aria-labelledby="name-title">
       <div class="s5-wrap">
         <p class="s5-kicker" data-reveal>The name</p>
-        <div class="st-dict-head">
-          <h2 class="st-dict-word" id="name-title"><span lang="hi">गिरगिट</span><span class="sr-only"> (girgit, Hindi for chameleon)</span></h2>
-          <p class="st-dict-say" data-reveal><i>girgit</i><span>/ˈɡɪr.ɡɪt/ · noun, Hindi</span></p>
+        <div class="st-name-grid">
+          <article class="st-dict-card" data-reveal>
+            <div class="st-dict-head">
+              <h2 class="st-dict-word" id="name-title"><span lang="hi">गिरगिट</span><span class="sr-only"> (girgit, Hindi for chameleon)</span></h2>
+              <p class="st-dict-say"><i>girgit</i> <span class="st-dict-ipa">/ˈɡɪr.ɡɪt/</span> <span class="st-dict-tag">noun</span> <span class="st-dict-tag">Hindi</span></p>
+            </div>
+            <ol class="st-dict-defs" role="list" data-stagger>
+              <li><span class="st-dict-n" aria-hidden="true">1</span><p>A chameleon.</p></li>
+              <li><span class="st-dict-n" aria-hidden="true">2</span><p><em>(as an insult)</em> Someone who won't stay the same. <i>Girgit ki tarah</i> <span class="hi st-deva" lang="hi" data-en="change colour" tabindex="0" role="button">रंग बदलना</span>: to change colour like a chameleon.</p></li>
+              <li class="st-dict-ours"><span class="st-dict-n" aria-hidden="true">3</span><p><em>(our meaning)</em> <strong>Attention. A chameleon answers to where it is. Nothing about it is fixed except the attention.</strong></p></li>
+            </ol>
+          </article>
+          <div class="st-name-side">
+            <p class="st-name-turn" data-split>We took the name <span>anyway.</span></p>
+            <p class="st-name-line st-name-line--strong" data-reveal>That's the whole job. The work should belong to you: carry your <span class="hi st-deva" lang="hi" data-en="temperament" tabindex="0" role="button">मिज़ाज</span>, your market, your ambition. Not our portfolio.</p>
+            <p class="st-aside hand" data-reveal>(yes, it's an insult. we checked.)</p>
+          </div>
         </div>
-        <ol class="st-dict-defs" role="list">
-          <li data-reveal><span class="st-dict-n" aria-hidden="true">1</span><p>A chameleon.</p></li>
-          <li data-reveal><span class="st-dict-n" aria-hidden="true">2</span><p><em>(as an insult)</em> Someone who won't stay the same. <i>Girgit ki tarah</i> <span class="hi st-deva" lang="hi" data-en="change colour" tabindex="0" role="button">रंग बदलना</span>: to change colour like a chameleon.</p></li>
-          <li data-reveal><span class="st-dict-n" aria-hidden="true">3</span><p><em>(our meaning)</em> <strong>Attention. A chameleon answers to where it is. Nothing about it is fixed except the attention.</strong></p></li>
-        </ol>
-        <p class="st-name-turn" data-reveal>We took the name anyway.</p>
-        <p class="st-name-line st-name-line--strong" data-reveal>That's the whole job. The work should belong to you: carry your <span class="hi st-deva" lang="hi" data-en="temperament" tabindex="0" role="button">मिज़ाज</span>, your market, your ambition. Not our portfolio.</p>
-        <p class="st-aside hand" data-reveal>(yes, it's an insult. we checked.)</p>
       </div>
     </section>
 
@@ -406,7 +402,7 @@
     <section class="s5 st-days" id="seven-days" aria-labelledby="days-title">
       <div class="s5-wrap">
         <img class="deco deco--seven" src="assets/img/prop-seven.webp" width="451" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.1">
-        <div class="s5-head"><p class="s5-kicker">The seven days</p><h2 class="s5-h2" id="days-title">Seven days, from approved scope to live.</h2></div>
+        <div class="s5-head"><p class="s5-kicker">The seven days</p><h2 class="s5-h2" data-split id="days-title">Seven days, from approved scope to live.</h2></div>
         <p class="st-lede" data-reveal>Not a rough first draft. A website you would be happy to send to an investor on day eight.</p>
         <ol class="st-days-list" role="list">
           <li class="st-day" style="--day: var(--yellow)" data-reveal><span class="st-day-tag">Before the clock</span><p>Content collected, references studied, sitemap agreed, visual direction set, scope signed off.</p></li>
@@ -422,7 +418,7 @@
     <section class="s5 st-dark st-why" id="why" aria-labelledby="why-title">
       <div class="s5-wrap">
         <img class="deco deco--hourglass" src="assets/img/prop-hourglass.webp" width="489" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.08">
-        <div class="s5-head"><p class="s5-kicker">Why the speed is real</p><h2 class="s5-h2" id="why-title">Fast isn't a discount.</h2></div>
+        <div class="s5-head"><p class="s5-kicker">Why the speed is real</p><h2 class="s5-h2" data-split id="why-title">Fast isn't a discount.</h2></div>
         <ol class="st-why-cols" role="list">
           <li data-reveal><span class="st-why-n">01</span><h3>A small senior team.</h3><p>Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.</p></li>
           <li data-reveal><span class="st-why-n">02</span><h3>No handoff.</h3><p>The designer builds the frontend. The person who drew it ships it.</p></li>
@@ -435,7 +431,7 @@
     <section class="s5" id="services" aria-labelledby="services-title">
       <div class="s5-wrap">
         <span class="deco deco--checker" aria-hidden="true" data-parallax="0.06"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#F4EFE5"/><rect x="0" y="0" width="20" height="20" fill="#111111"/><rect x="40" y="0" width="20" height="20" fill="#111111"/><rect x="20" y="20" width="20" height="20" fill="#111111"/><rect x="60" y="20" width="20" height="20" fill="#111111"/><rect x="0" y="40" width="20" height="20" fill="#111111"/><rect x="40" y="40" width="20" height="20" fill="#111111"/><rect x="20" y="60" width="20" height="20" fill="#111111"/><rect x="60" y="60" width="20" height="20" fill="#111111"/><rect x="2" y="2" width="76" height="76" fill="none" stroke="#111111" stroke-width="4"/></svg></span>
-        <div class="s5-head"><p class="s5-kicker">What we do, in detail</p><h2 class="s5-h2" id="services-title">Five things, done properly.</h2></div>
+        <div class="s5-head"><p class="s5-kicker">What we do, in detail</p><h2 class="s5-h2" data-split id="services-title">Five things, done properly.</h2></div>
         <ol class="svc-list" role="list">
           <li class="svc" style="--svc: var(--pink)" data-reveal>
             <span class="svc-n">01</span>
@@ -474,23 +470,25 @@
     <!-- WHO WE'RE FOR. Approved copy (content/08-site-v2.md, section 7). -->
     <section class="s5 st-fit" id="who" aria-labelledby="who-title">
       <div class="s5-wrap">
-        <img class="st-fit-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy" data-reveal>
-        <div class="s5-head"><p class="s5-kicker">Who we're for</p><h2 class="s5-h2" id="who-title">We work best with</h2></div>
-        <div class="st-fit-grid">
-          <ul class="st-fit-list st-fit-list--yes" role="list">
-            <li data-reveal>Founders who need an idea to exist by a date.</li>
-            <li data-reveal>Businesses whose digital presence is a decade behind the company.</li>
-            <li data-reveal>Agencies who need real design capacity, quietly.</li>
-            <li data-reveal>Creators building something bigger than a profile.</li>
-          </ul>
-          <div class="st-fit-less" data-reveal>
+        <div class="s5-head"><p class="s5-kicker">Who we're for</p><h2 class="s5-h2" data-split id="who-title">We work best with</h2></div>
+        <div class="st-fit-board">
+          <img class="st-fit-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy" data-reveal>
+        <ul class="st-fit-yes" role="list">
+          <li class="st-fit-card" style="--c: var(--acid)" data-reveal><span class="st-fit-top"><span class="st-fit-tag">Founders</span><span class="st-fit-n" aria-hidden="true">01</span></span><p>Founders who need an idea to exist by a date.</p></li>
+          <li class="st-fit-card" style="--c: var(--yellow)" data-reveal><span class="st-fit-top"><span class="st-fit-tag">Businesses</span><span class="st-fit-n" aria-hidden="true">02</span></span><p>Businesses whose digital presence is a decade behind the company.</p></li>
+          <li class="st-fit-card" style="--c: #FF8FC7" data-reveal><span class="st-fit-top"><span class="st-fit-tag">Agencies</span><span class="st-fit-n" aria-hidden="true">03</span></span><p>Agencies who need real design capacity, quietly.</p></li>
+          <li class="st-fit-card" style="--c: #9DB4FF" data-reveal><span class="st-fit-top"><span class="st-fit-tag">Creators</span><span class="st-fit-n" aria-hidden="true">04</span></span><p>Creators building something bigger than a profile.</p></li>
+        </ul>
+        </div>
+        <div class="st-fit-less" data-reveal>
+          <div>
             <h3 class="st-fit-h3">Less well with</h3>
-            <ul class="st-fit-list st-fit-list--no" role="list">
+            <ul class="st-fit-no" role="list">
               <li>Anyone shopping purely on price.</li>
               <li>Anyone who wants to art-direct the art director.</li>
             </ul>
-            <img class="st-fit-sleep" src="assets/img/cham-sleep.webp" width="1000" height="529" alt="" aria-hidden="true" loading="lazy">
           </div>
+          <img class="st-fit-sleep" src="assets/img/cham-sleep.webp" width="1000" height="529" alt="" aria-hidden="true" loading="lazy">
         </div>
         <p class="st-close" data-reveal>We'll recommend the direction and argue for it. You approve the big calls.</p>
         <p class="st-aside hand" data-reveal>(be honest. which one are you?)</p>
@@ -501,7 +499,7 @@
       <div class="s5-wrap">
         <img class="deco deco--mac" src="assets/img/prop-mac.webp" width="930" height="850" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.06">
         <span class="deco deco--ring" aria-hidden="true" data-parallax="0.08"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="#173BFF" stroke-width="14"/><circle cx="50" cy="50" r="46" fill="none" stroke="#111111" stroke-width="3"/><circle cx="50" cy="50" r="30" fill="none" stroke="#111111" stroke-width="3"/></svg></span>
-        <div class="s5-head"><p class="s5-kicker">Selected work</p><h2 class="s5-h2" id="work-title">Different every time. That's the point.</h2></div>
+        <div class="s5-head"><p class="s5-kicker">Selected work</p><h2 class="s5-h2" data-split id="work-title">Different every time. That's the point.</h2></div>
         <p class="work-note" data-reveal>Two case studies are up; more are being written up properly, outcome first. Until they're ready, the empty slots are placeholders, not projects.</p>
         <ul class="work-grid" role="list">
           <li class="work-slot work-slot--wide work-slot--real" data-reveal>
@@ -514,13 +512,16 @@
           <li class="work-slot work-slot--real" data-reveal>
             <a class="work-link" href="work/ld-screw/">
               <span class="work-media work-media--real" style="--tile-bg:#1E1E1E"><img src="assets/work/ld-screw/ld-tile-720.webp" srcset="assets/work/ld-screw/ld-tile-720.webp 720w, assets/work/ld-screw/ld-tile-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 40rem" width="1440" height="1080" alt="LD Screw, the home page" loading="lazy"></span>
-              <span class="work-meta"><span>LD Screw</span> A website for a stainless steel screw maker, laid out like the catalogue its buyers already read.</span>
+              <span class="work-meta"><span>LD Screw</span> A website for a stainless steel screw maker.</span>
               <span class="work-tags">Website design</span>
             </a>
           </li>
-          <li class="work-slot" data-reveal>
-            <div class="work-media"><span class="work-badge">Placeholder</span><span class="work-soon">Case study coming soon</span></div>
-            <p class="work-meta"><span>Project 03</span> To be added</p>
+          <li class="work-slot work-slot--real" data-reveal>
+            <a class="work-link" href="work/moshi/">
+              <span class="work-media work-media--real" style="--tile-bg:#F3EFE7"><img src="assets/work/moshi/moshi-01-720.webp" srcset="assets/work/moshi/moshi-01-720.webp 720w, assets/work/moshi/moshi-01-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 40rem" width="1440" height="980" alt="Moshi, the home page" loading="lazy"></span>
+              <span class="work-meta"><span>Moshi</span> An online store for a heritage clothing label.</span>
+              <span class="work-tags">Website design · E-commerce UI/UX</span>
+            </a>
           </li>
           <li class="work-slot work-slot--wide" data-reveal>
             <div class="work-media"><span class="work-badge">Placeholder</span><span class="work-soon">Case study coming soon</span></div>

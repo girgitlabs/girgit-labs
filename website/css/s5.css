@@ -199,6 +199,14 @@
 .work-media--real img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale 800ms var(--ease); }
 .work-link:hover .work-media--real img, .work-link:focus-visible .work-media--real img { scale: 1.03; }
 .work-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 6px; border-radius: 1rem; }
-.work-slot--real .work-meta { display: block; font-size: 1rem; color: #2F2D28; }
+.work-slot--real .work-meta { display: block; font-size: 1rem; color: #2F2D28; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* always one line */
 .work-slot--real .work-meta span { margin-right: 0.6rem; font-size: 1.15rem; }
 .work-tags { display: block; margin-top: 0.4rem; font: 600 0.82rem/1.3 var(--satoshi); letter-spacing: 0.06em; text-transform: uppercase; color: #5E5A50; }
+
+/* Work cards: the image settles from a slight zoom as the card appears, and zooms a touch on hover. */
+.work-media--real { overflow: hidden; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .work-slot--real .work-media img { scale: 1.12; transition: scale 1.2s var(--ease); }
+  .js .work-slot--real.in-view .work-media img { scale: 1; }
+  .js .work-slot--real.in-view .work-link:hover .work-media img { scale: 1.04; transition-duration: 600ms; }
+}

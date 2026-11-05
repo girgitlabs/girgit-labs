@@ -63,7 +63,16 @@ function init() {
   if (reduce || !gsap || !ST) return still();
 
   const narrow = matchMedia('(max-width: 760px)');
-  video.src = narrow.matches ? 'assets/video/lab-m.mp4' : 'assets/video/lab.mp4';
+  const src = narrow.matches ? 'assets/video/lab-m.mp4' : 'assets/video/lab.mp4';
+  video.src = src;
+  // Scrolling up rewinds the film, which needs the frames behind the playhead. Streamed in ranges they
+  // may not be buffered, and the film stalls instead of reversing. So the whole file is fetched once and
+  // swapped in from memory at the same frame: from then on, seeks either way are instant.
+  fetch(src).then((r) => (r.ok ? r.blob() : Promise.reject(new Error(r.status)))).then((blob) => {
+    video.addEventListener('loadedmetadata', () => { seeking = false; seek(target); }, { once: true });
+    video.addEventListener('loadeddata', () => { video.play()?.then(() => video.pause()).catch(() => {}); }, { once: true });
+    video.src = URL.createObjectURL(blob);
+  }).catch(() => { /* keep streaming */ });
   video.addEventListener('error', () => {                 // the film failed: drop the scroll scene, show the stills
     const track = lab.parentElement?.classList.contains('lab-track') ? lab.parentElement : null;
     ST.getAll().filter((t) => t.trigger === lab || t.trigger === track).forEach((t) => t.kill(true));

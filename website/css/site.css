@@ -78,11 +78,19 @@ button { font: inherit; color: inherit; }
   display: flex; align-items: center; justify-content: space-between; gap: 1rem;
   height: var(--nav-h); max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter);
 }
-.nav::before { content: ''; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: rgb(247 243 236 / 0.86); backdrop-filter: blur(6px); opacity: 0; transition: opacity 240ms; }
-.nav.is-scrolled::before { opacity: 1; }
-.nav-logo img { height: 30px; width: auto; }
-.nav-links { display: flex; gap: 0.4rem; }
-.nav-links .pill.is-active { background: var(--ink); color: var(--paper); }
+/* In the footer's theme (css/footer.css): forest green, ivory type, acid accents, a yellow-and-black
+   checker strip along the bottom like the banner frame, and "let's talk" framed like the email box. */
+.nav { --sq: 7px; color: #F4EFE5; font-family: 'Satoshi', var(--text); }
+.nav::before { content: ''; position: absolute; inset: 0 calc(50% - 50vw); z-index: -1; background: #142118; border-bottom: 2px solid #111; }
+.nav::after { content: ''; position: absolute; left: calc(50% - 50vw); right: calc(50% - 50vw); bottom: 0; height: var(--sq); z-index: -1; border-top: 2px solid #111; background: repeating-conic-gradient(#FFE500 0 25%, #111 0 50%) 0 0 / calc(var(--sq) * 2) calc(var(--sq) * 2); }
+.nav.is-scrolled::before { box-shadow: 0 6px 18px rgb(0 0 0 / 0.25); }
+.nav-logo img { height: 30px; width: auto; filter: brightness(0) invert(0.95); }
+.nav-links { display: flex; gap: clamp(1rem, 2.6vw, 2.2rem); }
+.nav-links .pill { min-height: 2.25rem; padding: 0; border: 0; border-radius: 0; background: none; color: #F4EFE5; font: 700 0.86rem/1 'Satoshi', var(--text); letter-spacing: 0.08em; text-decoration: underline 2px transparent; text-underline-offset: 0.45em; transition: color 160ms var(--ease), text-decoration-color 160ms var(--ease); }
+.nav-links .pill:hover, .nav-links .pill.is-active { background: none; color: #43FF18; text-decoration-color: currentColor; }
+.nav .pill--ink { min-height: 2.6rem; padding: 0.5rem 1.1rem; border: 3px solid #111; border-radius: 0; outline: 3px solid #43FF18; outline-offset: -6px; background: #F4EFE5; color: #111; font: 800 0.8rem/1 'Satoshi', var(--text); letter-spacing: 0.1em; box-shadow: 4px 4px 0 #111; transition: transform 200ms var(--ease), box-shadow 200ms var(--ease); }
+.nav .pill--ink:hover { background: #F4EFE5; color: #111; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #111; }
+.nav a:focus-visible { outline: 3px solid #43FF18; outline-offset: 3px; }
 
 /* ---------- 1. Hero: one full screen ---------- */
 .hero {
@@ -634,4 +642,29 @@ main > *, .ft { overflow-x: clip; }
 @media (prefers-reduced-motion: no-preference) {
   .bridge-arrow.in-view svg { animation: bridge-nudge 2.4s var(--ease) 600ms infinite; }
   @keyframes bridge-nudge { 0%, 60%, 100% { translate: 0 0; } 30% { translate: 0 8px; } }
+}
+
+/* ---------- Copy email feedback (js/site.js): the button pops into a "Copied!" pill, a toast rises
+   above it, sparks burst out. The .copied status line stays for screen readers only. ---------- */
+.cta-copywrap, .ft-copyrow { position: relative; }
+.cta-copywrap .copied, .ft-copyrow .copied { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.cta-copy, .ft-copy { border-radius: 999px; transition: background-color 200ms var(--ease), color 200ms var(--ease), padding 200ms var(--ease); }
+.cta-copy.is-copied, .ft-copy.is-copied { padding: 0.35rem 0.85rem; background: #43FF18; color: #111; font-weight: 800; text-decoration: none; animation: copy-pop 420ms var(--pop); }
+.copy-toast {
+  position: absolute; left: 0; bottom: calc(100% + 0.7rem); z-index: 5; padding: 0.55rem 0.8rem;
+  border: 2px solid #111; background: #F4EFE5; color: #111; box-shadow: 4px 4px 0 #111;
+  font: 600 0.82rem/1.2 'Satoshi', var(--text); white-space: nowrap; pointer-events: none;
+  animation: copy-toast 2.2s var(--ease) forwards;
+}
+.copy-toast b { font-weight: 800; }
+.copy-spark { position: absolute; z-index: 4; width: 8px; height: 8px; border-radius: 50%; background: var(--c); pointer-events: none; animation: copy-spark 650ms cubic-bezier(0.2, 0.7, 0.3, 1) forwards; }
+@keyframes copy-pop { 0% { scale: 0.85; } 60% { scale: 1.08; } 100% { scale: 1; } }
+@keyframes copy-toast { 0% { opacity: 0; translate: 0 8px; } 10%, 82% { opacity: 1; translate: 0 0; } 100% { opacity: 0; translate: 0 -6px; } }
+@keyframes copy-spark { from { transform: translate(-50%, -50%) scale(1); opacity: 1; } to { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(0.3); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cta-copy.is-copied, .ft-copy.is-copied, .copy-toast { animation: none; } }
+
+/* The header's checker strip drifts slowly sideways. */
+@media (prefers-reduced-motion: no-preference) {
+  .nav::after { animation: nav-checker 4s linear infinite; }
+  @keyframes nav-checker { to { background-position: calc(var(--sq) * 4) 0; } }
 }

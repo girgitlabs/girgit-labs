@@ -47,6 +47,19 @@ float vnoise(vec2 p) {
   return mix(mix(hash(i), hash(i + vec2(1.0, 0.0)), u.x), mix(hash(i + vec2(0.0, 1.0)), hash(i + vec2(1.0, 1.0)), u.x), u.y);
 }
 
+// The centre of the hex cell holding p, on a pointy-top grid of radius R.
+vec2 hexCen(vec2 p, float R) {
+  float q = (0.5773503 * p.x - 0.3333333 * p.y) / R;
+  float r = (0.6666667 * p.y) / R;
+  vec3 c = vec3(q, -q - r, r);
+  vec3 rc = floor(c + 0.5);
+  vec3 d = abs(rc - c);
+  if (d.x > d.y && d.x > d.z) rc.x = -rc.y - rc.z;
+  else if (d.y > d.z) rc.y = -rc.x - rc.z;
+  else rc.z = -rc.x - rc.y;
+  return vec2(R * 1.7320508 * (rc.x + rc.z * 0.5), R * 1.5 * rc.z);
+}
+
 void main() {
   vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);
 
@@ -72,9 +85,18 @@ void main() {
   // The skin's own pattern: big soft blotches that drift very slowly, and a rare bright fleck.
   float blot = vnoise(cen / (uR * 18.0) + uTime * 0.02) * 0.65 + vnoise(cen / (uR * 7.0) + 3.1) * 0.35;
   vec3 col = mix(deep, mid, blot);
-  col = mix(col, lit * 0.8 + mid * 0.2, step(0.985, n));
-  float txt = step(0.5, texture2D(uText, cen / uRes).r) * (1.0 - smoothstep(0.0, 0.5, uDim));   // the letters fade as the camera pulls back
-  col = mix(col, lit * (0.92 + 0.08 * n), txt);
+  // Bright flecks scattered through the skin, each twinkling on its own beat.
+  col = mix(col, lit, step(0.988, n) * (0.6 + 0.4 * sin(uTime * 1.7 + n * 60.0)));
+
+  // The headline is written in scales, on a finer grid than the skin (0.6x) so each letter has enough
+  // scales to hold its shape. A scale lights when its centre falls inside a letter (mask red channel).
+  // The mask's green channel is a soft halo that darkens the skin behind the words.
+  float Rt = uR * 0.6;
+  vec2 tcen = hexCen(p, Rt);
+  float fade = 1.0 - smoothstep(0.0, 0.5, uDim);             // the letters fade as the camera pulls back
+  float txt = step(0.5, texture2D(uText, tcen / uRes).r) * fade
+            * step(0.2 + hash(tcen / Rt + 3.7) * 1.1, uTime);   // intro: the scales light up one by one
+  float halo = smoothstep(0.0, 0.55, texture2D(uText, p / uRes).g) * fade;
 
   // Colour waves: rings that travel out from each origin and fade, with an orange core.
   vec3 turq = vec3(0.10, 0.75, 0.72), blue = vec3(0.13, 0.35, 0.95), orange = vec3(1.0, 0.52, 0.12);
@@ -93,7 +115,7 @@ void main() {
   float md = distance(cen, uMouse.xy);
   float glow = exp(-sq(md / (72.0 * uDpr))) * uMouse.z;
   if (glow > k) { k = glow; wave = mix(turq, orange, exp(-sq(md / (28.0 * uDpr)))); }
-  col = mix(col, wave, k * mix(1.0, 0.35, txt));
+  col = mix(col, wave, k * (1.0 - 0.6 * halo));                // waves stay quieter behind the words
 
   // Each scale: a dome of varied size, a glint up and to the left, dark seams between scales.
   float dd = distance(p, cen) / uR / (0.78 + 0.3 * n2);
@@ -103,7 +125,15 @@ void main() {
   float seam = clamp((dd - 0.86) / 0.16, 0.0, 1.0);
   vec3 o = mix(col * shade + spec, vec3(0.02, 0.07, 0.04), seam);
   vec2 v = p / uRes - 0.5;
-  o *= (1.0 - 0.6 * dot(v, v)) * (1.0 - uDim * 0.65);
+  o *= (1.0 - 0.6 * dot(v, v)) * (1.0 - uDim * 0.65) * (1.0 - 0.45 * halo);
+
+  // The letter scales: bright domes with a glint and dark seams, like the skin's, only smaller.
+  float tn = hash(tcen / Rt);
+  float tdd = distance(p, tcen) / Rt / 0.92;
+  vec2 tg = (p - tcen) / Rt + vec2(0.32, 0.36);
+  float tseam = clamp((tdd - 0.88) / 0.12, 0.0, 1.0);
+  vec3 letter = mix(lit * (0.9 + 0.1 * tn) * (1.1 - 0.4 * min(tdd * tdd, 1.0)) + exp(-dot(tg, tg) / 0.035) * 0.3, vec3(0.02, 0.07, 0.04), tseam);
+  o = mix(o, letter, txt);
   gl_FragColor = vec4(clamp(o, 0.0, 1.0), 1.0);
 }`;
 
@@ -133,24 +163,36 @@ function init() {
   const tex = gl.createTexture();
   gl.bindTexture(gl.TEXTURE_2D, tex);
   for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+  // Red: the words, drawn where each one sits (so wrapping is followed), at device resolution for crisp
+  // edges. Green: the same words heavily blurred, the dark band the shader lays behind them.
   const drawMask = () => {
     const h = hero.getBoundingClientRect();
-    mask.width = Math.max(1, Math.round(h.width)); mask.height = Math.max(1, Math.round(h.height));
-    mctx.fillStyle = '#000'; mctx.fillRect(0, 0, mask.width, mask.height); mctx.fillStyle = '#fff';
-    for (const line of title.children) {
-      const r = line.getBoundingClientRect(), cs = getComputedStyle(line), text = line.textContent.toUpperCase();
-      mctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
-      if ('letterSpacing' in mctx) mctx.letterSpacing = cs.letterSpacing;
-      const m = mctx.measureText(text);
-      mctx.fillText(text, r.left - h.left, r.top - h.top + (r.height + m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
-    }
+    mask.width = Math.max(1, Math.round(h.width * dpr)); mask.height = Math.max(1, Math.round(h.height * dpr));
+    mctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    mctx.globalCompositeOperation = 'source-over';
+    mctx.fillStyle = '#000'; mctx.fillRect(0, 0, h.width, h.height);
+    const words = [...title.querySelectorAll('.w')];
+    const put = () => {
+      for (const w of words) {
+        const r = w.getBoundingClientRect(), cs = getComputedStyle(w), text = w.textContent.toUpperCase();
+        mctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+        if ('letterSpacing' in mctx) mctx.letterSpacing = cs.letterSpacing;
+        const m = mctx.measureText(text);
+        mctx.fillText(text, r.left - h.left, r.top - h.top + (r.height + m.actualBoundingBoxAscent - m.actualBoundingBoxDescent) / 2);
+      }
+    };
+    const fs = parseFloat(getComputedStyle(title).fontSize) || 80;
+    mctx.fillStyle = mctx.shadowColor = '#0f0'; mctx.shadowBlur = fs * 0.35 * dpr; put(); put();
+    mctx.shadowBlur = 0; mctx.shadowColor = 'transparent';
+    mctx.globalCompositeOperation = 'lighter'; mctx.fillStyle = '#f00'; put();
+    mctx.globalCompositeOperation = 'source-over';
     gl.bindTexture(gl.TEXTURE_2D, tex);
     gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, mask);
   };
 
   /* ---------- State ---------- */
   let dpr = 1, reveal = 0;
-  const start = performance.now(), mouse = [0, 0, 0];
+  const start = performance.now() - (reduce ? 1e4 : 0), mouse = [0, 0, 0];   // reduced motion: past the intro
   let mouseTarget = 0, pal = 0, from = PALETTES[0], to = PALETTES[0], wash = [0, 0, -100];
   const pulses = Array.from({ length: PULSES }, () => [0, 0, -1]);
   let nextPulse = 0, lastPulse = { x: -1e4, y: -1e4, t: -1 };
@@ -204,27 +246,6 @@ function init() {
     from = to; pal = (pal + 1) % PALETTES.length; to = PALETTES[pal]; wash = [x * dpr, y * dpr, now()];
     try { window.posthog?.capture('hero_skin_washed', { palette: pal }); } catch { /* fine */ }
   });
-
-  /* ---------- Scroll: the camera pulls back; a colour wave reveals whose skin it is ----------
-     reveal 0..1 over the track. He fades in camouflaged (the skin's greens) while the skin shrinks and
-     dims; then the wave sweeps him head to tail and his real colours come through; the caption last. */
-  track?.classList.add('is-live');
-  const navH = () => document.querySelector('.nav')?.offsetHeight || 0;
-  const clamp01 = (v) => Math.min(1, Math.max(0, v));
-  const ease = (t) => (t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
-  const onScroll = () => {
-    const r = track.getBoundingClientRect(), span = Math.max(1, r.height - hero.offsetHeight);
-    const p = clamp01((navH() - r.top) / span);
-    reveal = p < 0.12 ? 0 : clamp01((p - 0.12) / 0.7);
-    const wave = ease(clamp01((reveal - 0.28) / 0.55));
-    const set = (k, v) => hero.style.setProperty(k, v.toFixed(3));
-    set('--reveal', reveal);
-    set('--fade', clamp01((reveal - 0.02) / 0.24));
-    set('--wave', wave);
-    set('--glow', Math.sin(Math.PI * wave));
-    set('--cap', clamp01((reveal - 0.85) / 0.15));
-  };
-  addEventListener('scroll', onScroll, { passive: true }); onScroll();
 
   /* ---------- The loop: only while the hero is on screen and the tab is visible ---------- */
   let visible = true, raf = 0;
