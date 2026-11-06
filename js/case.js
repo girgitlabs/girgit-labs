@@ -39,6 +39,20 @@ if (box && shots.length) {
   box.addEventListener('keydown', (e) => { if (e.key === 'ArrowLeft') show(at - 1); if (e.key === 'ArrowRight') show(at + 1); });
   box.addEventListener('click', (e) => { if (e.target === box) box.close(); });            // click outside the image
   box.addEventListener('close', () => shots[at]?.focus());
+
+  // Phones: swipe sideways to move between images, swipe down to close.
+  let sx = 0, sy = 0, swiping = false;
+  box.addEventListener('touchstart', (e) => {
+    if (e.touches.length !== 1) { swiping = false; return; }                             // leave pinch-zoom alone
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; swiping = true;
+  }, { passive: true });
+  box.addEventListener('touchend', (e) => {
+    if (!swiping) return;
+    swiping = false;
+    const t = e.changedTouches[0], dx = t.clientX - sx, dy = t.clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.4) show(at + (dx < 0 ? 1 : -1));
+    else if (dy > 90 && dy > Math.abs(dx) * 1.4) box.close();
+  }, { passive: true });
 }
 
 /* ---------- Footer: copy email, Mumbai time ---------- */

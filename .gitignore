@@ -1,13 +1,7 @@
-# DSH session artifacts (ACL repair report + rollback scripts)
-.dsh-acl-report/
-.dsh-write-test.txt
+# Build context and design docs (not deployed)
+context/
 
-# Superseded drafts
-website/src/*.prev.*
-website/css/*.prev.*
-_archive/**/*.prev.*
-
-# Environment / secrets (website/.env.example is committed as the template)
+# Environment / secrets (.env.example is committed as the template)
 .env
 .env.*
 !.env.example

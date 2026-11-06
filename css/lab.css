@@ -152,3 +152,15 @@ html:not(.js) .lab-intro, html:not(.js) .lab-cap { opacity: 1; translate: none; 
 /* ---------- The track (js/lab.js): the section sticks under the nav while the film plays ---------- */
 .lab-track { position: relative; background: var(--lab-floor); }
 .lab-track > .lab { position: sticky; top: var(--nav-h); }
+
+/* Phones: the 01-05 buttons keep their size but get a finger-sized tap area. */
+@media (max-width: 760px) {
+  .lab-progress { gap: 0.5rem; }
+  .lab-progress button { position: relative; }
+  .lab-progress button::after { content: ''; position: absolute; inset: -0.5rem -0.2rem; }
+}
+/* Short screens (a phone held sideways): the section sticks while the film plays, so it must fit the
+   screen; the 34rem floor made it taller than the viewport and pushed the captions out of view. */
+@media (max-height: 560px) {
+  .lab { min-height: 0; }
+}

@@ -69,8 +69,8 @@ function init() {
   // may not be buffered, and the film stalls instead of reversing. So the whole file is fetched once and
   // swapped in from memory at the same frame: from then on, seeks either way are instant.
   fetch(src).then((r) => (r.ok ? r.blob() : Promise.reject(new Error(r.status)))).then((blob) => {
-    video.addEventListener('loadedmetadata', () => { seeking = false; seek(target); }, { once: true });
-    video.addEventListener('loadeddata', () => { video.play()?.then(() => video.pause()).catch(() => {}); }, { once: true });
+    video.addEventListener('loadedmetadata', () => { settle(); seek(target); }, { once: true });
+    video.addEventListener('loadeddata', prime, { once: true });
     video.src = URL.createObjectURL(blob);
   }).catch(() => { /* keep streaming */ });
   video.addEventListener('error', () => {                 // the film failed: drop the scroll scene, show the stills
@@ -79,8 +79,17 @@ function init() {
     if (track) { track.before(lab); track.remove(); }
     still(); ST.refresh();
   }, { once: true });
-  // iOS only paints seeked frames once the video has played: a silent play/pause primes it.
-  video.addEventListener('loadeddata', () => { video.play()?.then(() => video.pause()).catch(() => {}); }, { once: true });
+  // iOS only paints seeked frames once the video has played: a silent play/pause primes it. It must
+  // never be left running (the film would creep forward while scrolling up), so it pauses at once and
+  // then goes back to the frame the scroll asks for.
+  let priming = false;
+  function prime() {
+    const p = video.play();
+    if (!p) return video.pause();
+    priming = true;
+    p.then(() => video.pause(), () => {}).finally(() => { priming = false; video.pause(); settle(); seek(target); });
+  }
+  video.addEventListener('loadeddata', prime, { once: true });
 
   /* ---------- Scroll units → moments ---------- */
   const units = SEGMENTS.map((s) => (s.to - s.from) * (s.weight ?? (s.walk ? WALK_WEIGHT : 1)));
@@ -147,16 +156,24 @@ function init() {
      quickly and seeking backwards costs about the same as forwards. One seek in flight; when it lands, chase
      the latest target. The camera pans from the frame actually on screen, so Girgit and
      the camera never drift apart while a seek is pending. */
-  let target = 0, seeking = false, shownT = 0;
+  // Seeks are always exact (currentTime), never fastSeek: fastSeek may stop at any keyframe before the
+  // target, then the chase below bounced between keyframes instead of stepping back through the film.
+  // A watchdog clears a seek whose 'seeked' never arrives (lost when the source is swapped mid-seek),
+  // which otherwise froze the film until reload.
+  let target = 0, seeking = false, shownT = 0, watchdog = 0;
   const toFrame = (t) => Math.round(t * 24) / 24;
-  const seek = (t) => {
+  function settle() { seeking = false; clearTimeout(watchdog); }
+  function seek(t) {
     target = toFrame(t);
+    if (!video.paused && !priming) video.pause();          // scroll drives the film: it never plays on its own
     if (seeking || video.readyState < 1 || Math.abs(video.currentTime - target) < 1 / 96) return;
     seeking = true;
-    if (video.fastSeek) video.fastSeek(target); else video.currentTime = target;
-  };
+    clearTimeout(watchdog);
+    watchdog = setTimeout(() => { settle(); seek(target); }, 1200);   // long enough for a slow network seek
+    video.currentTime = target;
+  }
   const landed = () => {
-    seeking = false;
+    settle();
     shownT = video.currentTime;
     if (lab.dataset.cap !== 'intro') place(shownT);
     if (Math.abs(video.currentTime - target) >= 1 / 96) seek(target);

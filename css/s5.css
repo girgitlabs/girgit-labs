@@ -80,7 +80,13 @@
 .cta-steps span { font: 800 0.8rem var(--satoshi); color: var(--acid); }
 /* Girgit, peeking in from the corner. He stays still: only his mouth and tongue move, and only
    when "Start a project" is hovered or focused. */
-.cta-girgit { position: absolute; right: -6%; bottom: -14%; width: min(44%, 34rem); height: auto; pointer-events: none; }
+/* Placed by his own size, not the panel's: a bottom offset in % is a share of the panel's height,
+   which on a tall panel (phones) sank him almost out of sight. Pinned to the corner, then nudged out
+   by 6% of his width and 20% of his height, so about 75% of him always shows. */
+.cta-girgit { position: absolute; right: 0; bottom: 0; translate: 6% 20%; width: min(44%, 34rem); height: auto; pointer-events: none; }
+/* The steps stay clear of him: they keep to the left of where he sits. */
+.cta-steps { max-width: 56%; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 1000px) and (min-width: 761px) { .cta-steps { grid-template-columns: 1fr; gap: 1rem; } }
 
 .cta-girgit { z-index: 0; }   /* the image itself faces left, toward the words: never flipped in CSS */
 /* The open-mouth Girgit sits exactly over the closed one; it shows only while the tongue is out. */
@@ -114,39 +120,10 @@
 @media (max-width: 760px) {
   .svc { grid-template-columns: 2.6rem minmax(0, 1fr); }
   .svc-line, .svc-tags { grid-column: 2; }
-  .work-grid { grid-template-columns: 1fr; gap: 2rem; }
-  .work-slot--wide .work-media { aspect-ratio: 16 / 10; }
-  .work-media { aspect-ratio: 4 / 3; border-radius: 0.85rem; }
-  .work-slot--real .work-meta {
-    white-space: normal;
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
-    font-size: 0.96rem;
-    line-height: 1.45;
-    margin-top: 0.9rem;
-  }
-  .work-slot--real .work-meta span {
-    display: block;
-    font-size: 1.3rem;
-    line-height: 1.1;
-    margin-right: 0;
-    letter-spacing: -0.02em;
-  }
-  .work-tags {
-    margin-top: 0.5rem;
-    font-size: 0.78rem;
-    letter-spacing: 0.05em;
-  }
-  .work-badge {
-    left: 0.75rem;
-    top: 0.75rem;
-    padding: 0.3rem 0.6rem;
-    font-size: 0.65rem;
-  }
+  /* The work grid's phone rules live at the end of this file, after the card rules they override. */
   .s5-lede { margin-left: 0; }
-  .cta-steps { grid-template-columns: 1fr; }
-  .cta-girgit { width: 70%; right: -18%; bottom: -10%; opacity: 0.9; }
+  .cta-steps { grid-template-columns: 1fr; max-width: none; }
+  .cta-girgit { width: 70%; }   /* same corner and nudge as above: about 75% of him shows */
   .cta-panel { padding-bottom: clamp(9rem, 48vw, 14rem); }    /* room for Girgit below the words */
 }
 
@@ -208,7 +185,7 @@
   .deco--arrow, .deco--ring, .deco--checker { display: none; }
   .deco--squiggle { width: 34vw; top: 0.5rem; right: -6%; opacity: 0.9; }
   .deco--seven { width: 18vw; top: 1rem; right: 2%; }
-  .deco--mac { width: 30vw; top: 1rem; right: -2%; }
+  .deco--mac { width: 20vw; top: 0; right: -1%; }   /* small and high: clear of the heading, even with its parallax drift */
   .deco--pink { left: auto; right: 4%; top: auto; bottom: 1rem; }
   .deco--drop { width: 13vw; top: 5%; right: 6%; }
   .deco--spark { left: auto; right: 24%; }
@@ -225,7 +202,8 @@
 .work-link { display: block; color: inherit; text-decoration: none; }
 .work-media--real { display: block; border: 0; background: var(--tile-bg, #391E16); padding: 0; overflow: hidden; }
 .work-media--real img { display: block; width: 100%; height: 100%; object-fit: cover; transition: scale 800ms var(--ease); }
-.work-link:hover .work-media--real img, .work-link:focus-visible .work-media--real img { scale: 1.03; }
+.work-link:focus-visible .work-media--real img { scale: 1.03; }
+@media (hover: hover) { .work-link:hover .work-media--real img { scale: 1.03; } }   /* no zoom stuck on after a tap */
 .work-link:active .work-media--real img { scale: 0.98; transition-duration: 150ms; }
 .work-link:focus-visible { outline: 3px solid var(--blue); outline-offset: 6px; border-radius: 1rem; }
 .work-slot--real .work-meta { display: block; font-size: 1rem; color: #2F2D28; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }   /* always one line */
@@ -237,5 +215,79 @@
 @media (prefers-reduced-motion: no-preference) {
   .js .work-slot--real .work-media img { scale: 1.12; transition: scale 1.2s var(--ease); }
   .js .work-slot--real.in-view .work-media img { scale: 1; }
+}
+@media (prefers-reduced-motion: no-preference) and (hover: hover) {
   .js .work-slot--real.in-view .work-link:hover .work-media img { scale: 1.04; transition-duration: 600ms; }
+}
+
+/* ---------- Work grid on tablets and phones ----------
+   Kept last so it beats the card rules above (same specificity, so order decides). */
+@media (max-width: 1100px) {
+  /* Two narrow columns: let the line wrap instead of cutting the description off with an ellipsis. */
+  .work-slot--real .work-meta { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.45; }
+}
+@media (max-width: 760px) {
+  .work-note { margin: -0.6rem 0 1.8rem; font-size: 0.98rem; }
+  .work-grid { grid-template-columns: 1fr; gap: 2.4rem; }
+  .work-media { aspect-ratio: 4 / 3; border-radius: 0.85rem; }
+  .work-slot--wide .work-media { aspect-ratio: 16 / 10; }
+  .work-link:focus-visible { border-radius: 0.85rem; outline-offset: 4px; }
+
+  /* Name on its own line, the description under it, then the tags. */
+  .work-slot--real .work-meta { display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.9rem; font-size: 0.96rem; line-height: 1.45; }
+  .work-slot--real .work-meta span { display: block; margin-right: 0; font-size: 1.3rem; line-height: 1.1; letter-spacing: -0.02em; }
+  .work-tags { margin-top: 0.55rem; font-size: 0.74rem; line-height: 1.45; letter-spacing: 0.05em; }
+
+  /* The placeholder: badge, eye and "coming soon" sized for a phone. */
+  .work-badge { left: 0.75rem; top: 0.75rem; padding: 0.3rem 0.6rem; font-size: 0.65rem; }
+  .work-eye { width: 4.6rem; }
+  .work-soon { font-size: 1rem; }
+  .work-slot:not(.work-slot--real) .work-meta { margin-top: 0.7rem; font-size: 0.95rem; }
+}
+
+/* ---------- In their words: one card per client, in that client's own colour ----------
+   Same frame as the rest of section 05 (ivory, black 3px borders, hard shadow). A card with
+   data-status="draft" wears a "Draft" tag: those quotes are the studio's drafts, waiting for the
+   client's sign-off, and the tag comes off with the attribute. */
+.tm-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(1rem, 2.4vw, 1.8rem); margin: 0; padding: 0; list-style: none; }
+.tm-card {
+  position: relative; display: grid; grid-template-rows: 1fr auto; gap: 1.6rem;
+  padding: clamp(1.4rem, 2.6vw, 2rem); border: 3px solid var(--black); background: var(--tm, var(--forest)); color: var(--tm-ink, var(--ivory));
+  box-shadow: 6px 6px 0 var(--black);
+}
+.tm-fig { display: grid; align-content: start; gap: 1.4rem; margin: 0; }
+.tm-quote { margin: 0; }
+.tm-quote::before { content: '“'; display: block; height: 0.5em; margin-bottom: 0.15em; font: 900 4.4rem/1 var(--satoshi); color: var(--acid); }
+.tm-quote p { margin: 0; font: 700 clamp(1.15rem, 1.6vw, 1.42rem)/1.38 var(--satoshi); letter-spacing: -0.015em; }
+.tm-who { display: grid; gap: 0.2rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, currentColor 30%, transparent); }
+.tm-name { font: 800 0.98rem/1.2 var(--satoshi); }
+.tm-role { font: 600 0.74rem/1.35 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.75; }
+.tm-link { justify-self: start; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem; color: inherit; text-decoration: underline 2px transparent; text-underline-offset: 0.35em; font: 800 0.8rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase; transition: color 160ms var(--ease), text-decoration-color 160ms var(--ease); }
+.tm-link:hover, .tm-link:focus-visible { color: var(--acid); text-decoration-color: currentColor; }
+.tm-link:focus-visible { outline: 3px solid var(--acid); outline-offset: 3px; }
+.tm-card[data-status="draft"]::after {
+  content: 'Draft · awaiting client sign-off'; position: absolute; right: -3px; top: -0.85rem;
+  padding: 0.3rem 0.6rem; border: 2px solid var(--black); background: var(--yellow); color: var(--black);
+  font: 800 0.62rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+@media (max-width: 1000px) {
+  .tm-list { grid-template-columns: 1fr; max-width: 40rem; gap: 2rem; }
+}
+@media (max-width: 760px) {
+  .tm-card { gap: 1.2rem; padding: 1.3rem 1.2rem 1.1rem; box-shadow: 4px 4px 0 var(--black); }
+  .tm-quote::before { font-size: 3.6rem; }
+  .tm-quote p { font-size: 1.08rem; line-height: 1.42; }
+}
+
+/* ---------- Phone polish ---------- */
+@media (max-width: 760px) {
+  /* With the eyebrows gone, these headings start where the corner props sit: keep the text clear of them. */
+  #work .s5-head, #seven-days .s5-head, #why .s5-head { padding-right: 22vw; }
+  /* "Copy email": a finger-sized target, not a 20px line of text. */
+  .cta-copy { padding: 0.65rem 0; }
+}
+/* Touch screens: no hover lift left stuck on after a tap. */
+@media (hover: none) {
+  .cta-btn:hover { transform: none; }
 }

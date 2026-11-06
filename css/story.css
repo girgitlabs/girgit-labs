@@ -143,3 +143,9 @@
 @media (prefers-reduced-motion: no-preference) and (max-width: 900px) {
   .js .st-dict-card[data-reveal].in-view { rotate: 0deg; }
 }
+
+/* Touch screens: no hover lift left stuck on after a tap. */
+@media (hover: none) {
+  .st-day:hover { transform: none; box-shadow: none; }
+  .st-fit-card:hover { transform: none; box-shadow: 6px 6px 0 var(--black); }
+}

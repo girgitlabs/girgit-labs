@@ -67,4 +67,11 @@ html:not(.js) .fb { display: none; }
 @media (max-width: 760px) {
   .fb-scene { aspect-ratio: 900 / 420; }
   .ft-main { grid-template-columns: 1fr; }
+  /* Finger-sized targets: the links were about 20px tall with 11px between them. */
+  .ft-links { gap: 0.15rem; }
+  .ft-links a { display: inline-block; padding: 0.55rem 0; }
+  .ft-copy { padding: 0.6rem 0; }
+  .ft-mailbox { padding: 1rem 1.1rem; }
+  .ft-legal { gap: 0.4rem 1.2rem; }
+  .ft-top { display: inline-block; padding: 0.5rem 0; }
 }
