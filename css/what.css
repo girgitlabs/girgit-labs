@@ -1,0 +1,117 @@
+/* SECTION 04: WHAT WE DO (js/what.js). A sticky stage the scroll scrubs through the five services:
+   the stage colour blends, Girgit's disc turns and morphs into his next lab-film frame, the yellow
+   marker slides round the ring of names, the copy trades places, one prop floats off the disc.
+   Layout. Phone: kicker / the disc with its ring / the copy / the progress bar and arrows.
+           From 900px of stage: the left half carries the kicker, an index of all five services (the
+           active one big), the copy and the bar; the disc fills the right half.
+   Sizes come from the stage itself (container query units), so it scales as one picture.
+   Without GSAP/JS: a plain list of the five services. */
+
+.wd { position: relative; background: var(--forest); color: var(--ivory); font-family: var(--satoshi); }
+.wd-track { position: relative; }
+.wd-root { position: relative; overflow: hidden; color: var(--ivory); }
+
+/* ---------- The copy (shared) ---------- */
+.wd-txt { display: grid; gap: 0.75rem; }
+.wd-svc { display: inline-flex; align-items: center; gap: 0.5rem; margin: 0; font: 800 0.74rem/1.2 var(--satoshi); letter-spacing: 0.14em; text-transform: uppercase; color: var(--c, var(--yellow)); }
+.wd-n { font-variant-numeric: tabular-nums; opacity: 0.75; }
+.wd-title { margin: 0; font: 900 clamp(1.8rem, 4vw, 3rem)/0.95 var(--satoshi); letter-spacing: -0.04em; text-transform: uppercase; color: var(--ivory); }
+.wd-desc { max-width: 40ch; margin: 0; font: 500 1.05rem/1.5 var(--satoshi); color: rgb(244 239 229 / 0.88); }
+.wd-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 0.2rem 0 0; padding: 0; list-style: none; }
+.wd-tags li { padding: 0.3rem 0.65rem; border: 1px solid rgb(244 239 229 / 0.4); border-radius: 999px; font: 600 0.78rem/1.2 var(--satoshi); color: var(--ivory); }
+.wd-kicker { margin: 0; font: 800 0.72rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: rgb(244 239 229 / 0.8); }
+.wd-count { margin-left: 0.6rem; font-variant-numeric: tabular-nums; }
+.wd-now { color: var(--yellow); font-weight: 900; }
+
+/* ---------- No GSAP: the plain list ---------- */
+.wd:not(.is-live) .wd-root { padding: clamp(4rem, 10vw, 7rem) var(--gutter); background: var(--forest) !important; }
+.wd:not(.is-live) .wd-copy { display: grid; gap: clamp(2.5rem, 6vw, 4rem); max-width: 56rem; margin: 1.5rem auto 0; }
+.wd:not(.is-live) .wd-wheel, .wd:not(.is-live) .wd-bar, .wd:not(.is-live) .wd-index, .wd:not(.is-live) .wd-count { display: none; }
+
+/* ---------- The stage ---------- */
+.wd.is-live .wd-track { height: calc((100svh - var(--nav-h)) * var(--wd-len, 4.2)); }
+.wd.is-live .wd-root {
+  position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)); min-height: 32rem;
+  container-type: size; outline: none; user-select: none; -webkit-user-select: none;
+}
+.wd.is-live .wd-root:focus-visible { box-shadow: inset 0 0 0 3px var(--yellow); }
+.wd.is-live .wd-stage {
+  --u: min(1cqw, 1.7cqh);
+  position: absolute; inset: 0; display: grid; justify-items: center; text-align: center;
+  grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-areas: "kick" "wheel" "copy" "bar"; row-gap: clamp(0.6rem, 2cqh, 1.2rem);
+  padding: clamp(1rem, 3cqh, 2rem) var(--gutter) clamp(0.9rem, 2.4cqh, 1.4rem);
+}
+.wd.is-live .wd-kicker { grid-area: kick; }
+.wd.is-live .wd-index { display: none; }
+.wd.is-live .wd-copy { grid-area: copy; display: grid; width: min(100%, 34rem); }
+.wd.is-live .wd-txt { grid-area: 1 / 1; justify-items: center; gap: 0.55rem; will-change: opacity, transform; }
+.wd.is-live .wd-title { font-size: clamp(1.6rem, 7.5cqw, 2.4rem); }
+.wd.is-live .wd-desc { font-size: 0.98rem; }
+.wd.is-live .wd-tags { justify-content: center; }
+.wd.is-live .wd-tags li:nth-child(n + 4) { display: none; }   /* phones: three tags are plenty */
+
+/* The disc, framed like every tangible thing on the site, with the ring of names around it. */
+.wd-wheel { grid-area: wheel; position: relative; align-self: center; width: var(--d); height: var(--d); --d: min(64cqw, 31cqh); margin-top: calc(var(--d) * 0.16); }
+.wd-disc {
+  position: absolute; inset: 0; border-radius: 50%; background: #E4DDCB;
+  box-shadow: 0 0 0 3px var(--black), 8px 8px 0 3px var(--black); will-change: transform;
+}
+.wd-disc > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; border-radius: 50%; object-fit: cover; transform: rotate(var(--r, 0deg)); }
+.wd-disc > img + img { opacity: 0; }
+/* max-width: none, or site.css's "svg { max-width: 100% }" squeezes the ring to nothing. */
+.wd-ring { position: absolute; inset: -21%; width: 142%; height: 142%; max-width: none; overflow: visible; pointer-events: none; }
+.wd-ring text { pointer-events: auto; fill: var(--ivory); font: 800 7.5px var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: fill 200ms var(--ease); }
+.wd-ring text[aria-pressed="true"] { fill: var(--yellow); }
+.wd-ring text:focus-visible { outline: none; text-decoration: underline; }
+.wd-dot { transform-box: view-box; transform-origin: 0 0; }
+
+/* One prop per service, off the disc's right shoulder. */
+.wd-decor { position: absolute; right: -16%; top: -12%; width: 34%; height: auto; max-width: none; pointer-events: none; opacity: 0; will-change: opacity, transform; filter: drop-shadow(0 0.6rem 0 rgb(0 0 0 / 0.18)); }
+.wd-decor[data-i="0"] { opacity: 1; }
+
+/* The bar: five segments that fill as you go, and the arrows. */
+.wd-bar { grid-area: bar; display: flex; align-items: center; gap: 0.6rem; width: min(100%, 34rem); }
+.wd-segs { flex: 1; display: flex; gap: 0.35rem; }
+.wd-segs i { position: relative; flex: 1; height: 5px; border-radius: 3px; overflow: hidden; background: rgb(244 239 229 / 0.25); }
+.wd-segs i::after { content: ''; position: absolute; inset: 0; background: var(--yellow); transform: scaleX(var(--f, 0)); transform-origin: 0 50%; }
+.wd-nav {
+  flex: none; display: grid; place-items: center; width: 44px; height: 44px; padding: 0;
+  border: 2px solid var(--ivory); border-radius: 50%; background: rgb(17 17 17 / 0.2); color: var(--ivory); cursor: pointer;
+  transition: background-color 200ms var(--ease), color 200ms var(--ease), transform 200ms var(--ease);
+}
+.wd-nav svg { width: 42%; height: 42%; }
+.wd-nav:active { transform: scale(0.94); }
+.wd-nav:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+@media (hover: hover) { .wd-nav:hover { background: var(--ivory); color: var(--black); } }
+
+/* ---------- Wide stage: index and copy on the left, the disc on the right ---------- */
+@container (min-width: 900px) {
+  .wd.is-live .wd-stage {
+    justify-items: start; text-align: left; column-gap: clamp(2rem, 5cqw, 5rem);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr) auto;
+    grid-template-areas: "kick wheel" "index wheel" "copy wheel" "bar wheel";
+    padding: clamp(1.6rem, 5cqh, 3.2rem) clamp(1.5rem, 5cqw, 5rem);
+  }
+  .wd.is-live .wd-index {
+    grid-area: index; display: grid; gap: 0.1rem; margin: clamp(1rem, 3cqh, 1.8rem) 0 0; padding: 0; list-style: none;
+  }
+  .wd-index button {
+    display: flex; align-items: baseline; gap: 0.7rem; padding: 0.15rem 0; border: 0; background: none; color: var(--ivory); cursor: pointer; text-align: left;
+    font: 900 clamp(1.2rem, 3.6cqh, 2.4rem)/1.05 var(--satoshi); letter-spacing: -0.035em; text-transform: uppercase;
+    opacity: calc(0.32 + 0.68 * var(--near, 0)); translate: calc(var(--near, 0) * 0.8rem) 0;
+  }
+  .wd-index-n { font: 800 0.7rem/1 var(--satoshi); letter-spacing: 0.12em; color: var(--yellow); opacity: var(--near, 0); }
+  .wd-index button:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+  @media (hover: hover) { .wd-index button:hover { opacity: 1; } }
+  .wd.is-live .wd-copy { align-self: end; width: min(100%, 36rem); }
+  .wd.is-live .wd-txt { justify-items: start; }
+  .wd.is-live .wd-title { font-size: clamp(1.8rem, 4.6cqh, 3.2rem); }
+  .wd.is-live .wd-desc { font-size: clamp(1rem, 2.2cqh, 1.2rem); }
+  .wd.is-live .wd-tags { justify-content: start; }
+  .wd.is-live .wd-tags li:nth-child(n + 4) { display: list-item; }
+  .wd.is-live .wd-svc { display: none; }   /* the index already names it */
+  .wd-wheel { --d: min(40cqw, 62cqh); justify-self: center; margin-top: calc(var(--d) * 0.1); }
+  .wd-ring text { font-size: 5.6px; }
+  .wd-bar { margin-top: clamp(0.8rem, 2.6cqh, 1.6rem); }
+}

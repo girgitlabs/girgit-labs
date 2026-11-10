@@ -1,0 +1,452 @@
+/* THE SYSTEM: one set of parts for every page (home and case studies), loaded last so it wins.
+   Written mobile first: the base rules are the phone layout, wider screens add to them.
+
+   Why each part exists (keep only what earns its place):
+   - One typeface, Satoshi (plus Devanagari for the Hindi words). The page used five; that alone read as
+     three different sites. Weight and size do the work instead: 900 uppercase for headings, 500 for text.
+   - Two section colours: ivory for information (calm, easy to read for long) and forest for belief and
+     proof (the brand's own colour, used where we want you to feel something). Black is only for the
+     eye wall, where it is the dark between the eyes.
+   - Accents carry one meaning each, everywhere:
+       acid green  = do this (primary buttons, "start a project"),
+       yellow      = look here (highlights, the draft tag, quote marks),
+       pink / blue = category colour only (the five services, the hero word).
+   - The framed card (3px black frame, rounded 16px, hard offset shadow) means "this is a real, tangible
+     thing you can pick up": projects, client quotes, days, fits, the email. It lifts under the pointer
+     and presses in on tap, like a physical button. Nothing else on the page uses a hard shadow.
+   - Pill buttons, one shape: a primary (acid, framed) and a ghost (outline). One primary per screen.
+   - Girgit, the mascot, is the guide: he turns up where we ask for attention or trust (the hero, the
+     work, the quotes, the fit list, the invitation), and he changes colour, which is the brand idea.
+   - No tilted "sticker" cards, no pixel or handwriting fonts, no decoration that doesn't say something.
+     The 3D props that stay each mean something where they sit (the 7, the hourglass, the squiggle, the
+     drop). The yellow-and-black checker survives only around the footer banner: a finish flag, the end.
+   - Motion: transform and opacity only, triggered once on view, all off with reduced motion. Phones get
+     no pointer effects and no scroll-linked drift. */
+
+/* ---------- Tokens ---------- */
+:root {
+  /* The palette (context/BRIEF.md): restrained base, expressive accents for the loud moments. */
+  --ivory: #F4EFE5;
+  --black: #111111;
+  --forest: #142118;
+  --olive: #6E7B3B;
+  --sage: #B5BEA0;
+  --pink: #FF168C;
+  --blue: #173BFF;
+  --acid: #43FF18;
+  --yellow: #FFE500;
+  --satoshi: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --wide: var(--satoshi);
+  --text: var(--satoshi);
+  --hand: var(--satoshi);
+  --pixel: var(--satoshi);
+  --r: 16px;
+  --frame: 3px solid var(--black);
+  --lift: 6px 6px 0 var(--black);
+  --lift-up: 9px 9px 0 var(--black);
+  --press: 2px 2px 0 var(--black);
+  --muted: #5E5A50;
+  --body: #2F2D28;
+  --veil: rgb(6 22 12);
+}
+html, body { font-family: var(--satoshi); }
+body { -webkit-tap-highlight-color: transparent; }
+
+/* The voice in the margins (the little lowercase asides): same family, italic, not a second font. */
+.hand, .st-aside, .bridge-aside { font-family: var(--satoshi); font-style: italic; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+.st-aside { rotate: none; font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
+.bridge-aside { font-size: clamp(1.2rem, 2.2vw, 1.7rem); }
+.ticker-track { font: 800 clamp(0.95rem, 1.8vw, 1.25rem)/1 var(--satoshi); letter-spacing: 0.06em; text-transform: uppercase; font-style: normal; }
+.ticker-track span:nth-child(even) { color: var(--acid); }
+
+/* ---------- Buttons: one shape, two kinds ---------- */
+.btn, .cta-btn, .cs-btn, .nav .pill--ink {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 3.1rem; padding: 0.85rem 1.45rem;
+  border: 2px solid var(--black); border-radius: 999px;
+  font: 800 0.98rem/1 var(--satoshi); letter-spacing: 0.005em; text-transform: none;
+  text-decoration: none; cursor: pointer; outline-offset: 3px;
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease), background-color 200ms var(--ease), color 200ms var(--ease), border-color 200ms var(--ease);
+}
+.btn--primary, .cta-btn--primary, .cs-btn--primary, .nav .pill--ink {
+  border-color: var(--black); background: var(--acid); color: var(--black); box-shadow: 4px 4px 0 var(--black);
+}
+.btn--ghost, .cta-btn:not(.cta-btn--primary), .cs-btn:not(.cs-btn--primary) { background: transparent; color: inherit; border-color: currentColor; box-shadow: none; }
+@media (hover: hover) {
+  .btn--primary:hover, .cta-btn--primary:hover, .cs-btn--primary:hover, .nav .pill--ink:hover { background: var(--acid); color: var(--black); transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); }
+  .btn--ghost:hover, .cta-panel .cta-btn:not(.cta-btn--primary):hover, .cs-btn:not(.cs-btn--primary):hover { background: var(--ivory); color: var(--black); border-color: var(--ivory); transform: none; }
+}
+.btn--primary:active, .cta-btn--primary:active, .cs-btn--primary:active, .nav .pill--ink:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--black); }
+.btn:focus-visible, .cta-btn:focus-visible, .cs-btn:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+
+/* ---------- Nav: forest bar, no checker strip; on phones the most useful link (work) stays ---------- */
+.nav::after { display: none; }
+.nav::before { border-bottom: 1px solid rgb(244 239 229 / 0.14); }
+.nav .pill--ink { min-height: 2.6rem; padding: 0.55rem 1.1rem; font-size: 0.85rem; outline: 0; }
+.nav-links .pill:hover, .nav-links .pill.is-active { color: var(--acid); }
+@media (max-width: 860px) {
+  .nav-links { display: flex; }
+  .nav-links li:not(:first-child) { display: none; }
+}
+@media (max-width: 380px) { .nav-links { display: none; } }   /* the smallest phones: logo and "let's talk" only */
+
+/* ---------- The framed card, everywhere ---------- */
+.st-dict-card, .st-day, .st-fit-card, .st-fit-less, .ft-mailbox, .form-card, .cta .form-card { border-radius: var(--r); }
+.st-day { border-width: 3px; background: #FFFDF8; }
+.st-day:nth-child(odd), .st-day:nth-child(even) { rotate: none; }
+.st-dict-card { rotate: none; padding-top: clamp(1.4rem, 3vw, 2.4rem); box-shadow: var(--lift); }
+.st-dict-card::before { display: none; }          /* the checker strip: speed has nothing to do with a dictionary */
+.ft-mailbox { outline: 0; }
+.st-fit-no li::before { content: '✕' / ''; }      /* was a broken character */
+.st-dark { background: var(--forest); }            /* one dark colour: forest, never black */
+@media (hover: hover) {
+  .st-day:hover { transform: translate(-3px, -3px); box-shadow: var(--lift-up); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .st-dict-card[data-reveal], .js .st-dict-card[data-reveal].in-view { rotate: none; }
+  .js .st-fit-card[data-reveal] { rotate: none; }
+}
+
+/* ==========================================================================
+   SECTION 01: THE HERO, the loud one (js/home.js). Full bleed, a colour flood per word, Girgit in the
+   clashing colour, sticker type. Own class names (hx-), so no older hero rule in site.css can touch it.
+   Phone first: one column in reading order (kicker, headline, Girgit, sub, actions); from 900px the
+   headline and actions take the left, Girgit's stage the right.
+   ========================================================================== */
+.hx {
+  --bg: #43FF18; --fg: #111111;
+  position: relative; isolation: isolate; overflow: clip;
+  background: var(--bg); color: var(--fg); font-family: var(--satoshi);
+  transition: color 260ms var(--ease);
+}
+.hx-flood { position: absolute; inset: 0; z-index: 0; pointer-events: none; clip-path: circle(0 at 50% 50%); }
+.hx-inner {
+  position: relative; z-index: 1; display: grid; gap: clamp(1rem, 2.6svh, 1.6rem); align-content: center;
+  min-height: calc(100svh - var(--nav-h) - 3.4rem); max-width: 90rem; margin: 0 auto;
+  padding: clamp(1.4rem, 4svh, 3rem) var(--gutter) clamp(1.6rem, 4svh, 2.8rem);
+  grid-template-areas: "kick" "title" "stage" "sub" "actions";
+}
+.hx-kicker { grid-area: kick; display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.55rem; margin: 0; font: 800 0.7rem/1.35 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; }
+.hx-sep { opacity: 0.5; }
+.hx-count { margin-left: auto; padding: 0.3rem 0.6rem; border: 2px solid currentColor; border-radius: 999px; font-variant-numeric: tabular-nums; }
+
+/* Headline: plain "WE DESIGN", then the word as a sticker: ivory, outlined, hard shadow. Reads on every colour. */
+.hx-title { grid-area: title; margin: 0; font: 900 min(12.5vw, 15svh)/0.88 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; }
+.hx-line { display: block; }
+.hx-word {
+  display: block; padding: 0.04em 0 0.1em; white-space: nowrap; color: var(--ivory);
+  -webkit-text-stroke: 0.03em var(--black); paint-order: stroke fill; text-shadow: 0.06em 0.06em 0 var(--black);
+}
+
+/* Girgit's stage: him, and the props around him. */
+.hx-stage { grid-area: stage; position: relative; width: 100%; aspect-ratio: 1.3; justify-self: center; max-width: 34rem; --px: 0; --py: 0; }
+.hx-girgit {
+  position: absolute; left: 50%; bottom: 0; width: 60%; aspect-ratio: 1183 / 1200; translate: -50% 0;
+  padding: 0; border: 0; background: none; cursor: pointer; color: inherit; perspective: 900px;
+}
+.hx-gbody {
+  display: block; width: 100%; height: 100%;
+  filter: var(--gf) drop-shadow(0 0.9rem 0 rgb(0 0 0 / 0.16));
+  transform: rotateY(calc(var(--px) * 14deg)) rotateX(calc(var(--py) * -8deg)); transform-origin: 50% 100%;
+  transition: filter 500ms var(--ease), transform 300ms var(--ease);
+}
+.hx-gbody > img { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; }
+.hx-girgit:focus-visible { outline: 3px solid var(--fg); outline-offset: 4px; border-radius: 1rem; }
+.hx-tip {
+  position: absolute; left: -4%; top: 4%; padding: 0.4rem 0.75rem; border-radius: 999px; background: var(--black); color: var(--ivory);
+  font: 800 0.7rem/1 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; rotate: -10deg; transition: opacity 300ms var(--ease);
+}
+.hx.was-tapped .hx-tip { opacity: 0; }
+html:not(.js) .hx-tip { display: none; }
+.hx-prop { position: absolute; height: auto; max-width: none; pointer-events: none; translate: calc(var(--px) * var(--d) * 18px) calc(var(--py) * var(--d) * 14px); transition: translate 400ms var(--ease); }
+.hx-prop--squiggle { left: 0; top: 2%; width: 30%; rotate: -14deg; }
+.hx-prop--seven { right: 2%; top: 0; width: 15%; rotate: 10deg; }
+.hx-prop--drop { left: 8%; bottom: 4%; width: 9%; rotate: -8deg; }
+.hx-prop--hourglass { right: 4%; bottom: 6%; width: 13%; rotate: 12deg; }
+
+.hx-sub { grid-area: sub; max-width: 36ch; margin: 0; font: 600 clamp(1.05rem, 1.5vw, 1.28rem)/1.45 var(--satoshi); }
+.hx-sub strong { font-weight: 900; }
+
+.hx-actions { grid-area: actions; display: grid; gap: 1.3rem; }
+.hx-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
+.hx .btn--ghost { color: var(--fg); border-color: var(--fg); }
+@media (hover: hover) { .hx .btn--ghost:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); } }
+.hx .btn:focus-visible, .hx a:focus-visible { outline: 3px solid var(--fg); outline-offset: 3px; }
+.hx-label { margin: 0 0 0.6rem; font: 800 0.68rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; }
+.hx-thumbs { display: flex; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
+.hx-thumbs a { display: grid; gap: 0.35rem; width: 5.8rem; color: var(--fg); text-decoration: none; font: 800 0.76rem/1.2 var(--satoshi); }
+.hx-thumbs img {
+  width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; border: 2px solid var(--fg); border-radius: 10px;
+  box-shadow: 3px 3px 0 var(--fg); transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+.hx-thumbs a:active img { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--fg); }
+@media (hover: hover) { .hx-thumbs a:hover img { transform: translate(-2px, -2px) rotate(-2deg); box-shadow: 5px 5px 0 var(--fg); } }
+
+/* The ticker along the bottom: the site's own ticker band. */
+.hx-ticker { position: relative; z-index: 1; margin: 0 -2vw 0.9rem; }
+
+@media (min-width: 900px) {
+  .hx-inner {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr); column-gap: clamp(1.5rem, 4vw, 4rem);
+    grid-template-areas: "kick kick" "title stage" "sub stage" "actions stage";
+  }
+  .hx-title { font-size: min(8.6vw, 10.5rem, 15svh); }
+  .hx-stage { align-self: center; aspect-ratio: 1; max-width: 40rem; }
+  .hx-girgit { width: 66%; bottom: 6%; }
+  .hx-actions { grid-template-columns: auto auto; justify-content: space-between; align-items: end; }
+  .hx-thumbs a { width: 6.6rem; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .js .hx-kicker, .js .hx-line, .js .hx-word, .js .hx-sub, .js .hx-actions { animation: hx-up 800ms var(--ease) both; }
+  .js .hx-line { animation-delay: 60ms; }
+  .js .hx-word { animation-delay: 160ms; }
+  .js .hx-sub { animation-delay: 300ms; }
+  .js .hx-actions { animation-delay: 400ms; }
+  .js .hx:not(.is-ready) .hx-girgit { animation: hx-pop 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 300ms both; }
+  .js .hx:not(.is-ready) .hx-prop { animation: hx-pop 800ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(500ms + var(--i, 0) * 90ms) both; }
+  @keyframes hx-up { from { opacity: 0; transform: translateY(22px); } }
+  @keyframes hx-pop { from { opacity: 0; scale: 0.5; } }
+  /* Afterwards: the props float, and bounce on every colour change. */
+  .hx.is-ready .hx-prop { animation: hx-float 5s ease-in-out calc(var(--i, 0) * -1.3s) infinite alternate; }
+  .hx.is-ready.is-bumping .hx-prop { animation: hx-bump 620ms cubic-bezier(0.3, 1.6, 0.5, 1); }
+  @keyframes hx-float { from { transform: translateY(-8px) rotate(-4deg); } to { transform: translateY(8px) rotate(4deg); } }
+  @keyframes hx-bump { 40% { transform: scale(1.25) rotate(14deg); } }
+  .hx-girgit.is-changing .hx-gbody { animation: hx-hop 560ms cubic-bezier(0.3, 1.6, 0.5, 1); }
+  @keyframes hx-hop { 35% { translate: 0 -12%; scale: 1.05 0.95; } 70% { translate: 0 0; scale: 0.97 1.03; } }
+  .hx-tip { animation: hx-tip 2.2s ease-in-out infinite; }
+  @keyframes hx-tip { 50% { translate: 0 -6px; } }
+}
+.hx-prop--squiggle { --i: 0; } .hx-prop--seven { --i: 1; } .hx-prop--drop { --i: 2; } .hx-prop--hourglass { --i: 3; }
+
+/* ==========================================================================
+   SECTION 02: THE WORK
+   ========================================================================== */
+/* One project per row, in a single column. Each card: the whole image, uncropped, on a board in the
+   client's colour; the details underneath. Phone: details stacked. From 900px: the details run in one
+   row under the image (name | line and services | the way in). */
+.pf-sec .s5-wrap { padding-bottom: clamp(4.5rem, 10vw, 8rem); }
+.pf-count { display: inline-block; margin-left: 0.7rem; padding: 0.3rem 0.6rem; border: 1.5px solid currentColor; border-radius: 999px; vertical-align: middle; }
+.pf-lede { max-width: 30ch; margin: 0.8rem 0 0; font: 600 clamp(1.1rem, 1.8vw, 1.45rem)/1.4 var(--satoshi); color: var(--body); }
+.pl { display: grid; gap: clamp(1.6rem, 4vw, 3rem); margin: 0; padding: 0; list-style: none; }
+.pl-item { min-width: 0; }
+.pl-card {
+  position: relative; display: grid; overflow: hidden; color: var(--black); text-decoration: none;
+  border: var(--frame); border-radius: var(--r); background: #FFFDF8; box-shadow: var(--lift);
+  transition: transform 240ms var(--ease), box-shadow 240ms var(--ease);
+}
+/* The board: the client's colour, the image whole and centred on it, never cropped. */
+.pl-media { display: grid; place-items: center; padding: clamp(0.8rem, 3.4vw, 2.6rem); background: var(--brand, var(--forest)); border-bottom: var(--frame); }
+.pl-media img {
+  display: block; width: auto; height: auto; max-width: 100%; max-height: min(68svh, 42rem);
+  border-radius: 8px; box-shadow: 0 1rem 2.4rem rgb(0 0 0 / 0.35); transition: scale 900ms var(--ease);
+}
+.pl-info { display: grid; gap: 0.65rem; padding: clamp(1.1rem, 2.8vw, 1.9rem); }
+.pl-id { display: flex; align-items: center; gap: 0.9rem; }
+.pl-n { font: 800 0.85rem/1 var(--satoshi); color: var(--muted); font-variant-numeric: tabular-nums; }
+.pl-cat { display: inline-flex; align-items: center; gap: 0.45rem; font: 800 0.7rem/1 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; }
+.pl-cat::before { content: ''; width: 0.7rem; height: 0.7rem; border-radius: 50%; border: 1.5px solid currentColor; background: var(--brand, var(--acid)); }
+.pl-name { font: 900 clamp(1.9rem, 5vw, 3.4rem)/0.92 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; }
+.pl-line { max-width: 46ch; font: 500 clamp(1rem, 1.3vw, 1.15rem)/1.5 var(--satoshi); color: var(--body); }
+.pl-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.pl-tags span { padding: 0.32rem 0.7rem; border: 1px solid rgb(17 17 17 / 0.25); border-radius: 999px; font: 600 0.76rem/1.2 var(--satoshi); color: #3A3A33; }
+.pl-go {
+  justify-self: start; display: inline-flex; align-items: center; gap: 0.45rem; margin-top: 0.3rem; padding: 0.7rem 1.1rem;
+  border: 2px solid var(--black); border-radius: 999px; font: 800 0.8rem/1 var(--satoshi); letter-spacing: 0.08em; text-transform: uppercase;
+}
+.pl-go span { transition: translate 240ms var(--ease); }
+.pl-card:focus-visible { outline: 3px solid var(--blue); outline-offset: 5px; }
+.pl-card:active { transform: translate(2px, 2px); box-shadow: var(--press); }
+
+/* The open slot: forest, the action, and Girgit holding on to the card's bottom edge. */
+.pl-card--next { min-height: 22rem; background: var(--forest); color: var(--ivory); }
+.pl-card--next .pl-info { align-content: start; padding-bottom: 7.5rem; }   /* phones: room for Girgit under the button */
+.pl-card--next .pl-n { color: rgb(244 239 229 / 0.6); }
+.pl-card--next .pl-cat::before { background: var(--acid); }
+.pl-card--next .pl-line { color: rgb(244 239 229 / 0.85); }
+.pl-btn { justify-self: start; margin-top: 0.4rem; }
+.pl-girgit { position: absolute; right: clamp(1rem, 6vw, 4rem); bottom: 0; width: clamp(130px, 34vw, 230px); height: auto; max-width: none; translate: 0 20%; transition: translate 450ms var(--pop); pointer-events: none; }   /* the board he grips sits just below the card, out of sight */
+
+@media (hover: hover) {
+  .pl-card:hover { transform: translate(-3px, -3px); box-shadow: var(--lift-up); }
+  .pl-card:hover .pl-media img { scale: 1.02; }
+  .pl-card:hover .pl-go { background: var(--black); color: var(--ivory); }
+  .pl-card:hover .pl-go span { translate: 5px 0; }
+  .pl-card--next:hover .pl-girgit { translate: 0 12%; }
+}
+@media (min-width: 900px) {
+  .pl-info {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr) auto; align-items: center; column-gap: clamp(1.5rem, 3vw, 3rem);
+    grid-template-areas: "id line go" "name line go" "name tags go";
+  }
+  .pl-id { grid-area: id; } .pl-name { grid-area: name; align-self: start; } .pl-line { grid-area: line; align-self: end; }
+  .pl-tags { grid-area: tags; align-self: start; } .pl-go { grid-area: go; margin: 0; }
+  .pl-card--next { min-height: 0; }
+  .pl-card--next .pl-info { grid-template-columns: minmax(0, 1fr); grid-template-areas: none; padding-right: clamp(14rem, 26vw, 20rem); padding-bottom: clamp(1.1rem, 2.8vw, 1.9rem); }
+  .pl-card--next .pl-info > * { grid-area: auto; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .pl-item[data-reveal] { transition: opacity 600ms var(--ease), translate 700ms var(--ease); }
+}
+
+/* ==========================================================================
+   SECTION 03: IN THEIR WORDS (forest, straight after the work)
+   ========================================================================== */
+.tq-stage { position: relative; margin-top: clamp(1rem, 2vw, 1.5rem); }
+.tq-list { display: grid; gap: clamp(1.8rem, 3vw, 2.2rem); margin: 0; padding: 0; list-style: none; }
+.tq {
+  position: relative; display: grid; grid-template-rows: 1fr auto; gap: 1.3rem;
+  padding: clamp(1.4rem, 3vw, 2.4rem); border: var(--frame); border-radius: var(--r);
+  background: var(--tm, var(--forest)); color: var(--tm-ink, var(--ivory)); box-shadow: 8px 8px 0 var(--black);
+}
+.tq-fig { display: grid; align-content: start; gap: 1.4rem; margin: 0; }
+.tq-quote { margin: 0; }
+.tq-quote::before { content: '“'; display: block; height: 0.42em; margin-bottom: 0.1em; font: 900 clamp(4.4rem, 9vw, 7rem)/1 var(--satoshi); color: var(--yellow); }
+.tq-quote p { margin: 0; font: 700 clamp(1.15rem, 2vw, 1.5rem)/1.38 var(--satoshi); letter-spacing: -0.015em; }
+.tq--feature .tq-quote p { max-width: 34ch; font-size: clamp(1.35rem, 3.1vw, 2.4rem); line-height: 1.2; letter-spacing: -0.025em; }
+.tq-who { display: flex; align-items: center; gap: 0.9rem; padding-top: 1.1rem; border-top: 1px solid rgb(244 239 229 / 0.3); }
+.tq-thumb { flex: none; width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 2px solid currentColor; object-fit: cover; }
+.tq-who > span { display: grid; gap: 0.2rem; }
+.tq-name { font: 800 1rem/1.2 var(--satoshi); }
+.tq-role { font: 600 0.74rem/1.35 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.8; }
+.tq-link {
+  justify-self: start; display: inline-flex; align-items: center; gap: 0.4rem; min-height: 2.75rem;
+  color: inherit; text-decoration: underline 2px transparent; text-underline-offset: 0.35em;
+  font: 800 0.8rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase;
+  transition: color 160ms var(--ease), text-decoration-color 160ms var(--ease);
+}
+.tq-link:hover, .tq-link:focus-visible { color: var(--yellow); text-decoration-color: currentColor; }
+.tq-link:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+.tq[data-status="draft"]::after {
+  content: 'Draft · awaiting client sign-off'; position: absolute; right: 1rem; top: -0.95rem;
+  padding: 0.38rem 0.7rem; border: 2px solid var(--black); border-radius: 999px; background: var(--yellow); color: var(--black);
+  font: 800 0.62rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase;
+}
+@media (min-width: 900px) {
+  .tq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tq--feature { grid-column: 1 / -1; padding: clamp(2rem, 4vw, 3.4rem); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .tq[data-reveal] { transition: opacity 600ms var(--ease) var(--d, 0ms), translate 700ms var(--ease) var(--d, 0ms); }
+  .tq:nth-child(3) { --d: 120ms; }
+}
+
+/* ---------- Case study pages: the same closing panel as the home page, with the same Girgit ---------- */
+.cs-next-in > :not(.cs-next-girgit) { position: relative; z-index: 1; }
+.cs-next-girgit { position: absolute; right: 0; bottom: 0; z-index: 0; width: min(44%, 30rem); height: auto; translate: 6% 20%; pointer-events: none; }
+.cs-next-note { max-width: min(24rem, 52%); }
+@media (max-width: 760px) {
+  .cs-next-in { padding-bottom: clamp(9rem, 48vw, 14rem); }
+  .cs-next-girgit { width: 70%; }
+  .cs-next-note { max-width: none; }
+}
+
+/* ==========================================================================
+   EYE TILES BEYOND THE WALL (js/eye-cluster.js): the wall's tiles in a small framed strip, used where
+   a section asks for attention. Same tiles, same frame language as every card.
+   ========================================================================== */
+.eye-cluster {
+  display: grid; grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); overflow: hidden;
+  border: 3px solid var(--black); border-radius: 12px; background: var(--black); box-shadow: 4px 4px 0 var(--black);
+}
+.eye-cluster .eye { border: 0; }
+.eye-cluster[data-asleep] .eye-lid { animation: none; transform: scaleY(1); }   /* asleep: lids shut */
+.eye-cluster[data-asleep] .eye-iris { animation-play-state: paused; }
+
+/* Testimonials: beside the heading on wide screens, under it on phones. */
+.tq-head { position: relative; }
+.tq-eyes { width: min(70vw, 16rem); margin-top: 1.2rem; }
+@media (min-width: 900px) { .tq-eyes { position: absolute; right: 0; bottom: 0; width: clamp(14rem, 22vw, 20rem); margin: 0; } }
+/* Who we're for: three eyes over the cards; the poor fits get two that stay asleep. */
+.st-fit-peek { width: clamp(150px, 17vw, 240px); bottom: calc(100% - 3px); }
+.st-fit-sleep { width: clamp(7rem, 13vw, 10rem); }
+@media (max-width: 760px) { .st-fit-peek { width: 150px; } }
+
+/* ==========================================================================
+   SECTION 05: THE PANEL OVER THE EYE WALL, now carrying the name (its meaning is attention).
+   Phone: the headline, then the dictionary card, then "we took the name anyway". Wide: side by side.
+   ========================================================================== */
+.ec-grid { display: grid; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+.ec-copy { display: grid; gap: clamp(1.2rem, 3vw, 2rem); }
+.ec-copy .eyes-title { font-size: clamp(2.8rem, 11vw, 7rem); }
+.ec-copy .eyes-sub { justify-self: start; }
+.ec-dict { max-width: 40rem; }
+.ec-dict-kicker { margin: 0 0 0.9rem; font: 700 0.72rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.ec-turn { display: grid; gap: 0.9rem; padding-top: clamp(1.4rem, 3vw, 2rem); border-top: 1px solid rgb(17 17 17 / 0.2); }
+.ec-turn-line { margin: 0; font: 900 clamp(2rem, 4.6vw, 4rem)/0.92 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; }
+.ec-turn-line span { padding: 0 0.06em; background: linear-gradient(var(--yellow), var(--yellow)) 0 90% / 100% 0.4em no-repeat; }
+.ec-turn-copy { margin: 0; max-width: 54ch; font: 500 clamp(1.05rem, 1.5vw, 1.3rem)/1.55 var(--satoshi); color: var(--body); }
+.ec-turn-copy .st-deva { color: var(--forest); }
+.ec-aside { font-style: italic; font-weight: 700; color: var(--muted); }
+@media (min-width: 900px) {
+  .ec-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .ec-copy .eyes-title { font-size: clamp(3rem, 6.4vw, 7rem); }
+}
+
+/* ==========================================================================
+   SECTION 06: HOW WE WORK (js/how.js): the stance, the week as a waking timeline, the three reasons.
+   Phone: the timeline runs down a rail on the left. From 900px it runs across.
+   ========================================================================== */
+.hw-sec .s5-statement .s5-alt, .hw-sec .s5-statement .sw--shift > span { color: var(--acid); }
+.hw-sec .s5-lede { color: rgb(244 239 229 / 0.85); border-top-color: rgb(244 239 229 / 0.25); }
+@media (prefers-reduced-motion: no-preference) {
+  .js .hw-sec .s5-statement.is-in .sw--shift > span { animation-name: hw-chameleon; }
+  @keyframes hw-chameleon { 0% { color: var(--ivory); } 20% { color: #FF168C; } 40% { color: #6B86FF; } 60% { color: #FFE500; } 100% { color: #43FF18; } }
+}
+
+.hw-week { margin-top: clamp(4rem, 9vw, 7rem); }
+.hw-head { display: grid; gap: 0.8rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
+.hw-h3 { margin: 0; max-width: 18ch; font: 900 clamp(1.9rem, 4vw, 3.4rem)/0.95 var(--satoshi); letter-spacing: -0.04em; text-transform: uppercase; color: var(--ivory); }
+.hw-note { margin: 0; max-width: 40ch; font: 500 clamp(1.05rem, 1.5vw, 1.25rem)/1.5 var(--satoshi); color: rgb(244 239 229 / 0.8); }
+
+.hw-steps { --eye: 3.6rem; position: relative; display: grid; gap: 1.8rem; margin: 0; padding: 0; list-style: none; }
+.hw-steps::before, .hw-steps::after {          /* the rail, and its fill as the week wakes */
+  content: ''; position: absolute; left: calc(var(--eye) / 2 - 1.5px); top: calc(var(--eye) / 2); bottom: calc(var(--eye) / 2); width: 3px;
+  background: rgb(244 239 229 / 0.2);
+}
+.hw-steps::after { background: var(--acid); transform: scaleY(0); transform-origin: 50% 0; transition: transform 2.2s cubic-bezier(0.6, 0, 0.2, 1) 250ms; }
+.hw-week.is-in .hw-steps::after { transform: scaleY(1); }
+.hw-step { position: relative; display: grid; grid-template-columns: var(--eye) minmax(0, 1fr); column-gap: 1rem; align-items: start; }
+.hw-eye {
+  grid-row: 1 / span 3; position: relative; z-index: 1; width: var(--eye); border-radius: 10px; box-shadow: 3px 3px 0 #000;
+  transform: scale(0.82); transition: transform 500ms var(--pop), border-color 400ms var(--ease);
+}
+.hw-step.is-awake .hw-eye { transform: scale(1); border-color: var(--c); }
+.hw-tag { justify-self: start; padding: 0.4rem 0.75rem; border-radius: 999px; background: var(--c); color: var(--black); font: 800 0.74rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase; }
+.hw-step--live .hw-tag { color: var(--ivory); }
+.hw-step p { margin: 0.6rem 0 0; max-width: 30ch; font: 600 clamp(1rem, 1.3vw, 1.15rem)/1.45 var(--satoshi); color: rgb(244 239 229 / 0.85); }
+.hw-step p.hw-live { font: 900 clamp(2.6rem, 5vw, 4.2rem)/0.9 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; color: var(--ivory); }
+/* Girgit turns up at "Live". */
+.hw-girgit {
+  position: absolute; right: 0; bottom: -0.6rem; width: clamp(96px, 28vw, 150px); height: auto; pointer-events: none;
+  transform-origin: 50% 100%; opacity: 0; scale: 0.4; translate: 0 20%;
+  transition: opacity 400ms var(--ease), scale 750ms cubic-bezier(0.34, 1.56, 0.64, 1), translate 750ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.hw-step--live.is-awake .hw-girgit { opacity: 1; scale: 1; translate: none; transition-delay: 300ms; }
+.hw-small { margin-top: clamp(2rem, 4vw, 3rem); color: rgb(244 239 229 / 0.7); }
+.hw-week.is-still .hw-steps::after, .hw-week.is-still .hw-eye, .hw-week.is-still .hw-girgit { transition: none; }
+
+@media (min-width: 900px) {
+  .hw-steps { --eye: 4.6rem; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+  .hw-steps::before, .hw-steps::after { left: calc(var(--eye) / 2); right: calc(25% - var(--eye) / 2); top: calc(var(--eye) / 2 - 1.5px); bottom: auto; width: auto; height: 3px; }
+  .hw-steps::after { transform: scaleX(0); transform-origin: 0 50%; }
+  .hw-week.is-in .hw-steps::after { transform: scaleX(1); }
+  .hw-step { grid-template-columns: 1fr; row-gap: 0.9rem; }
+  .hw-eye { grid-row: auto; }
+  .hw-step p { margin-top: 0; }
+  .hw-girgit { right: -0.5rem; bottom: -1.2rem; width: clamp(110px, 10vw, 160px); }
+}
+
+/* Why the speed is real: three framed cards. */
+.hw-why { display: grid; gap: clamp(1.6rem, 3vw, 2.4rem); margin-top: clamp(4rem, 9vw, 7rem); }
+.hw-reasons { display: grid; gap: 1.2rem; margin: 0; padding: 0; list-style: none; }
+.hw-reason {
+  display: grid; align-content: start; gap: 0.7rem; padding: clamp(1.3rem, 2.6vw, 2rem);
+  border: var(--frame); border-radius: var(--r); background: var(--ivory); color: var(--black); box-shadow: 6px 6px 0 #000;
+  transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
+}
+.hw-n { font: 800 0.8rem/1 var(--satoshi); letter-spacing: 0.14em; color: var(--muted); }
+.hw-reason h4 { margin: 0; font: 900 clamp(1.4rem, 2.2vw, 2rem)/1 var(--satoshi); letter-spacing: -0.035em; text-transform: uppercase; }
+.hw-reason p { margin: 0; font: 500 1.02rem/1.55 var(--satoshi); color: var(--body); }
+@media (min-width: 760px) { .hw-reasons { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (hover: hover) { .hw-reason:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 #000; } }

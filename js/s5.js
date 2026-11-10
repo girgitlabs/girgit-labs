@@ -1,12 +1,10 @@
-// SECTION 05 — small, hand-made motion, all from the chameleon idea (watch, adapt, catch).
-// - The statement's words rise; "No boring solutions." flushes through colours and settles (CSS).
-// - Service rows: their rules draw in, their colour squares pop, in sequence (CSS, indexed here).
-// - Each work placeholder has one flat eye that follows the pointer and blinks now and then.
-// - Girgit, at the invitation, flicks his tongue at "Start a project" when it's hovered or focused.
+// Small, hand-made motion, from the chameleon idea (watch, adapt, catch).
+// - How we work: the statement's words rise; "No boring solutions." flushes through colours (CSS).
+// - Let's talk: Girgit flicks his tongue at "Start a project" when it's hovered or focused.
 // Everything is off with reduced motion.
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const $ = (s, r = document) => r.querySelector(s);
 
 /* ---------- The statement: one box per word so each can rise; the second line changes colour ---------- */
 const statement = $('.s5-statement');
@@ -30,42 +28,6 @@ if (statement) {
   const reveal = () => statement.classList.add('is-in');
   if (reduce || !('IntersectionObserver' in window)) reveal();
   else new IntersectionObserver(([e], o) => { if (e.isIntersecting) { reveal(); o.disconnect(); } }, { threshold: 0.35 }).observe(statement);
-}
-
-/* ---------- Services: index the rows so their rules and squares arrive one after another ---------- */
-$$('.svc').forEach((row, k) => row.style.setProperty('--row', k));
-
-/* ---------- Placeholders: an eye in each, watching the pointer ---------- */
-const IRIS = ['#FF168C', '#173BFF', '#43FF18', '#FFE500'];
-const eyes = $$('.work-media:not(.work-media--real)').map((media, k) => {
-  const host = document.createElement('span');
-  host.className = 'work-eye';
-  host.setAttribute('aria-hidden', 'true');
-  host.style.setProperty('--blink', `${6 + ((k * 7) % 5)}s`); host.style.setProperty('--blink-delay', `${-k * 1.7}s`);
-  host.innerHTML = `<svg viewBox="0 0 120 70" focusable="false">
-      <clipPath id="we-${k}"><path d="M6 35 Q60 -6 114 35 Q60 76 6 35Z"/></clipPath>
-      <g clip-path="url(#we-${k})">
-        <rect width="120" height="70" fill="#FFFFFF"/>
-        <g class="work-eye-iris"><circle cx="60" cy="35" r="19" fill="${IRIS[k % IRIS.length]}" stroke="#111" stroke-width="4"/><circle cx="60" cy="35" r="8.5" fill="#111"/><circle cx="54" cy="29" r="3.5" fill="#fff"/></g>
-        <rect class="work-eye-lid" width="120" height="70" fill="#E9E1D0"/>
-      </g>
-      <path d="M6 35 Q60 -6 114 35 Q60 76 6 35Z" fill="none" stroke="#111" stroke-width="5" stroke-linejoin="round"/>
-    </svg>`;
-  media.prepend(host);
-  return host.querySelector('.work-eye-iris');
-});
-if (!reduce && eyes.length) {
-  let queued = false, px = 0, py = 0;
-  const aim = () => {
-    queued = false;
-    for (const iris of eyes) {
-      const r = iris.ownerSVGElement.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > window.innerHeight) continue;
-      const dx = px - (r.left + r.width / 2), dy = py - (r.top + r.height / 2), d = Math.hypot(dx, dy) || 1, k = Math.min(1, d / 320);
-      iris.style.transform = `translate(${(dx / d * 16 * k).toFixed(1)}px, ${(dy / d * 7 * k).toFixed(1)}px)`;
-    }
-  };
-  addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; if (!queued) { queued = true; requestAnimationFrame(aim); } }, { passive: true });
 }
 
 /* ---------- The invitation: Girgit's tongue shoots out to the button ----------

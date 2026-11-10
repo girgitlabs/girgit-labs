@@ -170,6 +170,17 @@
             "description": "A website for a stainless steel screw maker, laid out like the catalogue its buyers already read.",
             "creator": { "@id": "https://www.girgitlabs.design/#org" }
           }
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "item": {
+            "@type": "CreativeWork",
+            "name": "Moshi",
+            "url": "https://www.girgitlabs.design/work/moshi/",
+            "description": "An online store for a heritage clothing label, where every craft gets its own chapter.",
+            "creator": { "@id": "https://www.girgitlabs.design/#org" }
+          }
         }
       ]
     }
@@ -177,24 +188,23 @@
 }
   </script>
   <meta name="theme-color" content="#F7F3EC">
-  <!-- The live version. tools/check_site.py fails any build without this marker; see AGENTS.md. -->
-  <meta name="girgit-site-version" content="v2-latest 2026-11-02">
+  <!-- The live version: after a deploy, the live page source should carry this marker. -->
+  <meta name="girgit-site-version" content="v3-latest 2026-11-10">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&amp;family=Shadows+Into+Light+Two&amp;family=Silkscreen&amp;family=Manrope:wght@500;700&amp;family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap">
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&amp;display=swap">
   <link rel="stylesheet" href="css/site.css">
-  <link rel="stylesheet" href="css/hero.css">
-  <link rel="stylesheet" href="css/lab.css">
-  <link rel="stylesheet" href="css/hide.css">
   <link rel="stylesheet" href="css/eyes.css">
   <link rel="stylesheet" href="css/s5.css">
   <link rel="stylesheet" href="css/story.css">
   <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/what.css">
+  <link rel="stylesheet" href="css/system.css">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
   <script type="module" src="js/site.js"></script>
@@ -224,148 +234,280 @@
     <a class="nav-logo" href="#top" aria-label="Girgit Labs, back to top"><img src="assets/girgit-wordmark.svg" alt=""></a>
     <nav aria-label="Main">
       <ul class="nav-links" role="list">
+        <li><a class="pill" href="#work">work</a></li>
         <li><a class="pill" href="#what">what we do</a></li>
         <li><a class="pill" href="#approach">how we work</a></li>
-        <li><a class="pill" href="#work">work</a></li>
       </ul>
     </nav>
     <a class="pill pill--ink magnetic" href="#talk">↳ let's talk</a>
   </header>
 
   <main id="main">
-    <!-- SECTION 01: THE HERO, Girgit's living skin. The whole hero is chameleon skin, drawn live by a
-         WebGL shader (js/skin.js): thousands of domed scales, the headline written by the scales
-         themselves (they sample a mask of the real h1), and a colour wave rippling out wherever the
-         pointer goes; a click washes the skin into a new palette. No WebGL, no JS or reduced motion: a still version with
-         the headline as plain text. -->
-    <div class="sk-track">
-      <section class="sk" id="top" aria-labelledby="hero-title">
-        <canvas class="sk-canvas" aria-hidden="true"></canvas>
-        <div class="sk-copy">
-          <!-- Each word is its own span so the scales can trace it wherever it wraps (js/skin.js). -->
-          <h1 class="sk-title" id="hero-title"><span class="sk-line"><span class="w">Why</span> <span class="w">fit</span> <span class="w">in</span></span> <span class="sk-line"><span class="w">when</span> <span class="w">you</span> <span class="w">can</span> <span class="w">evolve?</span></span></h1>
-          <p class="sk-ctas"><a class="sk-btn sk-btn--solid" href="#talk">Start a project</a><a class="sk-btn" href="#work">See the work</a></p>
-        </div>
-        <p class="sk-hint" aria-hidden="true">move across his skin · click to change it</p>
-        <a class="sk-scroll" href="#what">scroll <span aria-hidden="true">↓</span></a>
-      </section>
-    </div>
+    <!-- SECTION 01: THE HERO, the one loud moment (BRIEF.md: the expressive palette, only where it counts).
+         "WE DESIGN ___." The word cycles through what we make, and with every word the whole hero floods a
+         new colour in a circle spreading from Girgit (or from wherever you click or tap). Girgit changes too,
+         always to the colour that clashes with the new background: a chameleon who refuses to blend in,
+         which is the studio's promise to its clients. The word scrambles into the next one; the studio's
+         props float around Girgit and bounce with every change; he leans toward the pointer.
+         The states live in js/home.js. No JS: the acid state, still. Reduced motion: colours switch
+         instantly, no scramble, no floating, no cycling. -->
+    <section class="hx" id="top" aria-labelledby="hero-title" style="--bg:#43FF18;--fg:#111111;--gf:hue-rotate(250deg) saturate(1.05)">
+      <div class="hx-flood" aria-hidden="true"></div>
+      <div class="hx-inner">
+        <p class="hx-kicker"><span>Digital design studio</span> <span class="hx-sep" aria-hidden="true">/</span> <span>Mumbai, working worldwide</span> <span class="hx-count" aria-hidden="true"><b class="hx-now">01</b>/05</span></p>
 
-    <!-- SECTION 02: THE ADAPTATION LABORATORY.
-         One pinned scene: scroll scrubs a stitched film of Girgit crossing five rocks and
-         transforming on each, opening on its first frame (assets/video/lab*.mp4, made from the supplied clips; js/lab.js).
-         Without JS, or with reduced motion, it is the five rock stills with their copy. -->
-    <section class="lab" id="what" aria-labelledby="lab-title" data-cap="intro">
-      <div class="lab-stage" aria-hidden="true">
-        <div class="lab-film">
-          <video class="lab-video" muted playsinline preload="auto" disablepictureinpicture poster="assets/img/lab/lab-poster.webp"></video>
+        <h1 class="hx-title" id="hero-title">
+          <span class="hx-line">We design</span>
+          <span class="hx-word" aria-hidden="true">websites.</span>
+          <span class="sr-only">websites, brands, digital products, apps and films.</span>
+        </h1>
+
+        <div class="hx-stage">
+          <img class="hx-prop hx-prop--squiggle" src="assets/img/prop-squiggle.webp" width="700" height="588" alt="" aria-hidden="true" style="--d:0.6">
+          <img class="hx-prop hx-prop--seven" src="assets/img/prop-seven.webp" width="451" height="800" alt="" aria-hidden="true" style="--d:-0.9">
+          <img class="hx-prop hx-prop--drop" src="assets/img/prop-drop.webp" width="299" height="700" alt="" aria-hidden="true" style="--d:1.1">
+          <img class="hx-prop hx-prop--hourglass" src="assets/img/prop-hourglass.webp" width="489" height="800" alt="" aria-hidden="true" style="--d:-0.5">
+          <button class="hx-girgit" type="button" aria-label="Change the colour">
+            <span class="hx-gbody"><img src="assets/img/cham-lime.webp" width="1183" height="1200" alt="" fetchpriority="high"></span>
+            <span class="hx-tip" aria-hidden="true">tap him</span>
+          </button>
         </div>
-      </div>
-      <div class="lab-bar">
-        <div class="lab-texts">
-          <div class="lab-intro">
-            <p class="lab-kicker">What we do</p>
-            <h2 class="lab-title" id="lab-title">We do not have one style. <span class="lab-alt">We have a response.</span></h2>
+
+        <p class="hx-sub">We don't have a house style. We have yours. High-quality digital experiences, built fast. <strong>Websites go live in seven days.</strong></p>
+
+        <div class="hx-actions">
+          <p class="hx-ctas"><a class="btn btn--primary" href="#talk">Start a project</a><a class="btn btn--ghost" href="#work">See the work <span aria-hidden="true">↓</span></a></p>
+          <div class="hx-recent">
+            <p class="hx-label">Recent work</p>
+            <ul class="hx-thumbs" role="list">
+              <li><a href="work/clay-and-glaze/"><img src="assets/work/clay-and-glaze/cg-26-960.webp" width="1920" height="1080" alt=""><span>Clay &amp; Glaze</span></a></li>
+              <li><a href="work/ld-screw/"><img src="assets/work/ld-screw/ld-tile-720.webp" width="1440" height="1080" alt=""><span>LD Screw</span></a></li>
+              <li><a href="work/moshi/"><img src="assets/work/moshi/moshi-01-720.webp" width="1440" height="980" alt=""><span>Moshi</span></a></li>
+            </ul>
           </div>
-          <ol class="lab-caps">
-          <li class="lab-cap" data-cap="0">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-1.webp" width="1600" height="695" alt="" loading="lazy">
-            <p class="lab-num"><span class="lab-n">01</span> <span class="lab-service">Branding and visual identity</span></p>
-            <h3 class="lab-head">We find your kind of different.</h3>
-            <p class="lab-copy">Distinctive identities built around what makes you different.</p>
-          </li>
-          <li class="lab-cap" data-cap="1">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-2.webp" width="1600" height="695" alt="" loading="lazy">
-            <p class="lab-num"><span class="lab-n">02</span> <span class="lab-service">UI/UX and product design</span></p>
-            <h3 class="lab-head">Make it make sense.</h3>
-            <p class="lab-copy">Thoughtful experiences that turn complexity into clarity.</p>
-          </li>
-          <li class="lab-cap" data-cap="2">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-3.webp" width="1600" height="695" alt="" loading="lazy">
-            <p class="lab-num"><span class="lab-n">03</span> <span class="lab-service">Website design and development</span></p>
-            <h3 class="lab-head">Built to move ideas forward.</h3>
-            <p class="lab-copy">Digital experiences that combine strong design with purposeful execution.</p>
-          </li>
-          <li class="lab-cap" data-cap="3">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-4.webp" width="1600" height="695" alt="" loading="lazy">
-            <p class="lab-num"><span class="lab-n">04</span> <span class="lab-service">App design</span></p>
-            <h3 class="lab-head">Less friction. More flow.</h3>
-            <p class="lab-copy">Products shaped around real people and real behaviour.</p>
-          </li>
-          <li class="lab-cap" data-cap="4">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-5.webp" width="1600" height="695" alt="" loading="lazy">
-            <p class="lab-num"><span class="lab-n">05</span> <span class="lab-service">Motion and creative experimentation</span></p>
-            <h3 class="lab-head">Ideas with a pulse.</h3>
-            <p class="lab-copy">Motion and experimentation that make ideas impossible to ignore.</p>
-          </li>
-          </ol>
         </div>
-        <ol class="lab-progress" aria-label="Capabilities"><li><button type="button" aria-label="Jump to Branding and visual identity"><span>01</span></button></li><li><button type="button" aria-label="Jump to UI/UX and product design"><span>02</span></button></li><li><button type="button" aria-label="Jump to Website design and development"><span>03</span></button></li><li><button type="button" aria-label="Jump to App design"><span>04</span></button></li><li><button type="button" aria-label="Jump to Motion and creative experimentation"><span>05</span></button></li></ol>
       </div>
-    </section>
-
-
-    <!-- Between the lab and the eye wall: room to breathe, the ticker, and a cue for what comes next.
-         The aside is from the approved copy (content/08-site-v2.md). -->
-    <div class="bridge bridge--ticker">
-      <div class="ticker" aria-hidden="true"><div class="ticker-track hand">
-        <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
-        <span>no house style</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>three makers, no handoff</span><span>✦</span><span>brand · web · product · motion</span><span>✦</span>
+      <div class="ticker hx-ticker" aria-hidden="true"><div class="ticker-track">
+        <span>branding</span><span>✦</span><span>ui/ux</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>apps</span><span>✦</span><span>motion</span><span>✦</span><span>no house style</span><span>✦</span>
+        <span>branding</span><span>✦</span><span>ui/ux</span><span>✦</span><span>websites in seven days</span><span>✦</span><span>apps</span><span>✦</span><span>motion</span><span>✦</span><span>no house style</span><span>✦</span>
       </div></div>
-      <p class="bridge-aside hand" data-reveal>(we were watching. that's kind of the job.)</p>
-    </div>
+    </section>
 
-    <!-- SECTION 03, THE HIDDEN GIRGIT ("You found us."), parked 2026-11-02: kept whole in this template, so it
-         is not rendered and its video is not loaded. To bring it back, move the section out of the
-         template (js/hide.js wires it up when it finds a .hide section). -->
-    <template id="hide-section">
-    <!-- THE HIDDEN GIRGIT.
-         The supplied clay jungle (a looping video, its still as the poster) with Girgit, the
-         supplied clay render, camouflaged inside it: only his two yellow eyes stand out. Search
-         with the pointer or by tapping; the button always works (js/hide.js, js/jungle.js). -->
-    <section class="hide" id="found" aria-labelledby="hide-title" data-state="search">
-      <div class="hide-stage" aria-hidden="true">
-        <video class="hide-video" src="assets/video/jungle.mp4" poster="assets/img/hide/jungle.webp" muted loop playsinline autoplay preload="metadata" disablepictureinpicture></video>
-        <svg class="hide-scene" viewBox="0 0 2000 1116" preserveAspectRatio="none" focusable="false"><g class="hide-girgit"></g><g class="hide-front"></g></svg>
-      </div>
-      <div class="hide-light" aria-hidden="true"></div>
-      <div class="hide-ask" aria-hidden="true">
-        <p class="hide-ask-title">Somewhere in here is Girgit.</p>
-        <p class="hide-ask-sub">Move your cursor to search the leaves. On a phone, tap where you think he is.</p>
-      </div>
-      <div class="hide-copy">
-        <h2 class="hide-title" id="hide-title">You found us.</h2>
-        <p class="hide-sub">We look closer. We notice more. We find the thing that makes the difference.</p>
-      </div>
-      <div class="hide-ui">
-        <p class="hide-hint" aria-live="polite">Look for two yellow eyes.</p>
-        <button class="hide-btn" type="button">Show me Girgit</button>
+    <!-- SECTION 02: THE WORK, straight after the hero: proof before promises. One project per row, in a
+         single column, each shown properly: the whole image, uncropped, on a board in the client's colour,
+         and the details underneath (what it was, one line, the services, the way in). The whole card is the
+         link. The last card is the open slot, with Girgit peeking up from its bottom edge. -->
+    <section class="s5 pf-sec" id="work" aria-labelledby="work-title">
+      <div class="s5-wrap">
+        <div class="s5-head pf-head">
+          <p class="s5-kicker">Selected work <span class="pf-count">03 projects</span></p>
+          <h2 class="s5-h2" data-split id="work-title">Different every time. That's the point.</h2>
+          <p class="pf-lede" data-reveal>Three clients, three looks. None of them ours.</p>
+        </div>
+        <ul class="pl" role="list">
+          <li class="pl-item" data-reveal>
+            <a class="pl-card" href="work/clay-and-glaze/" style="--brand:#391E16">
+              <span class="pl-media"><img src="assets/work/clay-and-glaze/cg-26-1920.webp" srcset="assets/work/clay-and-glaze/cg-26-960.webp 960w, assets/work/clay-and-glaze/cg-26-1920.webp 1920w" sizes="(max-width: 1300px) 100vw, 82rem" width="1920" height="1080" alt="Clay &amp; Glaze, the final mark" loading="lazy"></span>
+              <span class="pl-info">
+                <span class="pl-id"><span class="pl-n">01</span><span class="pl-cat">Brand identity</span></span>
+                <span class="pl-name">Clay &amp; Glaze</span>
+                <span class="pl-line">A mother-daughter pottery workshop, given a brand as handmade as its work.</span>
+                <span class="pl-tags"><span>Brand identity</span><span>Packaging</span><span>Brand collateral</span></span>
+                <span class="pl-go">View case study <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li class="pl-item" data-reveal>
+            <a class="pl-card" href="work/ld-screw/" style="--brand:#1E1E1E">
+              <span class="pl-media"><img src="assets/work/ld-screw/ld-tile-1440.webp" srcset="assets/work/ld-screw/ld-tile-720.webp 720w, assets/work/ld-screw/ld-tile-1440.webp 1440w" sizes="(max-width: 1300px) 100vw, 60rem" width="1440" height="1080" alt="LD Screw, the home page" loading="lazy"></span>
+              <span class="pl-info">
+                <span class="pl-id"><span class="pl-n">02</span><span class="pl-cat">Website</span></span>
+                <span class="pl-name">LD Screw</span>
+                <span class="pl-line">A website for a stainless steel screw maker, laid out like the catalogue its buyers already read.</span>
+                <span class="pl-tags"><span>Website design</span></span>
+                <span class="pl-go">View case study <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li class="pl-item" data-reveal>
+            <a class="pl-card" href="work/moshi/" style="--brand:#761117">
+              <span class="pl-media"><img src="assets/work/moshi/moshi-01-1440.webp" srcset="assets/work/moshi/moshi-01-720.webp 720w, assets/work/moshi/moshi-01-1440.webp 1440w" sizes="(max-width: 1300px) 100vw, 64rem" width="1440" height="980" alt="Moshi, the home page" loading="lazy"></span>
+              <span class="pl-info">
+                <span class="pl-id"><span class="pl-n">03</span><span class="pl-cat">E-commerce</span></span>
+                <span class="pl-name">Moshi</span>
+                <span class="pl-line">An online store for a heritage clothing label, where every craft gets its own chapter.</span>
+                <span class="pl-tags"><span>Website design</span><span>E-commerce UI/UX</span></span>
+                <span class="pl-go">View case study <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
+          </li>
+          <li class="pl-item" data-reveal>
+            <a class="pl-card pl-card--next" href="#talk">
+              <span class="pl-info">
+                <span class="pl-id"><span class="pl-n">04</span><span class="pl-cat">Open slot</span></span>
+                <span class="pl-name">Yours could be next.</span>
+                <span class="pl-line">The idea, the deadline, the budget range. A real reply in one working day, from the person who'd run it.</span>
+                <span class="btn btn--primary pl-btn">Start a project</span>
+              </span>
+              <img class="pl-girgit" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy">
+            </a>
+          </li>
+        </ul>
       </div>
     </section>
-    </template>
 
-    <!-- SECTION 04: THE EYES EVERYWHERE, and the opening of SECTION 05.
-         A sticky wall of square tiles, each a flat vector eye whose pupil moves on its own
-         (js/eyes.js, js/eye-tiles.js). The calm ivory panel after it scrolls up over the wall. -->
+    <!-- SECTION 03: IN THEIR WORDS, right under the work it talks about. DRAFTS written by the studio
+         from each case study, not yet approved by the clients. Each card shows a "Draft" tag while it
+         carries data-status="draft". Before going live: send each client its wording, replace it with
+         what they approve (with a real name and role), then delete data-status="draft" from that card.
+         Never publish a quote a client hasn't signed off. -->
+    <section class="s5 st-dark tq-sec" id="words" aria-labelledby="words-title">
+      <div class="s5-wrap">
+        <div class="s5-head tq-head">
+          <p class="s5-kicker">In their words</p>
+          <h2 class="s5-h2" data-split id="words-title">Ask the people we made it for.</h2>
+          <span class="tq-eyes eye-cluster" data-eye-tiles="4" data-seed="305" aria-hidden="true" data-reveal></span>
+        </div>
+        <div class="tq-stage">
+          <ul class="tq-list" role="list">
+            <li class="tq tq--feature" style="--tm:#391E16;--tm-ink:#F4EFE5" data-status="draft" data-reveal>
+              <figure class="tq-fig">
+                <blockquote class="tq-quote"><p>They spent the first conversation asking how we work at the wheel, not which colours we liked. The seal they drew is the one we now press into the clay before every firing.</p></blockquote>
+                <figcaption class="tq-who"><img class="tq-thumb" src="assets/work/clay-and-glaze/cg-26-960.webp" width="1920" height="1080" alt="" loading="lazy"><span><span class="tq-name">The founders</span><span class="tq-role">Clay &amp; Glaze, Pondicherry</span></span></figcaption>
+              </figure>
+              <a class="tq-link" href="work/clay-and-glaze/">Read the case study <span aria-hidden="true">→</span></a>
+            </li>
+            <li class="tq" style="--tm:#1E1E1E;--tm-ink:#F4EFE5" data-status="draft" data-reveal>
+              <figure class="tq-fig">
+                <blockquote class="tq-quote"><p>Our buyers read catalogues, not websites. Girgit Labs built us a site that reads like our catalogue, and put the certificates exactly where a new dealer looks first.</p></blockquote>
+                <figcaption class="tq-who"><img class="tq-thumb" src="assets/work/ld-screw/ld-tile-720.webp" width="1440" height="1080" alt="" loading="lazy"><span><span class="tq-name">The director</span><span class="tq-role">LD Screw (name changed under NDA)</span></span></figcaption>
+              </figure>
+              <a class="tq-link" href="work/ld-screw/">Read the case study <span aria-hidden="true">→</span></a>
+            </li>
+            <li class="tq" style="--tm:#761117;--tm-ink:#FAFAFA" data-status="draft" data-reveal>
+              <figure class="tq-fig">
+                <blockquote class="tq-quote"><p>Every craft we work with has a family behind it. The store gives Ajrakh, Khadi, Batik and Dabu a chapter each, and the clothes are still one tap from the cart.</p></blockquote>
+                <figcaption class="tq-who"><img class="tq-thumb" src="assets/work/moshi/moshi-01-720.webp" width="1440" height="980" alt="" loading="lazy"><span><span class="tq-name">The founders</span><span class="tq-role">Moshi, India</span></span></figcaption>
+              </figure>
+              <a class="tq-link" href="work/moshi/">Read the case study <span aria-hidden="true">→</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- SECTION 04: WHAT WE DO, a scroll-driven turntable (built on the "rotating flavour slider" pattern,
+         in the site's own parts). The stage sticks while the page scrolls; the scroll scrubs one position
+         across the five services: Girgit's disc turns and morphs into the next frame of his lab film (him
+         transformed for that service), the stage colour blends to the service's colour, the yellow marker
+         slides round the ring of names, the copy trades places, one prop floats off the disc and the bar
+         fills. Wide screens also list all five services on the left, the active one big. Letting go eases to
+         the nearest service. The index, the ring names, the arrows and the arrow keys jump straight to one
+         (js/what.js).
+         No JS or no GSAP: the five services as a plain list. Reduced motion: no turning, no drift, no snap. -->
+    <section class="wd" id="what" aria-labelledby="wd-title">
+      <h2 class="sr-only" id="wd-title">What we do</h2>
+      <div class="wd-track">
+        <div class="wd-root" tabindex="0" aria-roledescription="carousel" aria-label="What we do: five services" style="background-color:#A3124F">
+          <div class="wd-stage">
+            <p class="wd-kicker" aria-hidden="true">What we do <span class="wd-count"><b class="wd-now">01</b> / 05</span></p>
+            <ol class="wd-index" role="list" aria-label="Services">
+              <li><button type="button" data-i="0" aria-pressed="true"><span class="wd-index-n">01</span>Branding</button></li>
+              <li><button type="button" data-i="1" aria-pressed="false"><span class="wd-index-n">02</span>UI/UX and product</button></li>
+              <li><button type="button" data-i="2" aria-pressed="false"><span class="wd-index-n">03</span>Websites</button></li>
+              <li><button type="button" data-i="3" aria-pressed="false"><span class="wd-index-n">04</span>Apps</button></li>
+              <li><button type="button" data-i="4" aria-pressed="false"><span class="wd-index-n">05</span>Motion and film</button></li>
+            </ol>
+
+            <div class="wd-copy">
+              <div class="wd-txt" data-color="#A3124F" style="--c:#FF7DBF">
+                <p class="wd-svc"><span class="wd-n">01</span> Branding and visual identity</p>
+                <h3 class="wd-title">We find your kind of different.</h3>
+                <p class="wd-desc">Distinctive identities built around what makes you different.</p>
+                <ul class="wd-tags" role="list"><li>Brand identity</li><li>Visual systems</li><li>Graphic design</li><li>Packaging and print</li></ul>
+              </div>
+              <div class="wd-txt" data-color="#1A33C9" style="--c:#9DB4FF">
+                <p class="wd-svc"><span class="wd-n">02</span> UI/UX and product design</p>
+                <h3 class="wd-title">Make it make sense.</h3>
+                <p class="wd-desc">Thoughtful experiences that turn complexity into clarity.</p>
+                <ul class="wd-tags" role="list"><li>Digital products</li><li>Web applications</li><li>Dashboards</li><li>Design systems</li></ul>
+              </div>
+              <div class="wd-txt" data-color="#142118" style="--c:#43FF18">
+                <p class="wd-svc"><span class="wd-n">03</span> Website design and development</p>
+                <h3 class="wd-title">Built to move ideas forward.</h3>
+                <p class="wd-desc">Strong design with purposeful execution. Live in seven days.</p>
+                <ul class="wd-tags" role="list"><li>Seven-day websites</li><li>Marketing sites</li><li>Ecommerce front ends</li><li>Deployment</li></ul>
+              </div>
+              <div class="wd-txt" data-color="#4E5A1E" style="--c:#FFE500">
+                <p class="wd-svc"><span class="wd-n">04</span> App design</p>
+                <h3 class="wd-title">Less friction. More flow.</h3>
+                <p class="wd-desc">Products shaped around real people and real behaviour.</p>
+                <ul class="wd-tags" role="list"><li>Mobile and app design</li><li>Interaction design</li><li>Prototyping</li></ul>
+              </div>
+              <div class="wd-txt" data-color="#6B3F06" style="--c:#FFE500">
+                <p class="wd-svc"><span class="wd-n">05</span> Motion and creative experimentation</p>
+                <h3 class="wd-title">Ideas with a pulse.</h3>
+                <p class="wd-desc">Motion and experimentation that make ideas impossible to ignore.</p>
+                <ul class="wd-tags" role="list"><li>Motion graphics</li><li>Product films</li><li>Video editing</li><li>AI-assisted production</li></ul>
+              </div>
+            </div>
+
+            <div class="wd-wheel" aria-hidden="false">
+              <div class="wd-disc">
+                <img src="assets/img/what/what-1.webp" width="900" height="900" alt="Girgit in a checkerboard skin, on the first rock">
+                <img src="assets/img/what/what-2.webp" width="900" height="900" alt="" loading="lazy">
+                <img src="assets/img/what/what-3.webp" width="900" height="900" alt="" loading="lazy">
+                <img src="assets/img/what/what-4.webp" width="900" height="900" alt="" loading="lazy">
+                <img src="assets/img/what/what-5.webp" width="900" height="900" alt="" loading="lazy">
+              </div>
+              <svg class="wd-ring" viewBox="-100 -100 200 200" role="group" aria-label="Choose a service">
+                <defs><path id="wd-ring-path" d="M -92.8 0 A 92.8 92.8 0 1 1 92.8 0 A 92.8 92.8 0 1 1 -92.8 0"/></defs>
+                <circle r="87" fill="none" stroke="rgba(244,239,229,.3)" stroke-width=".3"/>
+                <g class="wd-dot" style="transform: rotate(-66deg)"><circle cy="-87" r="1.6" fill="#FFE500" stroke="#111" stroke-width=".5"/></g>
+                <text text-anchor="middle" role="button" tabindex="0" aria-label="Show branding" aria-pressed="true"><textPath href="#wd-ring-path" startOffset="6.667%">branding</textPath></text>
+                <text text-anchor="middle" role="button" tabindex="0" aria-label="Show UI/UX and product design" aria-pressed="false"><textPath href="#wd-ring-path" startOffset="15.833%">ui/ux</textPath></text>
+                <text text-anchor="middle" role="button" tabindex="0" aria-label="Show websites" aria-pressed="false"><textPath href="#wd-ring-path" startOffset="25%">websites</textPath></text>
+                <text text-anchor="middle" role="button" tabindex="0" aria-label="Show app design" aria-pressed="false"><textPath href="#wd-ring-path" startOffset="34.167%">apps</textPath></text>
+                <text text-anchor="middle" role="button" tabindex="0" aria-label="Show motion" aria-pressed="false"><textPath href="#wd-ring-path" startOffset="43.333%">motion</textPath></text>
+              </svg>
+              <!-- One prop per service, floating off the disc's shoulder. -->
+              <img class="wd-decor" data-i="0" data-side="l" src="assets/img/prop-squiggle.webp" width="700" height="588" alt="" loading="lazy">
+              <img class="wd-decor" data-i="1" data-side="l" src="assets/img/prop-mac.webp" width="930" height="850" alt="" loading="lazy">
+              <img class="wd-decor" data-i="2" data-side="l" src="assets/img/prop-seven.webp" width="451" height="800" alt="" loading="lazy">
+              <img class="wd-decor" data-i="3" data-side="l" src="assets/img/prop-drop.webp" width="299" height="700" alt="" loading="lazy">
+              <img class="wd-decor" data-i="4" data-side="l" src="assets/img/prop-hourglass.webp" width="489" height="800" alt="" loading="lazy">
+            </div>
+
+            <div class="wd-bar">
+              <span class="wd-segs" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+              <button type="button" class="wd-nav" data-dir="prev" aria-label="Previous service"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M10 3 5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <button type="button" class="wd-nav" data-dir="next" aria-label="Next service"><svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
+            <span class="wd-sr sr-only" aria-live="polite"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 05: THE EYE WALL, and the panel that rises over it: "We're always looking", with the name.
+         A sticky wall of square tiles, each a flat eye whose pupil moves on its own (js/eyes.js,
+         js/eye-tiles.js). The ivory panel then scrolls up over the wall. It carries the name as a
+         dictionary entry, because the studio's own meaning of गिरगिट is attention. Hindi words swap to
+         English on hover, tap, focus or Enter (js/site.js). Copy: content/08-site-v2.md, sections 2 and 3. -->
     <section class="eyes" id="looking" aria-labelledby="eyes-title">
       <div class="eyes-stick"><div class="eyes-grid" aria-hidden="true"></div></div>
       <div class="eyes-cover">
-        <h2 class="eyes-title" id="eyes-title">We're always looking.</h2>
-        <p class="eyes-sub">For the detail. The possibility. The thing nobody has tried yet.</p>
-      </div>
-    </section>
-
-    <!-- THE NAME, as a dictionary entry for the word. After "We're always looking": the name is about
-         attention. Copy from the approved name copy (content/08-site-v2.md, section 2), set as the
-         meanings of the word. Hover the headword and it changes colour; the Hindi words in the text
-         swap to English on hover, tap, focus or Enter (js/site.js). -->
-    <section class="s5 st-dark st-name" id="name" aria-labelledby="name-title">
-      <div class="s5-wrap">
-        <p class="s5-kicker" data-reveal>The name</p>
-        <div class="st-name-grid">
-          <article class="st-dict-card" data-reveal>
+        <div class="ec-grid">
+          <div class="ec-copy">
+            <h2 class="eyes-title" id="eyes-title">We're always looking.</h2>
+            <p class="eyes-sub">For the detail. The possibility. The thing nobody has tried yet.</p>
+          </div>
+          <article class="st-dict-card ec-dict" aria-labelledby="name-title" data-reveal>
+            <p class="ec-dict-kicker">The name</p>
             <div class="st-dict-head">
-              <h2 class="st-dict-word" id="name-title"><span lang="hi">गिरगिट</span><span class="sr-only"> (girgit, Hindi for chameleon)</span></h2>
+              <h3 class="st-dict-word" id="name-title"><span lang="hi">गिरगिट</span><span class="sr-only"> (girgit, Hindi for chameleon)</span></h3>
               <p class="st-dict-say"><i>girgit</i> <span class="st-dict-ipa">/ˈɡɪr.ɡɪt/</span> <span class="st-dict-tag">noun</span> <span class="st-dict-tag">Hindi</span></p>
             </div>
             <ol class="st-dict-defs" role="list" data-stagger>
@@ -374,95 +516,48 @@
               <li class="st-dict-ours"><span class="st-dict-n" aria-hidden="true">3</span><p><em>(our meaning)</em> <strong>Attention. A chameleon answers to where it is. Nothing about it is fixed except the attention.</strong></p></li>
             </ol>
           </article>
-          <div class="st-name-side">
-            <p class="st-name-turn" data-split>We took the name <span>anyway.</span></p>
-            <p class="st-name-line st-name-line--strong" data-reveal>That's the whole job. The work should belong to you: carry your <span class="hi st-deva" lang="hi" data-en="temperament" tabindex="0" role="button">मिज़ाज</span>, your market, your ambition. Not our portfolio.</p>
-            <p class="st-aside hand" data-reveal>(yes, it's an insult. we checked.)</p>
-          </div>
+        </div>
+        <div class="ec-turn" data-reveal>
+          <p class="ec-turn-line">We took the name <span>anyway.</span></p>
+          <p class="ec-turn-copy">That's the whole job. The work should belong to you: carry your <span class="hi st-deva" lang="hi" data-en="temperament" tabindex="0" role="button">मिज़ाज</span>, your market, your ambition. Not our portfolio. <span class="ec-aside">(yes, it's an insult. we checked.)</span></p>
         </div>
       </div>
     </section>
 
-    <!-- SECTION 05: FROM CURIOSITY TO EXECUTION. Calm and editorial after the eye wall: what the
-         studio does, the work (placeholders until real case studies are ready), and the invitation.
-         The contact form and email are the real ones (js/site.js posts to /api/contact). -->
-    <section class="s5" id="approach" aria-labelledby="s5-title">
+    <!-- SECTION 06: HOW WE WORK, in one place: the stance, the week, and why the speed is real.
+         The week is a timeline whose markers are eye tiles: asleep before it starts, they open one after
+         another as you reach them, and at Day 7 ("Live") Girgit pops up (js/how.js). The three reasons
+         are framed cards. Copy: content/08-site-v2.md, sections 4 to 6. -->
+    <section class="s5 st-dark hw-sec" id="approach" aria-labelledby="s5-title">
       <div class="s5-wrap">
-        <img class="deco deco--squiggle" src="assets/img/prop-squiggle.webp" width="700" height="588" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.08">
-        <span class="deco deco--arrow" aria-hidden="true" data-parallax="0.04"><svg viewBox="0 0 130 90" fill="none" stroke="#111111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14 C 30 70, 70 84, 116 62"/><path d="M98 48 L118 61 L100 78"/></svg></span>
-        <span class="deco deco--pink" aria-hidden="true" data-parallax="-0.12"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#FF168C" stroke="#111111" stroke-width="5"/></svg></span>
+        <img class="deco deco--seven" src="assets/img/prop-seven.webp" width="451" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.1">
         <p class="s5-kicker" data-reveal>How we work</p>
         <h2 class="s5-statement" id="s5-title">No fixed formula. <span class="s5-alt">No boring solutions.</span></h2>
         <p class="s5-lede" data-reveal>We learn first. We figure out what the idea needs. Then we make it happen.</p>
-      </div>
-    </section>
 
-    <!-- THE SEVEN DAYS and WHY THE SPEED IS REAL. Approved copy (content/08-site-v2.md, sections 5 and 6). -->
-    <section class="s5 st-days" id="seven-days" aria-labelledby="days-title">
-      <div class="s5-wrap">
-        <img class="deco deco--seven" src="assets/img/prop-seven.webp" width="451" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.1">
-        <div class="s5-head"><h2 class="s5-h2" data-split id="days-title">Seven days, from approved scope to live.</h2></div>
-        <p class="st-lede" data-reveal>Not a rough first draft. A website you would be happy to send to an investor on day eight.</p>
-        <ol class="st-days-list" role="list">
-          <li class="st-day" style="--day: var(--yellow)" data-reveal><span class="st-day-tag">Before the clock</span><p>Content collected, references studied, sitemap agreed, visual direction set, scope signed off.</p></li>
-          <li class="st-day" style="--day: var(--acid)" data-reveal><span class="st-day-tag">Day 1</span><p>Direction, on screen, not in a deck.</p></li>
-          <li class="st-day" style="--day: var(--pink)" data-reveal><span class="st-day-tag">Day 3</span><p>The real thing, in a browser, on your phone.</p></li>
-          <li class="st-day" style="--day: var(--blue)" data-reveal><span class="st-day-tag">Day 7</span><p>Live.</p></li>
-        </ol>
-        <p class="st-small" data-reveal>One revision round is included. If it's genuinely bigger than seven days, we say so before you pay anything, ship a complete V1 in seven, and take the rest into Phase 2.</p>
-        <p class="st-aside hand" data-reveal>(how the week actually runs)</p>
-      </div>
-    </section>
+        <div class="hw-week">
+          <div class="hw-head" data-reveal>
+            <h3 class="hw-h3">Seven days, from approved scope to live.</h3>
+            <p class="hw-note">Not a rough first draft. A website you would be happy to send to an investor on day eight.</p>
+          </div>
+          <ol class="hw-steps" role="list">
+            <li class="hw-step" style="--c:#FFE500"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="601" data-asleep aria-hidden="true"></span><span class="hw-tag">Before the clock</span><p>Content collected, references studied, sitemap agreed, visual direction set, scope signed off.</p></li>
+            <li class="hw-step" style="--c:#43FF18"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="613" data-asleep aria-hidden="true"></span><span class="hw-tag">Day 1</span><p>Direction, on screen, not in a deck.</p></li>
+            <li class="hw-step" style="--c:#FF168C"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="627" data-asleep aria-hidden="true"></span><span class="hw-tag">Day 3</span><p>The real thing, in a browser, on your phone.</p></li>
+            <li class="hw-step hw-step--live" style="--c:#173BFF"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="641" data-asleep aria-hidden="true"></span><span class="hw-tag">Day 7</span><p class="hw-live">Live.</p><img class="hw-girgit" src="assets/img/cham-lime.webp" width="1183" height="1200" alt="" aria-hidden="true" loading="lazy"></li>
+          </ol>
+          <p class="st-small hw-small" data-reveal>One revision round is included. If it's genuinely bigger than seven days, we say so before you pay anything, ship a complete V1 in seven, and take the rest into Phase 2.</p>
+        </div>
 
-    <section class="s5 st-dark st-why" id="why" aria-labelledby="why-title">
-      <div class="s5-wrap">
-        <img class="deco deco--hourglass" src="assets/img/prop-hourglass.webp" width="489" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.08">
-        <div class="s5-head"><h2 class="s5-h2" data-split id="why-title">Fast isn't a discount.</h2></div>
-        <ol class="st-why-cols" role="list">
-          <li data-reveal><span class="st-why-n">01</span><h3>A small senior team.</h3><p>Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.</p></li>
-          <li data-reveal><span class="st-why-n">02</span><h3>No handoff.</h3><p>The designer builds the frontend. The person who drew it ships it.</p></li>
-          <li data-reveal><span class="st-why-n">03</span><h3>The slow part happens first.</h3><p>Research, references, sitemap, direction and scope are settled before day one. Seven days of building, not seven days of deciding.</p></li>
-        </ol>
-        <p class="st-aside hand" data-reveal>(fast, not cheap. different thing.)</p>
-      </div>
-    </section>
-
-    <section class="s5" id="services" aria-labelledby="services-title">
-      <div class="s5-wrap">
-        <span class="deco deco--checker" aria-hidden="true" data-parallax="0.06"><svg viewBox="0 0 80 80"><rect width="80" height="80" fill="#F4EFE5"/><rect x="0" y="0" width="20" height="20" fill="#111111"/><rect x="40" y="0" width="20" height="20" fill="#111111"/><rect x="20" y="20" width="20" height="20" fill="#111111"/><rect x="60" y="20" width="20" height="20" fill="#111111"/><rect x="0" y="40" width="20" height="20" fill="#111111"/><rect x="40" y="40" width="20" height="20" fill="#111111"/><rect x="20" y="60" width="20" height="20" fill="#111111"/><rect x="60" y="60" width="20" height="20" fill="#111111"/><rect x="2" y="2" width="76" height="76" fill="none" stroke="#111111" stroke-width="4"/></svg></span>
-        <div class="s5-head"><h2 class="s5-h2" data-split id="services-title">Five things, done properly.</h2></div>
-        <ol class="svc-list" role="list">
-          <li class="svc" style="--svc: var(--pink)" data-reveal>
-            <span class="svc-n">01</span>
-            <h3 class="svc-name">Branding and visual identity</h3>
-            <p class="svc-line">Distinctive identities built around what makes you different.</p>
-            <ul class="svc-tags" role="list"><li>Brand identity</li><li>Visual systems and guidelines</li><li>Graphic design</li><li>Packaging and print</li></ul>
-          </li>
-          <li class="svc" style="--svc: var(--blue)" data-reveal>
-            <span class="svc-n">02</span>
-            <h3 class="svc-name">UI/UX and product design</h3>
-            <p class="svc-line">Thoughtful experiences that turn complexity into clarity.</p>
-            <ul class="svc-tags" role="list"><li>Digital product design</li><li>Web applications</li><li>Dashboards</li><li>Design systems</li><li>Prototyping</li></ul>
-          </li>
-          <li class="svc" style="--svc: var(--forest)" data-reveal>
-            <span class="svc-n">03</span>
-            <h3 class="svc-name">Website design and development</h3>
-            <p class="svc-line">Digital experiences that combine strong design with purposeful execution.</p>
-            <ul class="svc-tags" role="list"><li>Seven-day websites</li><li>Marketing sites</li><li>Ecommerce front ends</li><li>Frontend build</li><li>Deployment</li></ul>
-          </li>
-          <li class="svc" style="--svc: var(--acid)" data-reveal>
-            <span class="svc-n">04</span>
-            <h3 class="svc-name">App design</h3>
-            <p class="svc-line">Products shaped around real people and real behaviour.</p>
-            <ul class="svc-tags" role="list"><li>Mobile and app design</li><li>Interaction design</li><li>Prototyping</li></ul>
-          </li>
-          <li class="svc" style="--svc: var(--yellow)" data-reveal>
-            <span class="svc-n">05</span>
-            <h3 class="svc-name">Motion and creative experimentation</h3>
-            <p class="svc-line">Motion and experimentation that make ideas impossible to ignore.</p>
-            <ul class="svc-tags" role="list"><li>Motion graphics</li><li>Video editing</li><li>Product films</li><li>AI-assisted production</li></ul>
-          </li>
-        </ol>
+        <div class="hw-why">
+          <h3 class="hw-h3" data-reveal>Fast isn't a discount.</h3>
+          <ol class="hw-reasons" role="list">
+            <li class="hw-reason" data-reveal><span class="hw-n">01</span><h4>A small senior team.</h4><p>Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.</p></li>
+            <li class="hw-reason" data-reveal><span class="hw-n">02</span><h4>No handoff.</h4><p>The designer builds the frontend. The person who drew it ships it.</p></li>
+            <li class="hw-reason" data-reveal><span class="hw-n">03</span><h4>The slow part happens first.</h4><p>Research, references, sitemap, direction and scope are settled before day one. Seven days of building, not seven days of deciding.</p></li>
+          </ol>
+          <p class="st-aside" data-reveal>(fast, not cheap. different thing.)</p>
+        </div>
       </div>
     </section>
 
@@ -471,7 +566,7 @@
       <div class="s5-wrap">
         <div class="s5-head"><h2 class="s5-h2" data-split id="who-title">We work best with</h2></div>
         <div class="st-fit-board">
-          <img class="st-fit-peek" src="assets/img/cham-peek.webp" width="1000" height="797" alt="" aria-hidden="true" loading="lazy" data-reveal>
+          <span class="st-fit-peek eye-cluster" data-eye-tiles="3" data-seed="407" aria-hidden="true" data-reveal></span>
         <ul class="st-fit-yes" role="list">
           <li class="st-fit-card" style="--c: var(--acid)" data-reveal><span class="st-fit-top"><span class="st-fit-tag">Founders</span><span class="st-fit-n" aria-hidden="true">01</span></span><p>Founders who need an idea to exist by a date.</p></li>
           <li class="st-fit-card" style="--c: var(--yellow)" data-reveal><span class="st-fit-top"><span class="st-fit-tag">Businesses</span><span class="st-fit-n" aria-hidden="true">02</span></span><p>Businesses whose digital presence is a decade behind the company.</p></li>
@@ -487,86 +582,16 @@
               <li>Anyone who wants to art-direct the art director.</li>
             </ul>
           </div>
-          <img class="st-fit-sleep" src="assets/img/cham-sleep.webp" width="1000" height="529" alt="" aria-hidden="true" loading="lazy">
+          <span class="st-fit-sleep eye-cluster" data-eye-tiles="2" data-seed="503" data-asleep aria-hidden="true"></span>
         </div>
         <p class="st-close" data-reveal>We'll recommend the direction and argue for it. You approve the big calls.</p>
         <p class="st-aside hand" data-reveal>(be honest. which one are you?)</p>
       </div>
     </section>
 
-    <section class="s5" id="work" aria-labelledby="work-title">
-      <div class="s5-wrap">
-        <img class="deco deco--mac" src="assets/img/prop-mac.webp" width="930" height="850" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.06">
-        <span class="deco deco--ring" aria-hidden="true" data-parallax="0.08"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="#173BFF" stroke-width="14"/><circle cx="50" cy="50" r="46" fill="none" stroke="#111111" stroke-width="3"/><circle cx="50" cy="50" r="30" fill="none" stroke="#111111" stroke-width="3"/></svg></span>
-        <div class="s5-head"><h2 class="s5-h2" data-split id="work-title">Different every time. That's the point.</h2></div>
-        <p class="work-note" data-reveal>Two case studies are up; more are being written up properly, outcome first. Until they're ready, the empty slots are placeholders, not projects.</p>
-        <ul class="work-grid" role="list">
-          <li class="work-slot work-slot--wide work-slot--real" data-reveal>
-            <a class="work-link" href="work/clay-and-glaze/">
-              <span class="work-media work-media--real"><img src="assets/work/clay-and-glaze/cg-26-960.webp" srcset="assets/work/clay-and-glaze/cg-26-960.webp 960w, assets/work/clay-and-glaze/cg-26-1920.webp 1920w" sizes="(max-width: 760px) 100vw, 82rem" width="1920" height="1080" alt="Clay &amp; Glaze, the final mark" loading="lazy"></span>
-              <span class="work-meta"><span>Clay &amp; Glaze</span> A mother-daughter pottery workshop, given a brand as handmade as its work.</span>
-              <span class="work-tags">Brand identity · Packaging · Brand collateral</span>
-            </a>
-          </li>
-          <li class="work-slot work-slot--real" data-reveal>
-            <a class="work-link" href="work/ld-screw/">
-              <span class="work-media work-media--real" style="--tile-bg:#1E1E1E"><img src="assets/work/ld-screw/ld-tile-720.webp" srcset="assets/work/ld-screw/ld-tile-720.webp 720w, assets/work/ld-screw/ld-tile-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 40rem" width="1440" height="1080" alt="LD Screw, the home page" loading="lazy"></span>
-              <span class="work-meta"><span>LD Screw</span> A website for a stainless steel screw maker.</span>
-              <span class="work-tags">Website design</span>
-            </a>
-          </li>
-          <li class="work-slot work-slot--real" data-reveal>
-            <a class="work-link" href="work/moshi/">
-              <span class="work-media work-media--real" style="--tile-bg:#F3EFE7"><img src="assets/work/moshi/moshi-01-720.webp" srcset="assets/work/moshi/moshi-01-720.webp 720w, assets/work/moshi/moshi-01-1440.webp 1440w" sizes="(max-width: 760px) 100vw, 40rem" width="1440" height="980" alt="Moshi, the home page" loading="lazy"></span>
-              <span class="work-meta"><span>Moshi</span> An online store for a heritage clothing label.</span>
-              <span class="work-tags">Website design · E-commerce UI/UX</span>
-            </a>
-          </li>
-          <li class="work-slot work-slot--wide" data-reveal>
-            <div class="work-media"><span class="work-badge">Placeholder</span><span class="work-soon">Case study coming soon</span></div>
-            <p class="work-meta"><span>Project 04</span> To be added</p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Testimonials. DRAFTS written by the studio from each case study, not yet approved by the
-         clients. Each card shows a "Draft" tag while it carries data-status="draft". Before going
-         live: send each client its wording, replace it with what they approve, then delete
-         data-status="draft" from that card. Never publish a quote a client hasn't signed off. -->
-    <section class="s5 tm" id="words" aria-labelledby="words-title">
-      <div class="s5-wrap">
-        <div class="s5-head"><h2 class="s5-h2" data-split id="words-title">Ask the people we made it for.</h2></div>
-        <ul class="tm-list" role="list">
-          <li class="tm-card" style="--tm:#391E16;--tm-ink:#F4EFE5" data-status="draft" data-reveal>
-            <figure class="tm-fig">
-              <blockquote class="tm-quote"><p>They spent the first conversation asking how we work at the wheel, not which colours we liked. The seal they drew is the one we now press into the clay before every firing.</p></blockquote>
-              <figcaption class="tm-who"><span class="tm-name">The founders</span><span class="tm-role">Clay &amp; Glaze, Pondicherry</span></figcaption>
-            </figure>
-            <a class="tm-link" href="work/clay-and-glaze/">Read the case study <span aria-hidden="true">→</span></a>
-          </li>
-          <li class="tm-card" style="--tm:#1E1E1E;--tm-ink:#F4EFE5" data-status="draft" data-reveal>
-            <figure class="tm-fig">
-              <blockquote class="tm-quote"><p>Our buyers read catalogues, not websites. Girgit Labs built us a site that reads like our catalogue, and put the certificates exactly where a new dealer looks first.</p></blockquote>
-              <figcaption class="tm-who"><span class="tm-name">The director</span><span class="tm-role">LD Screw (name changed under NDA)</span></figcaption>
-            </figure>
-            <a class="tm-link" href="work/ld-screw/">Read the case study <span aria-hidden="true">→</span></a>
-          </li>
-          <li class="tm-card" style="--tm:#761117;--tm-ink:#FAFAFA" data-status="draft" data-reveal>
-            <figure class="tm-fig">
-              <blockquote class="tm-quote"><p>Every craft we work with has a family behind it. The store gives Ajrakh, Khadi, Batik and Dabu a chapter each, and the clothes are still one tap from the cart.</p></blockquote>
-              <figcaption class="tm-who"><span class="tm-name">The founders</span><span class="tm-role">Moshi, India</span></figcaption>
-            </figure>
-            <a class="tm-link" href="work/moshi/">Read the case study <span aria-hidden="true">→</span></a>
-          </li>
-        </ul>
-      </div>
-    </section>
-
     <section class="cta" id="talk" aria-labelledby="talk-title">
       <div class="cta-panel">
         <img class="deco deco--drop" src="assets/img/prop-drop.webp" width="299" height="700" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.05">
-        <span class="deco deco--spark" aria-hidden="true" data-parallax="0.05"><svg viewBox="0 0 100 100"><path d="M50 4 C54 38 62 46 96 50 C62 54 54 62 50 96 C46 62 38 54 4 50 C38 46 46 38 50 4Z" fill="#43FF18" stroke="#111111" stroke-width="4" stroke-linejoin="round"/></svg></span>
         <h2 class="cta-title" id="talk-title" data-reveal>Got a good idea? <span>Let's make it real.</span></h2>
         <div class="cta-actions" data-reveal>
           <button class="cta-btn cta-btn--primary" type="button" data-open-form>Start a project</button>
@@ -628,7 +653,7 @@
         <nav class="ft-cols" aria-label="Footer">
           <div>
             <p class="ft-label">Explore</p>
-            <ul class="ft-links" role="list"><li><a href="#what">What we do</a></li><li><a href="#approach">How we work</a></li><li><a href="#work">Work</a></li><li><a href="#talk">Let's talk</a></li></ul>
+            <ul class="ft-links" role="list"><li><a href="#work">Work</a></li><li><a href="#what">What we do</a></li><li><a href="#approach">How we work</a></li><li><a href="#talk">Let's talk</a></li></ul>
           </div>
           <div>
             <p class="ft-label">Studio</p>

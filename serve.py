@@ -1,7 +1,7 @@
 """Local preview server with HTTP Range support.
 
-Python's built-in `http.server` ignores Range requests, and browsers need them to
-seek inside a video, which the hero's freeze-frame depends on. Run from this folder:
+Python's built-in `http.server` ignores Range requests, which browsers use for media.
+Every response is no-store, so each edit shows on a plain refresh. Run from this folder:
 
     python serve.py          # http://127.0.0.1:5178
     python serve.py 8080     # another port

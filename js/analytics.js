@@ -52,7 +52,7 @@ export function initAnalytics() {
     // 3. viewed_work_project
     const workLink = e.target.closest('.work-link, a[href*="work/"]');
     if (workLink) {
-      const name = workLink.querySelector('.work-meta span')?.textContent?.trim() || workLink.textContent.trim();
+      const name = workLink.querySelector('.pl-name, .work-meta span')?.textContent?.trim() || workLink.textContent.trim();
       track('viewed_work_project', {
         project_name: name,
         project_url: workLink.getAttribute('href')
