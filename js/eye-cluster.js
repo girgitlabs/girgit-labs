@@ -4,7 +4,7 @@
 // when the pointer comes near a cluster, its eyes all turn to look at it (on touch screens: at the tap,
 // for a moment). A cluster marked data-asleep keeps its lids shut.
 // Markup: <span class="eye-cluster" data-eye-tiles="3" data-seed="101" [data-cols="2"] [data-asleep]>.
-import { tile, tileMarkup } from './eye-tiles.js';
+import { tile, tileMarkup } from './eye-tiles.js?v=3.1.0';
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clusters = [];

@@ -357,10 +357,6 @@ html:not(.js) .hx-tip { display: none; }
 .tq-head { position: relative; }
 .tq-eyes { width: min(70vw, 16rem); margin-top: 1.2rem; }
 @media (min-width: 900px) { .tq-eyes { position: absolute; right: 0; bottom: 0; width: clamp(14rem, 22vw, 20rem); margin: 0; } }
-/* Who we're for: three eyes over the cards; the poor fits get two that stay asleep. */
-.st-fit-peek { width: clamp(150px, 17vw, 240px); bottom: calc(100% - 3px); }
-.st-fit-sleep { width: clamp(7rem, 13vw, 10rem); }
-@media (max-width: 760px) { .st-fit-peek { width: 150px; } }
 
 /* ==========================================================================
    SECTION 05: THE PANEL OVER THE EYE WALL, now carrying the name (its meaning is attention).
@@ -450,3 +446,84 @@ html:not(.js) .hx-tip { display: none; }
 .hw-reason p { margin: 0; font: 500 1.02rem/1.55 var(--satoshi); color: var(--body); }
 @media (min-width: 760px) { .hw-reasons { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (hover: hover) { .hw-reason:hover { transform: translate(-3px, -3px); box-shadow: 9px 9px 0 #000; } }
+
+/* ==========================================================================
+   SECTION 07: WHO WE WORK BEST WITH (.st-fit)
+   ========================================================================== */
+.st-fit .s5-head { margin-bottom: clamp(4rem, 8vw, 7rem); }
+.st-fit-board { position: relative; }
+.st-fit-peek {
+  position: absolute; z-index: 2; right: clamp(1rem, 4vw, 3rem); bottom: calc(100% - 3px);
+  width: clamp(140px, 17vw, 240px); height: auto; pointer-events: none;
+}
+.st-fit-yes {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1rem, 2.4vw, 1.8rem); margin: 0; padding: 0; list-style: none;
+}
+.st-fit-card {
+  --c: var(--acid); display: grid; align-content: space-between; gap: 2rem;
+  min-height: 12rem; padding: clamp(1.2rem, 2.4vw, 1.6rem);
+  border: var(--frame); border-radius: var(--r); background: var(--ivory);
+  box-shadow: var(--lift); color: var(--black);
+  transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+@media (hover: hover) {
+  .st-fit-card:hover { transform: translate(-3px, -3px); box-shadow: var(--lift-up); }
+}
+.st-fit-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+.st-fit-tag {
+  padding: 0.4rem 0.75rem; border: 2px solid var(--black); border-radius: 999px;
+  background: var(--c); color: var(--black); font: 800 0.72rem/1 var(--satoshi);
+  letter-spacing: 0.12em; text-transform: uppercase;
+}
+.st-fit-n { font: 800 0.9rem/1 var(--satoshi); color: var(--muted); font-variant-numeric: tabular-nums; }
+.st-fit-card p {
+  margin: 0; max-width: 24ch; font: 800 clamp(1.3rem, 2.1vw, 1.85rem)/1.15 var(--satoshi);
+  letter-spacing: -0.025em; color: var(--black);
+}
+.st-fit-less {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center;
+  gap: 1.5rem clamp(1.5rem, 4vw, 3rem); margin-top: clamp(1.6rem, 3.4vw, 2.6rem);
+  padding: clamp(1.4rem, 3vw, 2.2rem); border: var(--frame); border-radius: var(--r);
+  background: var(--forest); color: var(--ivory); box-shadow: var(--lift);
+}
+.st-fit-h3 {
+  margin: 0 0 0.9rem; font: 900 clamp(1.4rem, 2.4vw, 2.1rem)/1 var(--satoshi);
+  letter-spacing: -0.03em; text-transform: uppercase; color: var(--acid);
+}
+.st-fit-no { display: grid; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
+.st-fit-no li {
+  position: relative; padding-left: 2.3rem; font: 600 clamp(1.05rem, 1.4vw, 1.25rem)/1.4 var(--satoshi);
+  color: rgb(244 239 229 / 0.85);
+}
+.st-fit-no li::before {
+  content: '✕'; position: absolute; left: 0; top: 0.05em; display: grid; place-items: center;
+  width: 1.5rem; height: 1.5rem; border: 2px solid #FF8FC7; border-radius: 50%;
+  color: #FF8FC7; font: 800 0.7rem/1 var(--satoshi);
+}
+.st-fit-sleep { display: block; width: clamp(7rem, 13vw, 10rem); height: auto; }
+.st-close {
+  max-width: 24ch; margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+  font: 900 clamp(1.7rem, 3.2vw, 2.9rem)/1 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase;
+}
+@media (max-width: 760px) {
+  .st-fit-yes, .st-fit-less { grid-template-columns: 1fr; }
+  .st-fit-card { min-height: 0; }
+  .st-fit-sleep { justify-self: end; width: 8.5rem; margin-top: 1rem; }
+  .st-fit-peek { width: 120px; }
+  .st-fit .s5-head { margin-bottom: 4rem; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .js .st-fit-card[data-reveal] {
+    transition: opacity 600ms var(--ease) var(--d, 0ms), translate 700ms var(--ease) var(--d, 0ms), transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  }
+  .st-fit-card:nth-child(2) { --d: 100ms; }
+  .st-fit-card:nth-child(3) { --d: 200ms; }
+  .st-fit-card:nth-child(4) { --d: 300ms; }
+  .js .st-fit-peek[data-reveal] {
+    transition: opacity 400ms var(--ease) 250ms, translate 600ms var(--pop) 250ms;
+  }
+}
+@media (hover: none) {
+  .st-fit-card:hover { transform: none; box-shadow: var(--lift); }
+}

@@ -31,7 +31,7 @@ if (hero) {
   // The word settles left to right; the letters not yet settled flicker through random glyphs.
   const scramble = (target) => {
     cancelAnimationFrame(scrambleRaf);
-    if (reduce) { word.textContent = target; return; }
+    if (reduce || !word) { if (word) word.textContent = target; return; }
     const start = performance.now(), DUR = 560;
     const tick = (t) => {
       const k = Math.min(1, (t - start) / DUR), settled = Math.floor(k * target.length);
@@ -51,25 +51,62 @@ if (hero) {
     if (busy) return;
     const next = ((n % STATES.length) + STATES.length) % STATES.length, s = STATES[next];
     i = next;
-    now.textContent = String(i + 1).padStart(2, '0');
+    if (now) now.textContent = String(i + 1).padStart(2, '0');
     scramble(s[0]);
-    girgit.classList.remove('is-changing'); void girgit.offsetWidth; girgit.classList.add('is-changing');
-    hero.classList.remove('is-bumping'); void hero.offsetWidth; hero.classList.add('is-bumping');
-    if (reduce || !flood.animate) { paint(s); return; }
+    if (girgit) {
+      girgit.classList.remove('is-changing');
+      void girgit.offsetWidth;
+      girgit.classList.add('is-changing');
+    }
+    hero.classList.remove('is-bumping');
+    void hero.offsetWidth;
+    hero.classList.add('is-bumping');
+
+    if (reduce || !flood || typeof flood.animate !== 'function') {
+      paint(s);
+      return;
+    }
+
     // The flood: a circle of the new colour from the origin until it covers the hero, then it becomes the hero.
-    const r = hero.getBoundingClientRect(), g = girgit.getBoundingClientRect();
-    const x = from ? from.x - r.left : g.left + g.width / 2 - r.left;
-    const y = from ? from.y - r.top : g.top + g.height * 0.45 - r.top;
-    const R = Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y));
+    const r = hero.getBoundingClientRect();
+    const g = girgit ? girgit.getBoundingClientRect() : r;
+    const gw = g.width || 200, gh = g.height || 200;
+    const gx = g.width ? g.left : (r.left + r.width / 2 - gw / 2);
+    const gy = g.height ? g.top : (r.top + r.height * 0.5);
+    const x = from && typeof from.x === 'number' && !isNaN(from.x) ? from.x - r.left : gx + gw / 2 - r.left;
+    const y = from && typeof from.y === 'number' && !isNaN(from.y) ? from.y - r.top : gy + gh * 0.45 - r.top;
+    const R = Math.hypot(Math.max(x, r.width - x), Math.max(y, r.height - y)) || Math.max(r.width, r.height) || 1200;
+
     busy = true;
     flood.style.background = s[1];
     setTimeout(() => hero.style.setProperty('--fg', s[2]), 260);              // the ink flips as the flood passes
     hero.style.setProperty('--gf', s[3]);
-    const anim = flood.animate(
-      [{ clipPath: `circle(0px at ${x}px ${y}px)` }, { clipPath: `circle(${R}px at ${x}px ${y}px)` }],
-      { duration: 720, easing: 'cubic-bezier(0.7, 0, 0.2, 1)', fill: 'forwards' },
-    );
-    anim.onfinish = () => { paint(s); anim.cancel(); busy = false; };
+
+    let finished = false;
+    const done = () => {
+      if (finished) return;
+      finished = true;
+      paint(s);
+      busy = false;
+    };
+
+    try {
+      const anim = flood.animate(
+        [
+          { clipPath: `circle(0px at ${x.toFixed(1)}px ${y.toFixed(1)}px)`, webkitClipPath: `circle(0px at ${x.toFixed(1)}px ${y.toFixed(1)}px)` },
+          { clipPath: `circle(${R.toFixed(1)}px at ${x.toFixed(1)}px ${y.toFixed(1)}px)`, webkitClipPath: `circle(${R.toFixed(1)}px at ${x.toFixed(1)}px ${y.toFixed(1)}px)` }
+        ],
+        { duration: 720, easing: 'cubic-bezier(0.7, 0, 0.2, 1)', fill: 'forwards' },
+      );
+      anim.onfinish = () => {
+        done();
+        try { anim.cancel(); } catch (_) {}
+      };
+      // Guaranteed safety timeout: if browser drops onfinish or halts animation, always release busy state
+      setTimeout(done, 750);
+    } catch (_) {
+      done();
+    }
   };
 
   const stop = () => { clearInterval(timer); timer = 0; };
@@ -80,19 +117,23 @@ if (hero) {
 
   // A click or tap anywhere in the hero that isn't a link: the next colour, from right there.
   hero.addEventListener('click', (e) => {
-    if (e.target.closest('a, .hx-ticker')) return;
+    if (e.target.closest('a, .hx-ticker, button:not(.hx-girgit)')) return;
     const onGirgit = e.target.closest('.hx-girgit');
-    go(i + 1, onGirgit || !e.clientX ? null : { x: e.clientX, y: e.clientY });
+    const from = onGirgit || typeof e.clientX !== 'number' || e.clientX === 0 ? null : { x: e.clientX, y: e.clientY };
+    go(i + 1, from);
     hero.classList.add('was-tapped');
     run();
     try { window.posthog?.capture('hero_colour', { to: STATES[i][0], by: onGirgit ? 'girgit' : 'hero' }); } catch { /* fine */ }
   });
-  girgit.addEventListener('animationend', () => girgit.classList.remove('is-changing'));
+
+  if (girgit) {
+    girgit.addEventListener('animationend', () => girgit.classList.remove('is-changing'));
+  }
   hero.addEventListener('animationend', (e) => { if (e.animationName === 'hx-bump') hero.classList.remove('is-bumping'); });
   setTimeout(() => hero.classList.add('is-ready'), 1700);
 
   // Fine pointers: Girgit leans toward the pointer, the props drift with it.
-  if (!reduce && matchMedia('(pointer: fine)').matches) {
+  if (!reduce && stage && matchMedia('(pointer: fine)').matches) {
     let raf = 0;
     hero.addEventListener('pointermove', (e) => {
       if (raf) return;

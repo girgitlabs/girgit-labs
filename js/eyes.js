@@ -4,7 +4,7 @@
 // occasional glance toward the pointer. Off screen, every animation is paused.
 // Scroll: the wall is sticky; scrolling shatters it (a GSAP timeline, driven by the section's live
 // position on screen), then SECTION 05's ivory panel rises over it and its headline rises word by word.
-import { tile, tileMarkup } from './eye-tiles.js';
+import { tile, tileMarkup } from './eye-tiles.js?v=3.1.0';
 
 const section = document.querySelector('.eyes');
 if (section) init();

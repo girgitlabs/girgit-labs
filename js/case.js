@@ -1,8 +1,8 @@
 // Project (case study) pages: gentle reveal-on-scroll, a nav that fills in once scrolled, a full-screen
 // image viewer (click any image; arrows, Esc), copy email and the Mumbai clock in the footer, and
 // the footer banner. Built to be shared by every project page.
-import './footer-banner.js';
-import './analytics.js';
+import './footer-banner.js?v=3.1.0';
+import './analytics.js?v=3.1.0';
 
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

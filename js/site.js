@@ -1,12 +1,12 @@
 // Girgit Labs: the home page's shared behaviour, and every section's script.
-import './home.js';          // Hero: the colour flood, the scrambling word, Girgit in the clashing colour
-import './what.js';          // What we do: the scroll-driven turntable
-import './eyes.js';          // The eye wall, and the panel (with the name) that rises over it
-import './eye-cluster.js';   // The eye wall's tiles, in small clusters beside the quotes and the fits
-import './how.js';           // How we work: the week's eyes wake up, Girgit arrives at "Live"
-import './s5.js';            // The statement's words, and Girgit's tongue on "Start a project"
-import './footer-banner.js'; // Footer: the framed banner with the logo
-import './analytics.js';     // PostHog custom analytics
+import './home.js?v=3.1.0';          // Hero: the colour flood, the scrambling word, Girgit in the clashing colour
+import './what.js?v=3.1.0';          // What we do: the scroll-driven turntable
+import './eyes.js?v=3.1.0';          // The eye wall, and the panel (with the name) that rises over it
+import './eye-cluster.js?v=3.1.0';   // The eye wall's tiles, in small clusters beside the quotes and the fits
+import './how.js?v=3.1.0';           // How we work: the week's eyes wake up, Girgit arrives at "Live"
+import './s5.js?v=3.1.0';            // The statement's words, and Girgit's tongue on "Start a project"
+import './footer-banner.js?v=3.1.0'; // Footer: the framed banner with the logo
+import './analytics.js?v=3.1.0';     // PostHog custom analytics
 
 document.documentElement.classList.add('js');   // reveal animations only hide content once JS is running
 

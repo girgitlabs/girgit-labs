@@ -4,7 +4,7 @@
 // flat colour, the same language as the hero collage and the eye wall.
 // bannerMarkup() is pure (Node render checks draw the same thing); the page part makes the eyes
 // follow the pointer and pops the pieces in when the footer is seen.
-import { tile, PAL } from './eye-tiles.js';
+import { tile, PAL } from './eye-tiles.js?v=3.1.0';
 
 export const VIEW = { w: 1600, h: 420 };
 const INK = '#111111';
