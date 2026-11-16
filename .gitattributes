@@ -1,0 +1,19 @@
+# Normalize all text files to LF in the repository, whatever the OS.
+# Keeps diffs honest across Windows/macOS/Linux checkouts and build hosts.
+* text=auto eol=lf
+
+# Binary assets: never touch these, git must not attempt line-ending conversion.
+*.webp binary
+*.webm binary
+*.mp4 binary
+*.mov binary
+*.jpg binary
+*.jpeg binary
+*.png binary
+*.gif binary
+*.avif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.zip binary
