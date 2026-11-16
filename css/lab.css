@@ -1,0 +1,133 @@
+/* SECTION 02 — what we do (js/lab.js). A pinned stage: the copy on the left, Girgit on the right.
+   Scroll scrubs his clip for each capability; the camera keeps him in one spot beside the copy.
+   It slides up over the held hero as one sheet (css/hero.css). */
+
+.lab {
+  --lab-sky: #E0D3C1;          /* sampled from the clips: top of frame */
+  --lab-floor: #E6DDCC;        /* and their floor */
+  position: relative;
+  isolation: isolate;
+  height: calc(100svh - var(--nav-h));
+  min-height: 34rem;
+  overflow: hidden;
+  background: linear-gradient(var(--lab-sky), #E3D8C6 62%, var(--lab-floor));
+  color: var(--black);
+  font-family: var(--satoshi);
+}
+
+/* ---------- The film: one clip per capability, stacked; the camera is a translate ---------- */
+.lab-film {
+  position: absolute; left: 0; top: 0; z-index: 0; will-change: transform;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
+}
+/* Three layers (js/lab.js): the rock stills, the full-frame clips (walks), and the close-ups that play
+   over one rock's patch of its still. Only the pieces the moment needs are visible. */
+.lab-film { overflow: hidden; }
+.lab-still, .lab-full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.lab-film > * { opacity: 0; transition: opacity 140ms linear; }
+.lab-film > .is-on { opacity: 1; }
+.lab-still { z-index: 1; }
+.lab-full { z-index: 2; }
+/* A close-up's edges are feathered into the still, so only Girgit and what he does appear to move. */
+.lab-close {
+  position: absolute; z-index: 3; display: block; object-fit: cover;
+  -webkit-mask-image: radial-gradient(ellipse 46% 48% at 50% 52%, #000 62%, transparent 100%);
+          mask-image: radial-gradient(ellipse 46% 48% at 50% 52%, #000 62%, transparent 100%);
+}
+.lab-close--wide {
+  -webkit-mask-image: radial-gradient(ellipse 52% 54% at 48% 50%, #000 70%, transparent 100%);
+          mask-image: radial-gradient(ellipse 52% 54% at 48% 50%, #000 70%, transparent 100%);
+}
+/* A soft wash behind the copy, so swatches and panels that fly left never fight the text. */
+.lab::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, rgb(224 211 193 / 0.94) 0, rgb(224 211 193 / 0.78) 30%, rgb(224 211 193 / 0) 52%); }
+
+/* ---------- The copy ---------- */
+.lab-texts { position: absolute; z-index: 2; left: var(--gutter); top: 50%; translate: 0 -50%; width: min(36rem, 40%); display: grid; }
+.lab-intro, .lab-cap { grid-area: 1 / 1; align-self: center; }
+.lab-caps { display: contents; margin: 0; padding: 0; list-style: none; }
+.lab-cap-img { display: none; }
+
+.lab-kicker { margin: 0 0 0.9rem; font: 700 0.72rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; }
+.lab-title { margin: 0; font: 900 clamp(2.2rem, 4.4vw, 5rem)/0.9 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; }
+.lab-title .lab-alt { color: var(--olive); }
+
+/* The service is the anchor of each caption: its name on a block of its accent, the number beside it. */
+.lab-num { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1.1rem; font: 800 clamp(0.95rem, 1.2vw, 1.25rem)/1.1 var(--satoshi); letter-spacing: 0.01em; text-transform: uppercase; }
+.lab-n { display: inline-grid; place-items: center; flex: none; width: 2.5em; height: 2.5em; border: 2px solid var(--black); border-radius: 50%; font-size: 0.62em; font-weight: 700; letter-spacing: 0.06em; }
+.lab-service { position: relative; z-index: 0; padding: 0.2em 0.5em 0.16em; color: var(--svc-ink); }
+.lab-service::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 0.18em; background: var(--svc); transform-origin: left center; }
+.lab-cap[data-cap="0"] { --svc: var(--pink); --svc-ink: var(--black); }   /* black on hot pink: ~5.2:1 (ivory is ~3.2:1) */
+.lab-cap[data-cap="1"] { --svc: var(--blue); --svc-ink: var(--ivory); }
+.lab-cap[data-cap="2"] { --svc: var(--forest); --svc-ink: var(--ivory); }
+.lab-cap[data-cap="3"] { --svc: var(--acid); --svc-ink: var(--black); }
+.lab-cap[data-cap="4"] { --svc: var(--yellow); --svc-ink: var(--black); }
+.lab-head { margin: 0 0 0.9rem; font: 900 clamp(2rem, 3.5vw, 4rem)/0.9 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; }
+.lab-copy { margin: 0 0 1.4rem; max-width: 32ch; font: 500 clamp(1rem, 1.15vw, 1.12rem)/1.45 var(--satoshi); color: #3A3A33; }
+/* What each capability covers (the detail that used to be its own section). */
+.lab-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+.lab-tags li { padding: 0.5em 0.85em; border: 1.5px solid var(--black); border-radius: 999px; background: rgb(244 239 229 / 0.55); font: 700 0.78rem/1 var(--satoshi); }
+
+/* One caption at a time: the rest wait just below, invisible. Leaving is quick, arriving is slower. */
+.lab-intro, .lab-cap { opacity: 0; translate: 0 1rem; pointer-events: none; transition: opacity 160ms var(--ease), translate 220ms var(--ease); }
+.lab[data-cap="intro"] .lab-intro,
+.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"],
+.lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"],
+.lab[data-cap="4"] .lab-cap[data-cap="4"] { opacity: 1; translate: 0 0; pointer-events: auto; transition: opacity 380ms var(--ease) 120ms, translate 520ms var(--ease) 120ms; }
+
+/* ---------- Progress: five ticks, each a shortcut ---------- */
+.lab-progress { position: absolute; z-index: 2; left: var(--gutter); bottom: clamp(1.2rem, 4svh, 2.4rem); display: flex; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
+.lab-progress button {
+  display: grid; place-items: center; width: 2.9rem; height: 2.1rem; border: 1.5px solid var(--black); border-radius: 999px;
+  background: transparent; color: var(--black); font: 700 0.7rem var(--satoshi); letter-spacing: 0.08em; cursor: pointer;
+  transition: background 240ms, color 240ms;
+}
+.lab-progress li.is-on button { background: var(--black); color: var(--ivory); }
+.lab-progress button:hover { background: var(--accent); }
+.lab-progress button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+
+/* ---------- Appearing: each caption's pieces arrive in sequence ---------- */
+.lab-w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.14em 0.12em 0.16em; margin: -0.14em -0.12em -0.16em;   /* room for the whole letter: tight tracking and line-height otherwise shave its edges */ }
+.lab-w > span { display: inline-block; }
+@media (prefers-reduced-motion: no-preference) {
+  .js .lab:not(.lab--still) .lab-w > span { translate: 0 150%; transition: translate 650ms var(--ease) calc(var(--i, 0) * 45ms + 90ms); }
+  .js .lab:not(.lab--still) .lab-n { scale: 0.3; transition: scale 460ms cubic-bezier(0.34, 1.56, 0.64, 1) 40ms; }
+  .js .lab:not(.lab--still) .lab-service { color: var(--black); transition: color 200ms var(--ease) 360ms; }
+  .js .lab:not(.lab--still) .lab-service::before { transform: scaleX(0); transition: transform 560ms cubic-bezier(0.7, 0, 0.2, 1) 120ms; }
+  .js .lab:not(.lab--still) :is(.lab-copy, .lab-kicker) { opacity: 0; translate: 0 0.7rem; transition: opacity 420ms var(--ease) 280ms, translate 560ms var(--ease) 280ms; }
+  .js .lab:not(.lab--still) .lab-tags li { opacity: 0; translate: 0 0.5rem; transition: opacity 300ms var(--ease) calc(380ms + var(--i, 0) * 50ms), translate 420ms var(--ease) calc(380ms + var(--i, 0) * 50ms); }
+  .js .lab:not(.lab--still) :is(.lab[data-cap="intro"] .lab-intro, .lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) :is(.lab-w > span, .lab-copy, .lab-kicker, .lab-tags li) { translate: 0 0; opacity: 1; }
+  .js .lab:not(.lab--still) :is(.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) .lab-n { scale: 1; }
+  .js .lab:not(.lab--still) :is(.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) .lab-service { color: var(--svc-ink); }
+  .js .lab:not(.lab--still) :is(.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) .lab-service::before { transform: none; }
+}
+
+/* ---------- The track (js/lab.js): the section sticks under the nav while the clips play ---------- */
+.lab-track { position: relative; background: var(--lab-floor); }
+.lab-track > .lab { position: sticky; top: var(--nav-h); }
+
+/* ---------- Phones: Girgit above, the copy below ---------- */
+@media (max-width: 760px) {
+  .lab::after { background: linear-gradient(0deg, rgb(230 221 204 / 0.97) 0, rgb(230 221 204 / 0.88) 44%, rgb(230 221 204 / 0) 64%); }
+  .lab-texts { top: auto; bottom: 4.6rem; translate: none; width: auto; right: var(--gutter); }
+  .lab-intro, .lab-cap { align-self: end; }
+  .lab-title { font-size: clamp(2rem, 9.4vw, 2.9rem); }
+  .lab-head { font-size: clamp(1.7rem, 8vw, 2.4rem); }
+  .lab-copy { margin-bottom: 0.9rem; font-size: 0.98rem; }
+  .lab-tags li { font-size: 0.7rem; }
+  .lab-progress button { width: 2.4rem; }
+}
+
+/* ---------- The still version: reduced motion, no JS, or a clip failed ---------- */
+.lab--still, html:not(.js) .lab { height: auto; min-height: 0; overflow: visible; padding: clamp(3rem, 8vw, 6rem) var(--gutter); }
+.lab--still::after, html:not(.js) .lab::after,
+.lab--still .lab-film, html:not(.js) .lab-film,
+.lab--still .lab-progress, html:not(.js) .lab-progress { display: none; }
+.lab--still .lab-texts, html:not(.js) .lab-texts { position: static; translate: none; width: auto; display: block; }
+.lab--still .lab-intro, .lab--still .lab-cap,
+html:not(.js) .lab-intro, html:not(.js) .lab-cap { opacity: 1; translate: none; pointer-events: auto; }
+.lab--still .lab-intro, html:not(.js) .lab-intro { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+.lab--still .lab-caps, html:not(.js) .lab-caps { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 2.5rem 1.5rem; }
+.lab--still .lab-cap-img, html:not(.js) .lab-cap-img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 695; object-fit: cover; margin-bottom: 1rem; border-radius: 0.6rem; }
+.lab--still .lab-head, html:not(.js) .lab-head { font-size: clamp(1.6rem, 2.4vw, 2.3rem); margin-bottom: 0.6rem; }

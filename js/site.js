@@ -1,12 +1,22 @@
 // Girgit Labs: the home page's shared behaviour, and every section's script.
-import './home.js?v=3.1.0';          // Hero: the colour flood, the scrambling word, Girgit in the clashing colour
-import './what.js?v=3.1.0';          // What we do: the scroll-driven turntable
-import './eyes.js?v=3.1.0';          // The eye wall, and the panel (with the name) that rises over it
+import './home.js?v=3.8.0';          // Hero: Girgit becomes the work; the pointer paints the next state in
+import './coverflow.js?v=3.8.2';     // The work: a cover flow of the projects, on each client's colour
+import './ribbon.js?v=3.5.0';        // The hero's ribbon, as a wavy marquee
+import './name.js?v=3.8.1';          // The name: the dictionary entry as a pinned scene
+import './quotes.js?v=3.6.0';        // In their words: the quotes as a pinned scene
+import './week.js?v=3.8.2';          // Seven days: the tongue's zig-zag journey across the four steps
+import './catch.js?v=3.8.1';         // Got an idea?: ideas drift like flies, the tongue catches them
+import './hello.js?v=3.8.0';         // Footer: Say hello. comes alive
+import './lab.js?v=3.8.0';           // What we do: Girgit crosses five rocks, becoming each capability
+import './eyes.js?v=3.3.0';          // The eye wall, and the panel (with the name) that rises over it
 import './eye-cluster.js?v=3.1.0';   // The eye wall's tiles, in small clusters beside the quotes and the fits
 import './how.js?v=3.1.0';           // How we work: the week's eyes wake up, Girgit arrives at "Live"
 import './s5.js?v=3.1.0';            // The statement's words, and Girgit's tongue on "Start a project"
 import './footer-banner.js?v=3.1.0'; // Footer: the framed banner with the logo
 import './analytics.js?v=3.1.0';     // PostHog custom analytics
+import './kinetic.js?v=3.8.0';       // Springing letters, cards that lean toward the pointer
+import './tone.js?v=3.1.0';          // Light and dark sections blend as you scroll
+import './fun.js?v=3.1.0';           // Small rewards: the fly, the Konami code, the tab title
 
 document.documentElement.classList.add('js');   // reveal animations only hide content once JS is running
 
@@ -36,7 +46,9 @@ onView($$('[data-reveal]'), (el) => el.classList.add('in-view'));
 
 /* ---------- Nav: shadow once scrolled, the active section's link ---------- */
 const nav = $('.nav');
-addEventListener('scroll', () => nav.classList.toggle('is-scrolled', scrollY > 8), { passive: true });
+// A little dead zone (on past 48px, off under 12px), so the header never flickers between its two shapes.
+const navState = () => { if (scrollY > 48) nav.classList.add('is-scrolled'); else if (scrollY < 12) nav.classList.remove('is-scrolled'); };
+addEventListener('scroll', navState, { passive: true }); navState();
 if ('IntersectionObserver' in window) {
   const pills = $$('.nav-links .pill');
   const io = new IntersectionObserver((entries) => entries.forEach((e) => {
@@ -46,26 +58,25 @@ if ('IntersectionObserver' in window) {
   pills.forEach((p) => { const s = $(p.getAttribute('href')); if (s) io.observe(s); });
 }
 
-/* ---------- Hindi words swap to English (hover, focus, tap) ---------- */
+/* ---------- Hindi words that flip: each word is a little two-sided tile, Devanagari on the front and
+   its English meaning on the back. It turns over on its own every few seconds while it is on screen, and
+   both sides share one width, so the line never jumps. Screen readers get both, once. ---------- */
 for (const el of $$('.hi')) {
-  const hi = el.textContent, en = el.dataset.en;
-  const measure = () => {
-    el.style.minWidth = '';
-    const a = el.getBoundingClientRect().width;
-    el.textContent = en; el.classList.add('is-en');
-    const b = el.getBoundingClientRect().width;
-    el.textContent = hi; el.classList.remove('is-en');
-    el.style.minWidth = `${Math.max(a, b)}px`;
-  };
-  document.fonts?.ready.then(measure);
-  const show = (on) => { el.textContent = on ? en : hi; el.classList.toggle('is-en', on); };
-  el.setAttribute('aria-label', `${hi}, Hindi for ${en}`);
-  el.addEventListener('mouseenter', () => show(true));
-  el.addEventListener('mouseleave', () => show(false));
-  el.addEventListener('focus', () => show(true));
-  el.addEventListener('blur', () => show(false));
-  el.addEventListener('click', () => show(!el.classList.contains('is-en')));
-  el.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(!el.classList.contains('is-en')); } });
+  const hi = el.textContent.trim(), en = el.dataset.en;
+  const g = document.createElement('span');
+  g.className = 'gl'; g.setAttribute('role', 'text'); g.setAttribute('aria-label', `${hi} (${en})`);
+  g.innerHTML = `<span class="gl-card" aria-hidden="true"><span class="gl-face gl-hi" lang="hi"></span><span class="gl-face gl-en"></span></span>`;
+  g.querySelector('.gl-hi').textContent = hi; g.querySelector('.gl-en').textContent = en;
+  el.replaceWith(g);
+}
+{
+  const flips = $$('.gl'), shown = new Set();
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? shown.add(e.target) : shown.delete(e.target))), { rootMargin: '0px 0px -10% 0px' });
+    flips.forEach((f) => io.observe(f));
+  } else flips.forEach((f) => shown.add(f));
+  // Two and a half seconds on each side: long enough to read, short enough to notice.
+  if (!reduce) setInterval(() => { for (const f of shown) f.classList.toggle('is-en'); }, 2600);
 }
 
 /* ---------- Let's talk: the contact card, copy email, the form ---------- */

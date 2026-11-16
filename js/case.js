@@ -3,6 +3,7 @@
 // the footer banner. Built to be shared by every project page.
 import './footer-banner.js?v=3.1.0';
 import './analytics.js?v=3.1.0';
+import './hello.js?v=3.8.0';
 
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

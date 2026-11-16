@@ -58,8 +58,18 @@ class RangeHandler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
 
 
+class Server(http.server.ThreadingHTTPServer):
+    # On Windows, SO_REUSEADDR lets a second copy bind the same port, and requests then go to whichever
+    # copy Windows picks (often a stale one). Refuse instead, so a duplicate fails loudly.
+    allow_reuse_address = os.name != 'nt'
+
+
 if __name__ == '__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 5178
+    try:
+        server = Server(('127.0.0.1', port), RangeHandler)
+    except OSError:
+        sys.exit(f'Port {port} is already in use. Stop the other server or run: python serve.py <port>')
     print(f'Serving on http://127.0.0.1:{port}')
-    http.server.ThreadingHTTPServer(('127.0.0.1', port), RangeHandler).serve_forever()
+    server.serve_forever()

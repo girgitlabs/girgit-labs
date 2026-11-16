@@ -67,9 +67,9 @@ if (panel && girgit && target && !reduce) {
   ($('.cta-girgit--open') || girgit).after(svg);
   const flesh = defs.querySelector('#tg-flesh');
 
-  // The tongue leaves his open mouth: 80, 456 in girgit-cta-open.webp, which is aligned to the
-  // closed image (1443 x 780, facing left as drawn, never flipped).
-  const MOUTH = [80 / 1443, 456 / 780];
+  // The tongue leaves his open mouth: 59, 443 in clay/girgit-cta-open.webp, which is aligned to the
+  // closed image (1443 x 1044, facing left as drawn, never flipped).
+  const MOUTH = [59 / 1443, 443 / 1044];
   const f = (n) => n.toFixed(1);
   const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
 
@@ -115,8 +115,9 @@ if (panel && girgit && target && !reduce) {
     if (busy || now - last < 1400) return;
     busy = true; last = now;
     const p = panel.getBoundingClientRect(), gr = girgit.getBoundingClientRect(), b = target.getBoundingClientRect();
-    const m = [gr.left - p.left + MOUTH[0] * gr.width, gr.top - p.top + MOUTH[1] * gr.height];
-    unit = gr.width / 520;
+    // Girgit is felt, not shown: the tongue comes in from just past the panel's right edge.
+    const m = [p.width + 6, b.top - p.top + b.height / 2 + Math.min(120, p.height * 0.18)];
+    unit = 0.62;
     const t = [b.right - p.left - 8, b.top - p.top + b.height / 2];                 // the button's right edge
     svg.dataset.from = `${f(m[0])},${f(m[1])}`; svg.dataset.to = `${f(t[0])},${f(t[1])}`;
     const OUT = 170, HOLD = 150, BACK = 300;

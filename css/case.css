@@ -213,3 +213,12 @@
   .cs-meta { grid-template-columns: 1fr; gap: 1rem; }
   .cs-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
 }
+
+/* ---------- The iris: each image opens like Girgit's eye as it comes into view ----------
+   A thin slit first, then the lid opens top and bottom, and the picture settles from a touch of zoom. */
+@media (prefers-reduced-motion: no-preference) {
+  .js .cs-fig[data-reveal-cs] .cs-zoom { display: block; clip-path: ellipse(58% 0.6% at 50% 50%); transition: clip-path 1150ms cubic-bezier(0.7, 0, 0.18, 1) 120ms; }
+  .js .cs-fig[data-reveal-cs] .cs-zoom img { scale: 1.07; transition: scale 1600ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms; }
+  .js .cs-fig[data-reveal-cs].in-view .cs-zoom { clip-path: ellipse(150% 150% at 50% 50%); }
+  .js .cs-fig[data-reveal-cs].in-view .cs-zoom img { scale: 1; }
+}
