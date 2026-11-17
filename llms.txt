@@ -1,58 +1,86 @@
 # Girgit Labs
 
-> A digital design studio with no house style. High-quality digital experiences, branding, UI/UX, and websites designed, built, and launched in seven days. Working worldwide from Mumbai, India.
+> Girgit Labs is a digital design studio in Mumbai, India, working with clients worldwide. It has no house style: it designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days. Website: https://www.girgitlabs.design/ · Email: connect@girgitlabs.design
 
-Girgit Labs is a digital design studio based in Mumbai, India, working worldwide. "Girgit" (गिरगिट) is the Hindi word for chameleon: the studio has no rigid house style, deliberately adapting its design aesthetic, brand voice, and digital architecture to the exact temperament, market, and ambition of each client. Its signature line is: "You missed it. We didn't."
+## Key facts
 
-## The Name & Philosophy
+- Name: Girgit Labs (also written GirgitLabs)
+- What it is: a digital design studio (branding, UI/UX and product design, websites, apps, motion)
+- Signature offer: a website designed, built and live in seven days
+- Based in: Mumbai, Maharashtra, India
+- Works with: clients worldwide, in English and Hindi
+- Team: a small senior team; three or four senior people and one owner per project
+- How it is different: no house style (every project takes on the client's character, not the studio's), and the people who design a website also build it (no handoff)
+- Website: https://www.girgitlabs.design/
+- Contact: connect@girgitlabs.design · start a project at https://www.girgitlabs.design/#talk
+- Full text, with the case studies: https://www.girgitlabs.design/llms-full.txt
 
-In Hindi, calling someone a गिरगिट is traditionally not a compliment: *Girgit ki tarah rang badalna* (रंग बदलना: to change colour like a chameleon) implies someone who will not stay the same. Girgit Labs reclaimed the name. Changing colour is not dishonesty; it is intense attention. A chameleon responds authentically to where it is. Nothing about it is fixed except its acute observation. In digital craft, the work must carry the client's distinct character, market positioning, and ambition, rather than reflecting an agency's repetitive template or house style.
+## The name
 
-## How the Studio Works
+"Girgit" (गिरगिट) is the Hindi word for chameleon. In Hindi, calling someone a girgit is an insult: *girgit ki tarah rang badalna* (रंग बदलना) means to change colour like a chameleon, someone who will not stay the same. The studio took the name anyway. In its own meaning, a chameleon's colour is attention: it answers to where it is, and nothing about it is fixed except the attention. That is the job: the work should carry the client's temperament, market and ambition, not the studio's portfolio.
 
-No fixed formula. No boring solutions. Girgit Labs learns first, uncovers what the concept genuinely needs, and executes with speed and precision.
+## Services
 
-### Seven Days: From Scope to Live
-- **Before the Clock**: Comprehensive research, references studied, sitemap agreed, visual direction set, and scope approved.
-- **Day 1**: Tangible creative direction presented on-screen, not trapped in an abstract presentation deck.
-- **Day 3**: Interactive prototype accessible in real web browsers and on mobile devices.
-- **Day 7**: Production-ready website deployed live, including one revision cycle.
+1. **Branding**: "We find your kind of different." An identity built on what only you have. Includes a logo and mark, a colour and type system, brand guidelines, and print and packaging files. Example: Clay & Glaze.
+2. **UI/UX**: "Make it make sense." Complex products, made obvious the first time. Includes user flows and wireframes, finished screens, a clickable prototype, and a design system to build from. Example: Moshi.
+3. **Websites**: "Live in seven days." Designed, built and shipped by the people who drew it. Includes a designed and built site, pages that work on every screen, content you can edit, and launch and hosting set up. Example: LD Screw.
+4. **Apps**: "Less friction. More flow." Shaped around how people really use their phones. Includes app flows, screens for iOS and Android, an interactive prototype, and files ready for developers.
+5. **Motion**: "Ideas with a pulse." Motion that makes people stop scrolling. Includes motion graphics, a product film, cuts sized for social, and the source files.
 
-### Why the Speed is Real
-- **Senior Team Only**: Three or four seasoned design engineers per project; one clear project owner. No waiting in bureaucratic approval queues.
-- **Zero Handoff Friction**: The designers who design the interface code the frontend. The person who drew the experience ships it.
-- **Front-Loaded Planning**: Strategy, sitemap, direction, and scope are finalized upfront before day one, enabling seven continuous days of pure craft and building.
+## How a seven-day website works
 
-## Capabilities & Services
+- **Before the clock**: content collected, references studied, sitemap agreed, visual direction set, scope signed off.
+- **Day 1**: the direction, on screen, not in a deck.
+- **Day 3**: the real thing, in a browser, on your phone.
+- **Day 7**: live.
 
-1. **Branding & Visual Identity**: Distinctive visual systems built around true differentiation. Includes brand identity, logo systems, typography, color palettes, visual guidelines, graphic design, and print collateral.
-2. **UI/UX & Product Design**: Thoughtful digital experiences turning complexity into clarity. Includes web applications, dashboards, design systems, and rapid prototyping.
-3. **Website Design & Development**: High-performance websites combining strong aesthetics with purposeful technical execution. Includes 7-day marketing websites, bespoke frontend development, ecommerce frontends, and edge deployment.
-4. **App & Mobile Interface Design**: Products shaped around real human behavior, minimizing friction and maximizing user flow.
-5. **Motion & Creative Experimentation**: High-impact motion design, interactive animation, product films, and experimental creative technology.
+Why it can be that fast without being careless ("Fast is not a discount"):
+- **A small senior team.** Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.
+- **No handoff.** The designer builds the frontend. The person who drew it ships it.
+- **The slow part happens first.** Research, references, sitemap, direction and scope are settled before day one, so the seven days are building, not deciding.
 
-## Selected Portfolio / Work
+## Selected work
 
-- **Clay & Glaze** (https://www.girgitlabs.design/work/clay-and-glaze/): Brand identity, bespoke packaging, and collateral for a Pondicherry-origin artisan pottery workshop transitioning into an online business.
-- **LD Screw** (https://www.girgitlabs.design/work/ld-screw/): Digital web experience and interactive product catalogue for an industrial stainless steel fastener manufacturer.
-- **Moshi** (https://www.girgitlabs.design/work/moshi/): An online store for a heritage clothing label, where each Indian textile craft (Ajrakh, Khadi, Batik, Dabu) gets its own chapter.
+- **Clay & Glaze** (brand identity, packaging, brand collateral): a mother-daughter pottery workshop in Pondicherry that became an online business during COVID, given a brand as handmade as its work. https://www.girgitlabs.design/work/clay-and-glaze/
+- **LD Screw** (website design): a website for a stainless steel screw and fastener maker, laid out like the catalogue its buyers already read. The client's name and details are changed under NDA. https://www.girgitlabs.design/work/ld-screw/
+- **Moshi** (website design, ecommerce UI/UX): an online store for a heritage clothing label built on India's textile crafts (Ajrakh, Khadi, Batik and Dabu), where every craft gets its own chapter. Live at moshi.co.in. https://www.girgitlabs.design/work/moshi/
 
-## Who Girgit Labs Works With
+## Who it is for
 
-Works Best With:
-- Founders who need an idea to launch by a specific date.
-- Established businesses whose digital presence lags behind their real-world reputation.
-- Creative agencies requiring senior design and frontend capacity without management overhead.
-- Creators building enduring digital products.
+Made for builders:
+- **Founders** who need an idea to exist by a date.
+- **Businesses** whose digital presence is a decade behind the company.
+- **Agencies** who need real design capacity, quietly.
+- **Creators** building something bigger than a profile.
 
-Less Well With:
-- Anyone shopping purely on the lowest price.
-- Anyone seeking to micromanage every design decision rather than collaborating on outcomes.
+Not the right fit for anyone shopping on the lowest price alone, or anyone who wants to approve every pixel rather than work toward an outcome.
 
-## Official Contact & Links
+## Questions people ask
+
+**What is Girgit Labs?**
+A digital design studio in Mumbai, India, that designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days, for clients worldwide.
+
+**Can Girgit Labs really build a website in seven days?**
+Yes, that is its signature offer. Research, sitemap, direction and scope are agreed before the seven days start. Then the direction is on screen on day 1, a working site is in your browser on day 3, and the site is live on day 7. If the work is bigger than seven days, the studio says so before you pay.
+
+**Where is Girgit Labs based, and does it work with clients outside India?**
+It is based in Mumbai, Maharashtra, India, and works with clients worldwide.
+
+**What does "Girgit" mean?**
+It is the Hindi word for chameleon (गिरगिट). The studio's point is that the work should take on each client's character, with no fixed house style.
+
+**What services does Girgit Labs offer?**
+Branding and visual identity, UI/UX and product design, website design and development, app design, and motion design.
+
+**Who does the work?**
+A small senior team: three or four people per project, all senior, with one owner. The designers build the frontend themselves, so there is no handoff between design and development.
+
+**How do I start a project or get a quote?**
+Email connect@girgitlabs.design or use the form at https://www.girgitlabs.design/#talk.
+
+## Contact
 
 - Website: https://www.girgitlabs.design/
-- Inquiries: connect@girgitlabs.design
-- Start a Project: https://www.girgitlabs.design/#talk
-- Primary Domain: www.girgitlabs.design
-- Studio Location: Mumbai, Maharashtra, India (Serving Global Clients)
+- Email: connect@girgitlabs.design
+- Start a project: https://www.girgitlabs.design/#talk
+- Location: Mumbai, Maharashtra, India (working worldwide)

@@ -1,0 +1,166 @@
+# Girgit Labs
+
+> Girgit Labs is a digital design studio in Mumbai, India, working with clients worldwide. It has no house style: it designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days. Website: https://www.girgitlabs.design/ · Email: connect@girgitlabs.design
+
+## Key facts
+
+- Name: Girgit Labs (also written GirgitLabs)
+- What it is: a digital design studio (branding, UI/UX and product design, websites, apps, motion)
+- Signature offer: a website designed, built and live in seven days
+- Based in: Mumbai, Maharashtra, India
+- Works with: clients worldwide, in English and Hindi
+- Team: a small senior team; three or four senior people and one owner per project
+- How it is different: no house style (every project takes on the client's character, not the studio's), and the people who design a website also build it (no handoff)
+- Website: https://www.girgitlabs.design/
+- Contact: connect@girgitlabs.design · start a project at https://www.girgitlabs.design/#talk
+
+## The name
+
+"Girgit" (गिरगिट) is the Hindi word for chameleon. In Hindi, calling someone a girgit is an insult: *girgit ki tarah rang badalna* (रंग बदलना) means to change colour like a chameleon, someone who will not stay the same. The studio took the name anyway. In its own meaning, a chameleon's colour is attention: it answers to where it is, and nothing about it is fixed except the attention. That is the job: the work should carry the client's temperament, market and ambition, not the studio's portfolio.
+
+## Services
+
+1. **Branding**: "We find your kind of different." An identity built on what only you have. Includes a logo and mark, a colour and type system, brand guidelines, and print and packaging files. Example: Clay & Glaze.
+2. **UI/UX**: "Make it make sense." Complex products, made obvious the first time. Includes user flows and wireframes, finished screens, a clickable prototype, and a design system to build from. Example: Moshi.
+3. **Websites**: "Live in seven days." Designed, built and shipped by the people who drew it. Includes a designed and built site, pages that work on every screen, content you can edit, and launch and hosting set up. Example: LD Screw.
+4. **Apps**: "Less friction. More flow." Shaped around how people really use their phones. Includes app flows, screens for iOS and Android, an interactive prototype, and files ready for developers.
+5. **Motion**: "Ideas with a pulse." Motion that makes people stop scrolling. Includes motion graphics, a product film, cuts sized for social, and the source files.
+
+## How a seven-day website works
+
+- **Before the clock**: content collected, references studied, sitemap agreed, visual direction set, scope signed off.
+- **Day 1**: the direction, on screen, not in a deck.
+- **Day 3**: the real thing, in a browser, on your phone.
+- **Day 7**: live.
+
+Why it can be that fast without being careless ("Fast is not a discount"):
+- **A small senior team.** Three or four people, all senior, one owner per project. Nothing waits in a queue behind someone else's approval.
+- **No handoff.** The designer builds the frontend. The person who drew it ships it.
+- **The slow part happens first.** Research, references, sitemap, direction and scope are settled before day one, so the seven days are building, not deciding.
+
+## Selected work
+
+- **Clay & Glaze** (brand identity, packaging, brand collateral): a mother-daughter pottery workshop in Pondicherry that became an online business during COVID, given a brand as handmade as its work. https://www.girgitlabs.design/work/clay-and-glaze/
+- **LD Screw** (website design): a website for a stainless steel screw and fastener maker, laid out like the catalogue its buyers already read. The client's name and details are changed under NDA. https://www.girgitlabs.design/work/ld-screw/
+- **Moshi** (website design, ecommerce UI/UX): an online store for a heritage clothing label built on India's textile crafts (Ajrakh, Khadi, Batik and Dabu), where every craft gets its own chapter. Live at moshi.co.in. https://www.girgitlabs.design/work/moshi/
+
+## Who it is for
+
+Made for builders:
+- **Founders** who need an idea to exist by a date.
+- **Businesses** whose digital presence is a decade behind the company.
+- **Agencies** who need real design capacity, quietly.
+- **Creators** building something bigger than a profile.
+
+Not the right fit for anyone shopping on the lowest price alone, or anyone who wants to approve every pixel rather than work toward an outcome.
+
+## Questions people ask
+
+**What is Girgit Labs?**
+A digital design studio in Mumbai, India, that designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days, for clients worldwide.
+
+**Can Girgit Labs really build a website in seven days?**
+Yes, that is its signature offer. Research, sitemap, direction and scope are agreed before the seven days start. Then the direction is on screen on day 1, a working site is in your browser on day 3, and the site is live on day 7. If the work is bigger than seven days, the studio says so before you pay.
+
+**Where is Girgit Labs based, and does it work with clients outside India?**
+It is based in Mumbai, Maharashtra, India, and works with clients worldwide.
+
+**What does "Girgit" mean?**
+It is the Hindi word for chameleon (गिरगिट). The studio's point is that the work should take on each client's character, with no fixed house style.
+
+**What services does Girgit Labs offer?**
+Branding and visual identity, UI/UX and product design, website design and development, app design, and motion design.
+
+**Who does the work?**
+A small senior team: three or four people per project, all senior, with one owner. The designers build the frontend themselves, so there is no handoff between design and development.
+
+**How do I start a project or get a quote?**
+Email connect@girgitlabs.design or use the form at https://www.girgitlabs.design/#talk.
+
+## Contact
+
+- Website: https://www.girgitlabs.design/
+- Email: connect@girgitlabs.design
+- Start a project: https://www.girgitlabs.design/#talk
+- Location: Mumbai, Maharashtra, India (working worldwide)
+
+## Case studies, in full
+
+### Clay & Glaze
+A mother-daughter pottery workshop, given a brand as handmade as its work.
+- Client: Clay & Glaze, Pondicherry
+- Services: Brand identity · Packaging · Brand collateral
+**The project**
+Clay & Glaze began as a mother-daughter pottery workshop in Pondicherry and became an online business during COVID. The identity had to feel the way the work does: handmade, warm, and as useful as it is beautiful.
+- Objective: An identity that communicates handmade craftsmanship, warmth and the balance between aesthetics and utility.
+- Direction: Raw, earthy, calm and passionate. Organic forms, imperfect symmetry and nature-inspired visual elements.
+- Scope: Logo system, colour palette, typography, imagery direction, patterns and textures, brand voice, business card, thank-you card and tote bag.
+Brand story
+**From clay to soul.**
+The design story sits between two states of the same material: the tactile imperfection of raw clay and the refined finish of glaze. Before the mark, the brand found its voice: not a shop for objects, but a studio for small daily rituals, one that whispers rather than shouts.
+Identity system
+**Three ideas, one mark.**
+Three routes were explored: the four elements of the craft as a grid, the pot held by fire, and a legacy seal. The final mark brings the vessel and the seal together, with the C&G seal at its heart, built on golden-ratio circles for balance and calm.
+- Colour: Clay True terracotta #A0533F
+Kiln glow Molten clay #CC744C
+Fire Kiss of fire #E4AC5C
+Collateral
+**The seal on everything it touches.**
+The C&G seal works as a maker's mark, stamped into the clay itself, and the full mark carries across print, packaging, fabric and the storefront.
+**The brand, together**
+A living story: tactile, warm, unmistakably Clay & Glaze.
+Case study page: https://www.girgitlabs.design/work/clay-and-glaze/
+
+### LD Screw
+A website for a stainless steel screw maker, laid out like the catalogue its buyers already read.
+- Client: LD Screw (name and details changed under NDA)
+- Industry: Stainless steel fasteners
+- Services: Website design
+**The project**
+LD Screw makes stainless steel screws and fasteners for construction, furniture and industry. The website had two jobs: show the full range clearly enough to order from, and put the plant, the standards and the guarantees in plain view, so a new dealer trusts what arrives in the box.
+- Objective: A clean, credible website that puts the product range first and turns visitors into dealer enquiries.
+- Direction: Monochrome and precise. Line drawings of screw profiles, steel photography, and type with the tidiness of a spec sheet.
+- Scope: Home page design: hero, product catalogue by family, showroom news, quality and capacity, blog, dealer sign-up and footer.
+The approach
+**Built like a spec sheet.**
+Fastener buyers scan for a type, a head and a finish. So the catalogue reads like a reference table: each family opens with its lead product and a photograph, then lists every variant with its material tag, SS for stainless or MS for mild steel. Outlined screw drawings and drive icons do the decorating, so nothing competes with the product.
+Design system
+**Steel, paper, ink.**
+The palette is the material itself: near-black, paper white and three steel greys, with the photography bringing the only warmth. Type is Plus Jakarta Sans throughout. The proof a buyer looks for (certifications, guarantee, dispatch time, plant capacity) sits on a dark band of its own, so it reads as a statement rather than small print.
+- Colour: Ink Near-black #0E0E0E
+Paper Off-white #FCFCFC
+Graphite Dark steel #717171
+Steel Mid steel #979797
+Zinc Light steel #BDBDBD
+The page
+**One page, top to bottom.**
+Hero, catalogue, news from the showroom, quality, blog and a dealer sign-up, closing on a footer that keeps the contact details one glance away.
+**The site, together**
+Every screw in its place, and the plant behind it in plain view.
+Case study page: https://www.girgitlabs.design/work/ld-screw/
+
+### Moshi
+A heritage clothing label, given an online store that tells the story behind every thread.
+- Client: Moshi, India
+- Services: Website design · E-commerce UI/UX
+- Live: moshi.co.in
+**The project**
+Moshi makes clothing from India's living textile crafts, Ajrakh, Khadi, Batik and Dabu, with a 100-year-old family legacy in textiles behind it. The store had to sell the collections while giving every craft room to tell its story.
+- Objective: An online store where heritage leads and shopping follows: every collection traced back to its craft and the hands behind it.
+- Direction: Warm, rooted, unhurried. Deep madder red and handmade-paper cream, an italic serif, and borders drawn from block-print motifs.
+The home page
+**Crafted with heritage. Designed for today.**
+The home page opens on Moshi's promise, then moves from the brand's belief to the collections for men, women and boys, and on to the crafts themselves. Customer voices and an invitation to step into the world of tradition close it.
+The craft pages
+**Every craft gets its own chapter.**
+Ajrakh, Khadi, Batik and Dabu each get a section of their own: where the craft comes from, how it is made, and the pieces made with it, one tap from the cart.
+- Colour: Madder The red of the dye vat #761117
+Khadi Handmade-paper cream #F0E6C3
+Linen The page itself #F3EFE7
+Ink Text and line #2A1A16
+Heritage and people
+**The people behind the cloth.**
+The craft and heritage story runs through the home page, and the about page carries Moshi's vision, its mission, its founders Mohit Bajpai and Shireen Quareshi, and its promise: authentic, sustainable, hand crafted, artisanal.
+**The store, together**
+Where tradition meets modern expression.
+Case study page: https://www.girgitlabs.design/work/moshi/

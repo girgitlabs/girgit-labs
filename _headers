@@ -32,3 +32,12 @@
 
 /js/*
   Cache-Control: public, max-age=31536000, immutable
+
+# 5. The plain-text summaries for AI assistants (llms.txt): UTF-8, so the Hindi reads correctly; refreshed daily.
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400
+
+/llms-full.txt
+  Content-Type: text/plain; charset=utf-8
+  Cache-Control: public, max-age=86400

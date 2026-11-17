@@ -3,47 +3,66 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.girgitlabs.design/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://www.girgitlabs.design/assets/img/clay/hero-websites-v2.webp</image:loc>
-      <image:title>Girgit Labs Chameleon</image:title>
-      <image:caption>Girgit, the Girgit Labs chameleon observer</image:caption>
+      <image:loc>https://www.girgitlabs.design/assets/img/og-card.png</image:loc>
+      <image:title>Girgit Labs, a digital design studio in Mumbai</image:title>
     </image:image>
     <image:image>
-      <image:loc>https://www.girgitlabs.design/assets/girgit-wordmark.svg</image:loc>
-      <image:title>Girgit Labs Wordmark</image:title>
+      <image:loc>https://www.girgitlabs.design/assets/img/clay/hero-websites-v2.webp</image:loc>
+      <image:title>Girgit, the Girgit Labs chameleon, on a cursor: website design</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.girgitlabs.design/assets/img/services/branding.webp</image:loc>
+      <image:title>Branding and visual identity by Girgit Labs</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.girgitlabs.design/assets/img/services/uiux.webp</image:loc>
+      <image:title>UI/UX and product design by Girgit Labs</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.girgitlabs.design/assets/img/services/websites.webp</image:loc>
+      <image:title>Website design and development, live in seven days, by Girgit Labs</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.girgitlabs.design/assets/img/services/apps.webp</image:loc>
+      <image:title>Mobile app design by Girgit Labs</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.girgitlabs.design/assets/img/services/motion.webp</image:loc>
+      <image:title>Motion design and product films by Girgit Labs</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://www.girgitlabs.design/work/clay-and-glaze/</loc>
-    <lastmod>2026-11-04</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.girgitlabs.design/assets/work/clay-and-glaze/cg-26-1920.webp</image:loc>
-      <image:title>Clay and Glaze Case Study - Girgit Labs</image:title>
+      <image:title>Clay &amp; Glaze pottery brand identity and packaging, by Girgit Labs</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://www.girgitlabs.design/work/ld-screw/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.girgitlabs.design/assets/work/ld-screw/ld-01-1920.webp</image:loc>
-      <image:title>LD Screw Case Study - Girgit Labs</image:title>
+      <image:title>LD Screw website for a stainless steel fastener maker, by Girgit Labs</image:title>
     </image:image>
   </url>
   <url>
     <loc>https://www.girgitlabs.design/work/moshi/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-17</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://www.girgitlabs.design/assets/work/moshi/moshi-01-1440.webp</image:loc>
-      <image:title>Moshi Case Study - Girgit Labs</image:title>
+      <image:title>Moshi ecommerce store for a heritage clothing label, by Girgit Labs</image:title>
     </image:image>
   </url>
 </urlset>
