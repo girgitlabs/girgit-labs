@@ -1,62 +1,77 @@
-// The hero's ribbon as a wavy marquee: a thick black ribbon that undulates like something alive, with
-// the words riding along its middle. One SVG: the ribbon is a stroked path, the words follow the same
-// path (textPath), and both are redrawn each frame from a moving sine wave. Reduced motion: still.
+// The ribbon between the hero and the work: two tapes crossed over the seam between the two sections,
+// an acid one and a black one, the words running opposite ways on each. They react to the scroll:
+// scrolling speeds them up, and scrolling back up turns them round. Reduced motion: they hold still.
+// Without JS the plain ticker band in the markup stays as it is.
 
-const band = document.querySelector('.hx-band');
+const band = document.querySelector('.wv-band-wrap');
 if (band) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const words = [...band.querySelectorAll('.ticker-track span')].map((s) => s.textContent.trim()).filter((t) => t && t !== '✦');
-  const NS = 'http://www.w3.org/2000/svg';
-  const svg = document.createElementNS(NS, 'svg');
-  svg.setAttribute('class', 'wv'); svg.setAttribute('aria-hidden', 'true');
-  svg.innerHTML = `<path class="wv-band" id="wv-path" fill="none"/>
-    <text class="wv-text"><textPath href="#wv-path" startOffset="0"></textPath></text>`;
-  band.replaceChildren(svg);
-  band.classList.add('is-wavy');
-  const path = svg.querySelector('.wv-band'), tp = svg.querySelector('textPath');
-  // the words, three times over, with an acid star between each
-  const run = Array.from({ length: 3 }, () => words).flat();
-  const gap = '   ';
-  tp.innerHTML = run.map((w) => `${w.toUpperCase()}${gap}<tspan class="wv-star">✦</tspan>${gap}`).join('');
+  const unique = [...new Set(words)];
 
-  let W = 0, H = 0, len = 1, cycle = 1, offset = 0, t = 0, last = performance.now(), visible = true;
-  const shape = (phase) => {
-    // a gentle wave, two crests across the width, slightly bigger in the middle
-    const pts = [], n = 48, amp = H * 0.26, mid = H / 2, pad = 30;
-    for (let i = 0; i <= n; i++) {
-      const u = i / n, x = -pad + u * (W + pad * 2);
-      const env = 0.65 + 0.35 * Math.sin(u * Math.PI);
-      pts.push([x, mid + Math.sin(u * Math.PI * 4 + phase) * amp * env]);
-    }
-    let d = `M${pts[0][0].toFixed(1)} ${pts[0][1].toFixed(1)}`;
-    for (let i = 1; i < pts.length; i++) {
-      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i];
-      d += ` Q${x0.toFixed(1)} ${y0.toFixed(1)} ${((x0 + x1) / 2).toFixed(1)} ${((y0 + y1) / 2).toFixed(1)}`;
-    }
-    return d + ` L${pts[n][0].toFixed(1)} ${pts[n][1].toFixed(1)}`;
+  const tape = (cls, list) => {
+    const el = document.createElement('div');
+    el.className = `tape ${cls}`;
+    const track = document.createElement('div');
+    track.className = 'tape-track';
+    // Two identical halves, so moving the track by exactly one half loops without a seam.
+    const half = () => {
+      const h = document.createElement('div'); h.className = 'tape-half';
+      // Enough words to fill the widest screens.
+      for (let r = 0; r < 3; r++) for (const w of list) {
+        const s = document.createElement('span'); s.textContent = w; h.append(s);
+        const star = document.createElement('span'); star.className = 'tape-star'; star.textContent = '✦'; h.append(star);
+      }
+      return h;
+    };
+    track.append(half(), half());
+    el.append(track);
+    return { el, track };
   };
-  const size = () => {
-    W = band.clientWidth; H = band.clientHeight;
-    svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    path.setAttribute('d', shape(t));
-    len = path.getTotalLength();
-    cycle = tp.getComputedTextLength() / 3 || 600;                 // one set of the words
-  };
-  const frame = (now) => {
-    requestAnimationFrame(frame);
-    const dt = Math.min(0.05, (now - last) / 1000); last = now;
-    if (!visible || document.hidden) return;
-    t += dt * 1.1;                                                 // the wave travels
-    offset -= dt * 70;                                             // the words travel along it
-    if (offset < -cycle) offset += cycle;
-    path.setAttribute('d', shape(t));
-    tp.setAttribute('startOffset', offset.toFixed(1));
-  };
-  new ResizeObserver(size).observe(band);
-  document.fonts?.ready.then(size);
-  size();
+  const a = tape('tape--a', unique);
+  const b = tape('tape--b', [...unique].reverse());
+  band.className = 'tapes';
+  band.replaceChildren(b.el, a.el);
+
   if (!reduce) {
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(band);
-    requestAnimationFrame(frame);
+    const SPEED = 60;   // px per second at rest
+    const anims = [];
+    const start = () => {
+      anims.forEach((x) => x.cancel()); anims.length = 0;
+      for (const [t, dir] of [[a, -1], [b, 1]]) {
+        const w = t.track.firstElementChild.getBoundingClientRect().width || 1200;
+        const from = dir < 0 ? 0 : -w, to = dir < 0 ? -w : 0;
+        anims.push(t.track.animate([{ transform: `translateX(${from}px)` }, { transform: `translateX(${to}px)` }], { duration: (w / SPEED) * 1000, iterations: Infinity }));
+      }
+    };
+    start();
+    document.fonts?.ready.then(start);
+    addEventListener('resize', () => { clearTimeout(start.t); start.t = setTimeout(start, 200); }, { passive: true });
+
+    // Scroll: a burst of speed that eases back to rest; scrolling up runs them backwards.
+    let lastY = scrollY, lastT = performance.now(), boost = 0, dir = 1, raf = 0, visible = true;
+    const settle = () => {
+      boost *= 0.92;
+      if (boost < 0.02) boost = 0;
+      const rate = dir * (1 + boost);
+      anims.forEach((x) => { x.playbackRate = rate; });
+      raf = boost > 0 ? requestAnimationFrame(settle) : 0;
+    };
+    addEventListener('scroll', () => {
+      if (!visible) { lastY = scrollY; return; }
+      const now = performance.now(), dy = scrollY - lastY, dt = Math.max(16, now - lastT);
+      lastY = scrollY; lastT = now;
+      if (Math.abs(dy) < 1) return;
+      dir = dy > 0 ? 1 : -1;
+      boost = Math.min(5, boost + (Math.abs(dy) / dt) * 0.9);
+      if (!raf) raf = requestAnimationFrame(settle);
+    }, { passive: true });
+    // Off screen: paused.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => {
+        visible = e.isIntersecting;
+        anims.forEach((x) => (visible ? x.play() : x.pause()));
+      }, { rootMargin: '120px 0px' }).observe(band);
+    }
   }
 }

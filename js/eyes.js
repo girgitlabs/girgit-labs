@@ -5,6 +5,7 @@
 // Scroll: the wall is sticky; scrolling shatters it (a GSAP timeline, driven by the section's live
 // position on screen), then SECTION 05's ivory panel rises over it and its headline rises word by word.
 import { tile, tileMarkup } from './eye-tiles.js?v=3.1.0';
+import { registerStages } from './stages.js?v=1.3.0';
 
 const section = document.querySelector('.eyes');
 if (section) init();
@@ -107,7 +108,7 @@ function init() {
   /* ---------- SECTION 05's headline: word by word ---------- */
   const title = cover.querySelector('.eyes-title');
   const sub = cover.querySelector('.eyes-sub');
-  const gsapReady = window.gsap && window.ScrollTrigger && !reduce;
+  const gsapReady = window.gsap && !reduce;   // GSAP core only: ScrollTrigger is no longer loaded (the page measures its own scroll)
   let centre = null;
   if (gsapReady) {
     // The line belongs to the wall: it opens out of the centre, where every eye has just looked.
@@ -124,10 +125,10 @@ function init() {
      travel furthest and arrive last, shrinking and turning), so the wall funnels into one green pupil.
      The pupil pulses, then dilates until the screen is ivory: the eye opening. The ivory panel then
      rises over that same ivory, so the change of tone has no edge. Scrubbed both ways. */
-  const gsap = window.gsap, ST = window.ScrollTrigger;
+  const gsap = window.gsap;
   const navH = () => document.querySelector('.nav')?.offsetHeight || 0;
   if (gsapReady) {
-    gsap.registerPlugin(ST);
+    section.classList.add('eyes--shatter');   // css: the name's page starts under the iris, so no blank screen between the two
     let tl = null;
     // The shatter's progress is read from where the section actually is on screen, every scroll:
     // 0 until its top reaches the nav, 1 after 0.9 of a screen more. No positions are cached, so
@@ -139,22 +140,39 @@ function init() {
       target = Math.min(1, Math.max(0, (navH() - section.getBoundingClientRect().top) / len));
     };
     const glide = () => {                                    // a little inertia, like a scrub
-      shown += (target - shown) * 0.16;
+      shown += (target - shown) * 0.22;
       if (Math.abs(target - shown) < 0.0008) shown = target;
       tl?.progress(shown); progress = shown;
-      grid.classList.toggle('is-moving', shown > 0.005 && shown < 0.55);   // light tiles while they fly
+      // From the first tile moving until the wall is back: light tiles (no shadows) and every pupil and
+      // eyelid animation paused, so a slower computer spends all its frames on the scroll itself.
+      grid.classList.toggle('is-moving', shown > 0.005);
       raf = shown === target ? 0 : requestAnimationFrame(glide);
     };
+    // Resting points (scroll locks, js/stages.js): one gesture moves one stage. The wall, the pupil, the
+    // headline. No resting point at 1: that is the moment the ivory iris fills the screen, a blank screen.
+    // From the headline, the next gesture carries straight through the iris to the name's first meaning:
+    // the name registers in the same group ('looking'), so the two are one run of stages.
+    const STOPS = [0, 0.34, 0.66];
     const onScroll = () => { measure(); if (!raf) raf = requestAnimationFrame(glide); };
     addEventListener('scroll', onScroll, { passive: true });
     addEventListener('resize', onScroll, { passive: true });
+    registerStages(() => {
+      const len = Math.max(1, cover.offsetTop + navH() - window.innerHeight);
+      const base = window.scrollY + section.getBoundingClientRect().top - navH();
+      return STOPS.map((s) => base + s * len);
+    }, 'looking');
     makeShatter = () => {
       if (tl) { tl.kill(); gsap.set(tiles, { clearProps: 'transform,opacity' }); }
       const W = stick.clientWidth || window.innerWidth, H = stick.clientHeight || window.innerHeight;
       const size = W / cols, cx = W / 2, cy = H / 2;
       const far = Math.hypot(W / 2, H / 2) || 1;
       tl = gsap.timeline({ paused: true, defaults: { ease: 'none' } });
-      tl.to({}, { duration: 0.03 });                                              // a breath before it starts
+      // Timeline (0 to 1) and where it is allowed to come to rest (STOPS, below):
+      //   0.00-0.34 the tiles fly in to the centre      rests at 0.34: the wall is gone, one green pupil
+      //   0.34-0.60 pupil pulses, narrows to a line, the line opens into the headline and its sub-line
+      //   0.60-0.78 the headline is held, to be read    rests at 0.66: the headline, fully shown
+      //   0.78-0.96 the headline leaves, an ivory iris fills the screen, the panel rises over it
+      tl.to({}, { duration: 0.02 });                                              // a breath before it starts
       tiles.forEach((t, i) => {
         const col = i % cols, row = Math.floor(i / cols);
         const x = (col + 0.5) * size, y = (row + 0.5) * size;
@@ -162,8 +180,8 @@ function init() {
         const h1 = ((i * 2654435761) >>> 0) / 4294967296, h2 = ((i * 40503 + 7) % 997) / 997;
         tl.to(t, {
           x: cx - x, y: cy - y, scale: 0.05, rotation: (h2 - 0.5) * 160, opacity: 0,
-          duration: 0.22 + d * 0.14, ease: 'power2.in',
-        }, 0.03 + (1 - d) * 0.06 + h1 * 0.04);
+          duration: 0.16 + d * 0.10, ease: 'power2.in',
+        }, 0.02 + (1 - d) * 0.05 + h1 * 0.03);
       });
       // Where they land: a green pupil. It pulses once, narrows into a closed lid as wide as the line,
       // and the line opens out of it like an eye. It holds to be read, then an ivory iris dilates from
@@ -173,23 +191,34 @@ function init() {
       const wide = Math.max(18, title.offsetWidth);
       const fill = Math.hypot(W, H) * 0.56;
       const at = (w, h) => ({ width: w, height: h, marginLeft: -w / 2, marginTop: -h / 2 });
-      tl.fromTo(dot, { ...at(0, 0), opacity: 0 }, { ...at(18, 18), opacity: 1, duration: 0.04, ease: 'back.out(3)' }, 0.40);
-      tl.to(dot, { ...at(29, 29), duration: 0.04, ease: 'sine.out' }, 0.45);
-      tl.to(dot, { ...at(18, 18), duration: 0.03, ease: 'sine.in' }, 0.49);
-      tl.to(dot, { ...at(wide, 3.2), duration: 0.05, ease: 'power3.inOut' }, 0.53);
-      tl.fromTo(title, { opacity: 0, clipPath: 'inset(50% 0% 50% 0%)', scale: 1.03 }, { opacity: 1, clipPath: 'inset(-20% -6% -20% -6%)', scale: 1, duration: 0.07, ease: 'power3.out' }, 0.57);
-      tl.to(dot, { opacity: 0, duration: 0.04 }, 0.58);
-      if (sub) tl.fromTo(sub, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.06, ease: 'power2.out' }, 0.64);
-      tl.to(centre.children, { opacity: 0, scale: 0.97, duration: 0.06, ease: 'power2.in' }, 0.82);
-      tl.fromTo(iris, { clipPath: 'circle(0px at 50% 50%)', opacity: 1 }, { clipPath: `circle(${fill.toFixed(0)}px at 50% 50%)`, duration: 0.16, ease: 'power2.inOut' }, 0.82);
-      tl.to({}, { duration: 0.02 });                                              // the screen holds, ivory
+      tl.fromTo(dot, { ...at(0, 0), opacity: 0 }, { ...at(18, 18), opacity: 1, duration: 0.04, ease: 'back.out(3)' }, 0.30);
+      tl.to(dot, { ...at(29, 29), duration: 0.04, ease: 'sine.out' }, 0.35);
+      tl.to(dot, { ...at(18, 18), duration: 0.03, ease: 'sine.in' }, 0.39);
+      tl.to(dot, { ...at(wide, 3.2), duration: 0.05, ease: 'power3.inOut' }, 0.43);
+      tl.fromTo(title, { opacity: 0, clipPath: 'inset(50% 0% 50% 0%)', scale: 1.03 }, { opacity: 1, clipPath: 'inset(-20% -6% -20% -6%)', scale: 1, duration: 0.08, ease: 'power3.out' }, 0.47);
+      tl.to(dot, { opacity: 0, duration: 0.04 }, 0.50);
+      if (sub) tl.fromTo(sub, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.07, ease: 'power2.out' }, 0.53);
+      tl.to(centre.children, { opacity: 0, scale: 0.97, duration: 0.06, ease: 'power2.in' }, 0.78);
+      tl.fromTo(iris, { clipPath: 'circle(0px at 50% 50%)', opacity: 1 }, { clipPath: `circle(${fill.toFixed(0)}px at 50% 50%)`, duration: 0.18, ease: 'power2.inOut' }, 0.78);
+      tl.to({}, { duration: 0.04 });                                              // the screen holds, ivory
       measure(); shown = target; tl.progress(shown);                             // start where the page is
     };
     gsap.set(grid, { yPercent: 0 });
     const dot = document.createElement('span'); dot.className = 'eyes-dot'; dot.setAttribute('aria-hidden', 'true'); stick.append(dot);
     const iris = document.createElement('span'); iris.className = 'eyes-iris'; iris.setAttribute('aria-hidden', 'true'); stick.append(iris);
     makeShatter();
-    ST.create({ trigger: cover, start: 'top 55%', onEnter: () => cover.classList.add('is-in'), onLeaveBack: () => cover.classList.remove('is-in') });
+    // The headline's width sizes the line it opens out of. It is measured when the timeline is built, so
+    // build it again once the fonts have arrived (they load without blocking the page), or the line and the
+    // headline disagree and the animation does not land.
+    document.fonts?.ready.then(() => makeShatter());
+    addEventListener('load', () => makeShatter(), { once: true });
+    // The panel is "in" once its top passes 55% of the screen, and out again when it drops back below.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(([en]) => {
+        if (en.isIntersecting) cover.classList.add('is-in');
+        else if (en.boundingClientRect.top > 0) cover.classList.remove('is-in');   // left below (scrolled back up), not above
+      }, { rootMargin: '0px 0px -45% 0px' }).observe(cover);
+    } else cover.classList.add('is-in');
   } else if ('IntersectionObserver' in window) {
     new IntersectionObserver(([en]) => { if (en.isIntersecting) cover.classList.add('is-in'); }, { threshold: 0.3 }).observe(cover);
   } else cover.classList.add('is-in');

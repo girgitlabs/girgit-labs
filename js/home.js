@@ -29,7 +29,11 @@ const SUBS = [
   'Motion and film that stop the scroll. <strong>Every frame on purpose.</strong>',
 ];
 const GLYPHS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ#%&*+?!';
-const SIZE = [1, 1.3, 1, 1, 1];   // the paintbrush scene is tall and slim: it stands a little larger
+// How large each scene is drawn, grown from its feet. The products and films renders leave about 37% of
+// the picture empty at the top, so they stand larger to fill it; on phones less, so they stay inside the frame.
+const SIZE = [1, 1.06, 1.32, 1, 1.3];
+const SIZE_PHONE = [1, 1.04, 1.14, 1, 1.12];
+const sizeOf = (k) => (innerWidth < 900 ? SIZE_PHONE : SIZE)[k];
 
 if (hero) {
   const frame = hero.querySelector('.hx-frame') || hero;
@@ -39,14 +43,15 @@ if (hero) {
   // sits inside the frame with a margin, so a long one (PRODUCTS.) never bleeds off the edge.
   const fitCv = document.createElement('canvas').getContext('2d');
   const fitSize = (text) => {
-    const base = innerWidth < 900 ? innerWidth * 0.18 : Math.min(innerWidth * 0.195, innerHeight * 0.40);
+    const base = innerWidth < 900 ? innerWidth * 0.18 : Math.min(innerWidth * 0.195, innerHeight * 0.30);   // on wide screens the height caps it, leaving Girgit room
     const cs = word ? getComputedStyle(word) : null, ls = cs ? parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize) || -0.055 : -0.055;
     fitCv.font = `900 ${base}px Satoshi, system-ui, sans-serif`;
     const w = fitCv.measureText(text.toUpperCase()).width + ls * base * text.length;
     const room = (frame.clientWidth || innerWidth) * 0.92;
     return Math.floor(Math.min(base, base * room / Math.max(1, w)));
   };
-  const fitWord = (text) => { if (word) word.style.fontSize = `${fitSize(text)}px`; };
+  // The size also goes on the frame as --wfs, so the layout can tuck Girgit under the word by a share of it.
+  const fitWord = (text) => { if (word) { const fs = fitSize(text); word.style.fontSize = `${fs}px`; frame.style.setProperty('--wfs', `${fs}px`); } };
   // The line changes with the word: the old one lifts away, the new one settles in.
   let subT = 0;
   const setSub = (k, quiet) => {
@@ -62,7 +67,13 @@ if (hero) {
   const cv = hero.querySelector('.hx-paint');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const ctx = cv && cv.getContext ? cv.getContext('2d') : null;
-  const pics = STATES.map((s) => { const im = new Image(); im.decoding = 'async'; im.src = s[3]; return im; });   // ready before they are needed
+  // The first state's render is in the page already; the other four (about 450 KB) load once the page has
+  // loaded and gone quiet, well before the first change (three seconds in), so they never slow the first paint.
+  const pics = STATES.map((s, k) => { const im = new Image(); im.decoding = 'async'; if (k === 0) im.src = s[3]; return im; });
+  const loadRest = () => pics.forEach((im, k) => { if (!im.src) im.src = STATES[k][3]; });
+  if (document.readyState === 'complete') setTimeout(loadRest, 300);
+  else addEventListener('load', () => (window.requestIdleCallback ? requestIdleCallback(loadRest, { timeout: 1500 }) : setTimeout(loadRest, 300)), { once: true });
+  let wake = () => {};   // restarts the paint loop (below) when the hero comes back on screen
 
   let i = 0, target = 1, visible = true, flooding = null, scrambleRaf = 0;
   let W = 0, H = 0, DPR = 1, layer = null, mask = null, mctx = null, grid = null, painted = 0, last = null;
@@ -80,6 +91,39 @@ if (hero) {
     scrambleRaf = requestAnimationFrame(tick);
   };
 
+  // The paintbrush scene (BRANDS.) lines the brush's handle up under the left stem of the N, so the
+  // stroke of the letter seems to run down into the handle. The handle's centre sits at 46% of the
+  // picture's width (measured from the render). We find the stem's centre in the real font at the real
+  // size, and slide Girgit sideways by the difference (--gx). Every other scene stays centred.
+  const BRUSH = { k: 1, before: 'BRA', handle: 552 / 1200 };
+  const stemCv = document.createElement('canvas').getContext('2d', { willReadFrequently: true });
+  const stemOf = (fs) => {   // centre of the N's left stem, from where the N starts, in px
+    const w = Math.ceil(fs), h = Math.ceil(fs);
+    stemCv.canvas.width = w; stemCv.canvas.height = h;
+    stemCv.font = `900 ${fs}px Satoshi, system-ui, sans-serif`; stemCv.textBaseline = 'middle'; stemCv.fillStyle = '#000';
+    stemCv.fillText('N', 0, h / 2);
+    const row = stemCv.getImageData(0, Math.round(h / 2), w, 1).data;
+    let a = -1, b = -1;
+    for (let x = 0; x < w; x++) { const on = row[x * 4 + 3] > 128; if (on && a < 0) a = x; if (!on && a >= 0) { b = x; break; } }
+    return a < 0 ? fs * 0.12 : (a + b) / 2;
+  };
+  const gxFor = (k) => {
+    if (k !== BRUSH.k || !word || !girgit) return 0;
+    const text = STATES[k][0].toUpperCase(), fs = fitSize(STATES[k][0]);
+    const cs = getComputedStyle(word), ls = (parseFloat(cs.letterSpacing) / parseFloat(cs.fontSize) || -0.055) * fs;
+    fitCv.font = `900 ${fs}px Satoshi, system-ui, sans-serif`;
+    const full = fitCv.measureText(text).width + ls * text.length;   // the word box, trailing spacing included
+    const nAt = fitCv.measureText(BRUSH.before).width + ls * BRUSH.before.length;
+    const wr = word.getBoundingClientRect(), gr = girgit.getBoundingClientRect();
+    const start = wr.left + wr.width / 2 - full / 2;
+    const stemX = start + nAt + stemOf(fs);
+    const now = parseFloat(girgit.style.getPropertyValue('--gx')) || 0;
+    const centre = gr.left + gr.width / 2 - now;                     // where he stands with no shift
+    const handleX = centre + (BRUSH.handle - 0.5) * gr.width * sizeOf(k);   // the scale grows from his centre
+    return Math.round(stemX - handleX);
+  };
+  const placeGirgit = () => { if (girgit) girgit.style.setProperty('--gx', `${gxFor(i)}px`); };
+
   const mark = (k) => dots.forEach((d, n) => { d.classList.toggle('is-on', n === k); d.setAttribute('aria-pressed', String(n === k)); });
 
   // Make state k the hero, in the DOM.
@@ -90,8 +134,9 @@ if (hero) {
     hero.style.setProperty('--fg', s[2]); navInk(s[2]); fitWord(s[0]);
     hero.dataset.state = String(k); document.documentElement.dataset.hero = String(k); setSub(k, quiet);
     if (skin) skin.src = s[3];
-    if (girgit) girgit.querySelector('.hx-gbody').style.scale = String(SIZE[k]);
+    if (girgit) girgit.querySelector('.hx-gbody').style.scale = String(sizeOf(k));
     if (word) { if (quiet) { cancelAnimationFrame(scrambleRaf); word.textContent = s[0]; } else scramble(s[0]); }
+    placeGirgit();
     mark(k);
   };
 
@@ -99,6 +144,8 @@ if (hero) {
     // No canvas or reduced motion: a click or a dot changes the state at once.
     hero.addEventListener('click', (e) => { if (e.target.closest('a, .hx-band, .hx-dots')) return; become((i + 1) % STATES.length); });
     dots.forEach((d, k) => d.addEventListener('click', (e) => { e.stopPropagation(); become(k); }));
+    document.fonts?.ready.then(() => { fitWord(STATES[i][0]); placeGirgit(); });
+    new ResizeObserver(() => { fitWord(STATES[i][0]); placeGirgit(); }).observe(frame);
   } else {
 
     /* ---- the next state, drawn once per size: its colour, its word where the word sits, its Girgit where he stands ---- */
@@ -122,8 +169,9 @@ if (hero) {
         g.fillText(text, r.left - fr.left + r.width / 2, y);
       }
       if (girgit && pic.complete && pic.naturalWidth) {
-        const g0 = girgit.getBoundingClientRect(), sz = SIZE[target];
-        const b = { width: g0.width * sz, height: g0.height * sz }, x = g0.left - fr.left + (g0.width - b.width) / 2, y = g0.bottom - fr.top - b.height;
+        const g0 = girgit.getBoundingClientRect(), sz = sizeOf(target);
+        const shift = gxFor(target) - (parseFloat(girgit.style.getPropertyValue('--gx')) || 0);   // the next scene may stand elsewhere (the brush)
+        const b = { width: g0.width * sz, height: g0.height * sz }, x = g0.left - fr.left + (g0.width - b.width) / 2 + shift, y = g0.bottom - fr.top - b.height;
         const glow = g.createRadialGradient(x + b.width / 2, y + b.height * 0.58, 0, x + b.width / 2, y + b.height * 0.58, b.width * 0.48);
         glow.addColorStop(0, 'rgba(255,255,255,0.34)'); glow.addColorStop(0.55, 'rgba(255,255,255,0.12)'); glow.addColorStop(1, 'rgba(255,255,255,0)');
         g.fillStyle = glow; g.fillRect(x - b.width * 0.1, y - b.height * 0.1, b.width * 1.2, b.height * 1.2);
@@ -159,6 +207,7 @@ if (hero) {
       if (flooding) return;
       compose();   // drawn now, from where everything stands this moment (never mid entrance animation), so the hand-off is exact
       flooding = { x, y, t0: performance.now(), R: Math.hypot(Math.max(x, W - x), Math.max(y, H - y)) * 1.15 };
+      wake();
       if (word) scramble(STATES[target][0]);
       try { window.posthog?.capture('hero_colour', { to: STATES[target][0], by }); } catch { /* fine */ }
     };
@@ -201,7 +250,11 @@ if (hero) {
       if (now - changedAt >= EVERY) splash();
     };
 
+    // The loop only runs while the hero is on screen (or a flood is finishing); off screen it stops entirely
+    // instead of waking every frame to do nothing.
+    let running = false;
     const tick = (now) => {
+      if (!flooding && (!visible || document.hidden)) { running = false; return; }
       requestAnimationFrame(tick);
       if (flooding) {
         const F = flooding, dur = F.splash ? 900 : 820;
@@ -233,14 +286,23 @@ if (hero) {
     };
 
     become(0, true);
-    new ResizeObserver(() => { fitWord(STATES[i][0]); size(); }).observe(frame);
+    new ResizeObserver(() => { fitWord(STATES[i][0]); placeGirgit(); size(); }).observe(frame);
     pics.forEach((p) => p.addEventListener('load', compose));
-    document.fonts?.ready.then(() => { compose(); draw(); });
-    requestAnimationFrame(tick);
+    // Once Satoshi has arrived (it loads without blocking), size the word again in the real font: until then
+    // it was measured in the fallback, and could end up too wide or too small.
+    document.fonts?.ready.then(() => { fitWord(STATES[i][0]); placeGirgit(); compose(); draw(); });
+    wake = () => {
+      if (running) return;
+      running = true;
+      if (!flooding) changedAt = Math.max(changedAt, performance.now() - EVERY + 600);   // back on screen: change soon, not at once
+      requestAnimationFrame(tick);
+    };
+    wake();
   }
 
   if ('IntersectionObserver' in window) {
-    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.2 }).observe(hero);
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) wake(); }, { threshold: 0.2 }).observe(hero);
   }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) wake(); });
   setTimeout(() => hero.classList.add('is-ready'), 1700);
 }

@@ -1,133 +1,125 @@
-/* SECTION 02 — what we do (js/lab.js). A pinned stage: the copy on the left, Girgit on the right.
-   Scroll scrubs his clip for each capability; the camera keeps him in one spot beside the copy.
-   It slides up over the held hero as one sheet (css/hero.css). */
+/* SECTION 03: what we do, as a stack of cards. One full-colour card per service. Each card sticks under the
+   nav, a little lower than the one before, and the next slides up over it, so the deck builds as you
+   scroll and the edges of the cards underneath stay visible. This is ordinary scroll: nothing is pinned
+   or locked by script.
+   js/stack.js only sets two numbers on each card. --enter (0 to 1) is how far the card has risen into
+   place; Girgit climbs in with it. --cover (0 to 1) is how much of it the next card hides; the covered
+   card shrinks back, tilts and darkens. Without JS or with reduced motion the cards still stack, just
+   without the movement. */
 
-.lab {
-  --lab-sky: #E0D3C1;          /* sampled from the clips: top of frame */
-  --lab-floor: #E6DDCC;        /* and their floor */
-  position: relative;
-  isolation: isolate;
-  height: calc(100svh - var(--nav-h));
-  min-height: 34rem;
-  overflow: hidden;
-  background: linear-gradient(var(--lab-sky), #E3D8C6 62%, var(--lab-floor));
-  color: var(--black);
-  font-family: var(--satoshi);
+.sk {
+  --sk-top: calc(var(--nav-h) + clamp(0.9rem, 2.2vw, 1.6rem));   /* where the first card sticks */
+  --sk-step: clamp(0.55rem, 1.1vw, 0.95rem);                      /* each later card sticks this much lower */
+  --sk-h: min(46rem, calc(100svh - var(--sk-top) - 4 * var(--sk-step) - clamp(0.9rem, 2.2vw, 1.6rem)));
+  position: relative; padding: clamp(4.5rem, 10vw, 8rem) var(--gutter) clamp(3.5rem, 8vw, 6rem);
+  background: var(--ivory); color: var(--black); font-family: var(--satoshi);
+}
+.sk-wrap { max-width: 82rem; margin: 0 auto; }
+
+/* ---------- The heading ---------- */
+.sk-head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 22rem); align-items: end; gap: 0.9rem clamp(1.5rem, 4vw, 4rem); margin: 0 0 clamp(2rem, 5vw, 3.5rem); }
+.sk-kicker { grid-column: 1 / -1; margin: 0; font: 700 0.75rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.sk-title { margin: 0; max-width: 14ch; font: 900 clamp(2.6rem, 6.4vw, 6.4rem)/0.88 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; }
+.sk-title span { color: var(--olive-ink, #5A6630); }
+.sk-lede { margin: 0; font: 600 clamp(1rem, 1.3vw, 1.2rem)/1.4 var(--satoshi); color: var(--body); }
+
+/* ---------- The deck ---------- */
+.sk-list { margin: 0; padding: 0; list-style: none; }
+/* The bottom margins step down card by card (4, 3, 2, 1, 0 steps) so that when the deck scrolls away at the
+   end, every card keeps its offset and the whole fanned stack leaves together instead of collapsing. */
+.sk-card { position: sticky; top: calc(var(--sk-top) + var(--i) * var(--sk-step)); margin: 0 0 calc((4 - var(--i)) * var(--sk-step)); }
+
+.sk-in {
+  --cover: 0; --enter: 1;
+  position: relative; display: grid; grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: clamp(1rem, 2.5vw, 2rem);
+  height: var(--sk-h); min-height: 26rem; padding: clamp(1rem, 2.2vw, 1.75rem); overflow: hidden;
+  border: 2px solid var(--black); border-radius: clamp(1.25rem, 2.6vw, 2.25rem);
+  background: var(--svc); color: var(--svc-ink);
+  box-shadow: 0 -14px 40px -24px rgb(0 0 0 / 0.55), 0 2px 0 rgb(0 0 0 / 0.08);
+  transform-origin: 50% 0;
+  transform: scale(calc(1 - var(--cover) * 0.06)) rotate(calc(var(--cover) * -1.6deg));
+}
+.sk-card:nth-child(even) .sk-in { transform: scale(calc(1 - var(--cover) * 0.06)) rotate(calc(var(--cover) * 1.6deg)); }
+/* The covered card darkens as it goes under. */
+.sk-in::after { content: ""; position: absolute; inset: 0; z-index: 3; border-radius: inherit; background: #000; opacity: calc(var(--cover) * 0.32); pointer-events: none; }
+
+/* The words: the count up top, then the name, the promise, what you get, and where to see it. */
+.sk-text { display: flex; flex-direction: column; min-width: 0; padding: clamp(0.4rem, 1.2vw, 1rem); }
+.sk-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0; }
+.sk-n { font: 800 0.9rem/1 var(--satoshi); font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+.sk-n i { font-style: normal; opacity: 0.55; }
+.sk-dots { display: flex; gap: 0.3rem; }
+.sk-dots b { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: currentColor; opacity: 0.28; transition: width 300ms var(--ease); }
+.sk-card:nth-child(1) .sk-dots b:nth-child(1), .sk-card:nth-child(2) .sk-dots b:nth-child(2), .sk-card:nth-child(3) .sk-dots b:nth-child(3),
+.sk-card:nth-child(4) .sk-dots b:nth-child(4), .sk-card:nth-child(5) .sk-dots b:nth-child(5) { width: 1.6rem; opacity: 1; }
+
+.sk-name { margin: auto 0 0; font: 900 clamp(2.8rem, 6.6vw, 6.6rem)/0.86 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; overflow-wrap: anywhere; }
+.sk-line { margin: 0.8rem 0 0; font: 800 clamp(1.15rem, 1.7vw, 1.6rem)/1.15 var(--satoshi); letter-spacing: -0.02em; }
+.sk-copy { margin: 0.5rem 0 0; max-width: 34ch; font: 500 clamp(0.98rem, 1.15vw, 1.1rem)/1.45 var(--satoshi); opacity: 0.86; }
+.sk-get { margin-top: clamp(1rem, 2.4vw, 1.8rem); padding-top: clamp(0.8rem, 1.6vw, 1.1rem); border-top: 1.5px solid color-mix(in srgb, currentColor 35%, transparent); }
+.sk-get h4 { margin: 0 0 0.6rem; font: 700 0.7rem/1 var(--satoshi); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.7; }
+.sk-get ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.4rem 1.2rem; margin: 0; padding: 0; list-style: none; }
+.sk-get li { position: relative; padding-left: 1rem; font: 700 0.98rem/1.3 var(--satoshi); }
+.sk-get li::before { content: ""; position: absolute; left: 0; top: 0.45em; width: 0.42em; height: 0.42em; border-radius: 50%; background: currentColor; }
+.sk-act { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem; margin: clamp(1rem, 2.4vw, 1.8rem) 0 0; }
+.sk-case {
+  display: inline-flex; align-items: center; gap: 0.45em; padding: 0.85em 1.3em; border-radius: 999px; white-space: nowrap;
+  background: var(--svc-ink); color: var(--svc); font: 800 0.92rem/1 var(--satoshi); text-decoration: none;
+  transition: scale 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.sk-case span { transition: translate 220ms var(--ease); }
+.sk-case:hover { scale: 1.05; }
+.sk-case:hover span { translate: 0.2em 0; }
+.sk-case:focus-visible { outline: 3px solid var(--svc-ink); outline-offset: 3px; }
+.sk-tags { display: flex; gap: 0.4rem; }
+.sk-tag { padding: 0.6em 0.9em; border: 1.5px solid currentColor; border-radius: 999px; font: 800 0.78rem/1 var(--satoshi); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; }
+
+/* The picture: Girgit, as that service, on a slightly deeper panel with the card's number behind him.
+   He climbs into place as the card rises (--enter). */
+.sk-art {
+  position: relative; display: grid; place-items: center; min-width: 0; overflow: hidden;
+  border-radius: clamp(0.9rem, 1.8vw, 1.5rem); background: color-mix(in srgb, var(--svc-ink) 9%, var(--svc));
+}
+.sk-big {
+  position: absolute; right: -0.04em; bottom: -0.2em; font: 900 clamp(10rem, 24vw, 22rem)/1 var(--satoshi); letter-spacing: -0.08em;
+  color: transparent; -webkit-text-stroke: 2px color-mix(in srgb, var(--svc-ink) 28%, transparent); user-select: none;
+}
+.sk-art img {
+  position: relative; width: min(84%, 31rem); height: auto; max-height: 84%; object-fit: contain;   /* the scenes are cropped tight: leave air round them */
+  transform: translateY(calc((1 - var(--enter)) * 26%)) rotate(calc((1 - var(--enter)) * 9deg));
+  filter: drop-shadow(0 22px 26px rgb(0 0 0 / 0.22));
 }
 
-/* ---------- The film: one clip per capability, stacked; the camera is a translate ---------- */
-.lab-film {
-  position: absolute; left: 0; top: 0; z-index: 0; will-change: transform;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0, #000 9%, #000 91%, transparent 100%);
-}
-/* Three layers (js/lab.js): the rock stills, the full-frame clips (walks), and the close-ups that play
-   over one rock's patch of its still. Only the pieces the moment needs are visible. */
-.lab-film { overflow: hidden; }
-.lab-still, .lab-full { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.lab-film > * { opacity: 0; transition: opacity 140ms linear; }
-.lab-film > .is-on { opacity: 1; }
-.lab-still { z-index: 1; }
-.lab-full { z-index: 2; }
-/* A close-up's edges are feathered into the still, so only Girgit and what he does appear to move. */
-.lab-close {
-  position: absolute; z-index: 3; display: block; object-fit: cover;
-  -webkit-mask-image: radial-gradient(ellipse 46% 48% at 50% 52%, #000 62%, transparent 100%);
-          mask-image: radial-gradient(ellipse 46% 48% at 50% 52%, #000 62%, transparent 100%);
-}
-.lab-close--wide {
-  -webkit-mask-image: radial-gradient(ellipse 52% 54% at 48% 50%, #000 70%, transparent 100%);
-          mask-image: radial-gradient(ellipse 52% 54% at 48% 50%, #000 70%, transparent 100%);
-}
-/* A soft wash behind the copy, so swatches and panels that fly left never fight the text. */
-.lab::after { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none;
-  background: linear-gradient(90deg, rgb(224 211 193 / 0.94) 0, rgb(224 211 193 / 0.78) 30%, rgb(224 211 193 / 0) 52%); }
+.sk-foot { margin: clamp(1.8rem, 4vw, 2.6rem) 0 0; font: 600 1.05rem/1.4 var(--satoshi); color: var(--body); }
+.sk-foot a { color: var(--black); font-weight: 800; text-underline-offset: 0.2em; }
 
-/* ---------- The copy ---------- */
-.lab-texts { position: absolute; z-index: 2; left: var(--gutter); top: 50%; translate: 0 -50%; width: min(36rem, 40%); display: grid; }
-.lab-intro, .lab-cap { grid-area: 1 / 1; align-self: center; }
-.lab-caps { display: contents; margin: 0; padding: 0; list-style: none; }
-.lab-cap-img { display: none; }
-
-.lab-kicker { margin: 0 0 0.9rem; font: 700 0.72rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; }
-.lab-title { margin: 0; font: 900 clamp(2.2rem, 4.4vw, 5rem)/0.9 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; }
-.lab-title .lab-alt { color: var(--olive); }
-
-/* The service is the anchor of each caption: its name on a block of its accent, the number beside it. */
-.lab-num { display: flex; align-items: center; gap: 0.7rem; margin: 0 0 1.1rem; font: 800 clamp(0.95rem, 1.2vw, 1.25rem)/1.1 var(--satoshi); letter-spacing: 0.01em; text-transform: uppercase; }
-.lab-n { display: inline-grid; place-items: center; flex: none; width: 2.5em; height: 2.5em; border: 2px solid var(--black); border-radius: 50%; font-size: 0.62em; font-weight: 700; letter-spacing: 0.06em; }
-.lab-service { position: relative; z-index: 0; padding: 0.2em 0.5em 0.16em; color: var(--svc-ink); }
-.lab-service::before { content: ""; position: absolute; inset: 0; z-index: -1; border-radius: 0.18em; background: var(--svc); transform-origin: left center; }
-.lab-cap[data-cap="0"] { --svc: var(--pink); --svc-ink: var(--black); }   /* black on hot pink: ~5.2:1 (ivory is ~3.2:1) */
-.lab-cap[data-cap="1"] { --svc: var(--blue); --svc-ink: var(--ivory); }
-.lab-cap[data-cap="2"] { --svc: var(--forest); --svc-ink: var(--ivory); }
-.lab-cap[data-cap="3"] { --svc: var(--acid); --svc-ink: var(--black); }
-.lab-cap[data-cap="4"] { --svc: var(--yellow); --svc-ink: var(--black); }
-.lab-head { margin: 0 0 0.9rem; font: 900 clamp(2rem, 3.5vw, 4rem)/0.9 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; }
-.lab-copy { margin: 0 0 1.4rem; max-width: 32ch; font: 500 clamp(1rem, 1.15vw, 1.12rem)/1.45 var(--satoshi); color: #3A3A33; }
-/* What each capability covers (the detail that used to be its own section). */
-.lab-tags { display: flex; flex-wrap: wrap; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
-.lab-tags li { padding: 0.5em 0.85em; border: 1.5px solid var(--black); border-radius: 999px; background: rgb(244 239 229 / 0.55); font: 700 0.78rem/1 var(--satoshi); }
-
-/* One caption at a time: the rest wait just below, invisible. Leaving is quick, arriving is slower. */
-.lab-intro, .lab-cap { opacity: 0; translate: 0 1rem; pointer-events: none; transition: opacity 160ms var(--ease), translate 220ms var(--ease); }
-.lab[data-cap="intro"] .lab-intro,
-.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"],
-.lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"],
-.lab[data-cap="4"] .lab-cap[data-cap="4"] { opacity: 1; translate: 0 0; pointer-events: auto; transition: opacity 380ms var(--ease) 120ms, translate 520ms var(--ease) 120ms; }
-
-/* ---------- Progress: five ticks, each a shortcut ---------- */
-.lab-progress { position: absolute; z-index: 2; left: var(--gutter); bottom: clamp(1.2rem, 4svh, 2.4rem); display: flex; gap: 0.45rem; margin: 0; padding: 0; list-style: none; }
-.lab-progress button {
-  display: grid; place-items: center; width: 2.9rem; height: 2.1rem; border: 1.5px solid var(--black); border-radius: 999px;
-  background: transparent; color: var(--black); font: 700 0.7rem var(--satoshi); letter-spacing: 0.08em; cursor: pointer;
-  transition: background 240ms, color 240ms;
-}
-.lab-progress li.is-on button { background: var(--black); color: var(--ivory); }
-.lab-progress button:hover { background: var(--accent); }
-.lab-progress button:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
-
-/* ---------- Appearing: each caption's pieces arrive in sequence ---------- */
-.lab-w { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.14em 0.12em 0.16em; margin: -0.14em -0.12em -0.16em;   /* room for the whole letter: tight tracking and line-height otherwise shave its edges */ }
-.lab-w > span { display: inline-block; }
-@media (prefers-reduced-motion: no-preference) {
-  .js .lab:not(.lab--still) .lab-w > span { translate: 0 150%; transition: translate 650ms var(--ease) calc(var(--i, 0) * 45ms + 90ms); }
-  .js .lab:not(.lab--still) .lab-n { scale: 0.3; transition: scale 460ms cubic-bezier(0.34, 1.56, 0.64, 1) 40ms; }
-  .js .lab:not(.lab--still) .lab-service { color: var(--black); transition: color 200ms var(--ease) 360ms; }
-  .js .lab:not(.lab--still) .lab-service::before { transform: scaleX(0); transition: transform 560ms cubic-bezier(0.7, 0, 0.2, 1) 120ms; }
-  .js .lab:not(.lab--still) :is(.lab-copy, .lab-kicker) { opacity: 0; translate: 0 0.7rem; transition: opacity 420ms var(--ease) 280ms, translate 560ms var(--ease) 280ms; }
-  .js .lab:not(.lab--still) .lab-tags li { opacity: 0; translate: 0 0.5rem; transition: opacity 300ms var(--ease) calc(380ms + var(--i, 0) * 50ms), translate 420ms var(--ease) calc(380ms + var(--i, 0) * 50ms); }
-  .js .lab:not(.lab--still) :is(.lab[data-cap="intro"] .lab-intro, .lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) :is(.lab-w > span, .lab-copy, .lab-kicker, .lab-tags li) { translate: 0 0; opacity: 1; }
-  .js .lab:not(.lab--still) :is(.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) .lab-n { scale: 1; }
-  .js .lab:not(.lab--still) :is(.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) .lab-service { color: var(--svc-ink); }
-  .js .lab:not(.lab--still) :is(.lab[data-cap="0"] .lab-cap[data-cap="0"], .lab[data-cap="1"] .lab-cap[data-cap="1"], .lab[data-cap="2"] .lab-cap[data-cap="2"], .lab[data-cap="3"] .lab-cap[data-cap="3"], .lab[data-cap="4"] .lab-cap[data-cap="4"]) .lab-service::before { transform: none; }
+/* ---------- Narrower screens: lose the big number, keep two columns while they fit ---------- */
+@media (max-width: 1024px) {
+  .sk-big { display: none; }
+  .sk-get ul { grid-template-columns: minmax(0, 1fr); }
 }
 
-/* ---------- The track (js/lab.js): the section sticks under the nav while the clips play ---------- */
-.lab-track { position: relative; background: var(--lab-floor); }
-.lab-track > .lab { position: sticky; top: var(--nav-h); }
-
-/* ---------- Phones: Girgit above, the copy below ---------- */
+/* ---------- Phones: one column. Girgit sits in the top-right corner of the card, the words below him ---------- */
 @media (max-width: 760px) {
-  .lab::after { background: linear-gradient(0deg, rgb(230 221 204 / 0.97) 0, rgb(230 221 204 / 0.88) 44%, rgb(230 221 204 / 0) 64%); }
-  .lab-texts { top: auto; bottom: 4.6rem; translate: none; width: auto; right: var(--gutter); }
-  .lab-intro, .lab-cap { align-self: end; }
-  .lab-title { font-size: clamp(2rem, 9.4vw, 2.9rem); }
-  .lab-head { font-size: clamp(1.7rem, 8vw, 2.4rem); }
-  .lab-copy { margin-bottom: 0.9rem; font-size: 0.98rem; }
-  .lab-tags li { font-size: 0.7rem; }
-  .lab-progress button { width: 2.4rem; }
+  .sk-head { grid-template-columns: minmax(0, 1fr); }
+  .sk { --sk-step: 0.55rem; }
+  .sk-in { grid-template-columns: minmax(0, 1fr); min-height: 0; padding: 1rem; }
+  .sk-text { position: relative; z-index: 1; padding: 0.3rem; }
+  /* As big as the card's free space allows: taller phones get a bigger Girgit, short ones a smaller one. */
+  .sk-art { position: absolute; top: 2.6rem; right: 0.6rem; width: min(80%, clamp(9rem, calc((var(--sk-h) - 21rem) * 1.25), 17rem)); aspect-ratio: 4 / 3; background: none; overflow: visible; }
+  .sk-art img { width: auto; height: 100%; max-width: 100%; max-height: none; }   /* fit the corner box by its height */
+  .sk-name { font-size: clamp(2.3rem, 11.5vw, 3.6rem); }
+  .sk-line { font-size: 1.12rem; }
+  .sk-copy { font-size: 0.95rem; }
+  .sk-get { margin-top: 0.9rem; padding-top: 0.7rem; }
+  .sk-get ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.3rem 0.8rem; }
+  .sk-get li { font-size: 0.86rem; }
+  .sk-act { margin-top: 0.9rem; }
+  .sk-case { padding: 0.8em 1.1em; font-size: 0.88rem; }
 }
 
-/* ---------- The still version: reduced motion, no JS, or a clip failed ---------- */
-.lab--still, html:not(.js) .lab { height: auto; min-height: 0; overflow: visible; padding: clamp(3rem, 8vw, 6rem) var(--gutter); }
-.lab--still::after, html:not(.js) .lab::after,
-.lab--still .lab-film, html:not(.js) .lab-film,
-.lab--still .lab-progress, html:not(.js) .lab-progress { display: none; }
-.lab--still .lab-texts, html:not(.js) .lab-texts { position: static; translate: none; width: auto; display: block; }
-.lab--still .lab-intro, .lab--still .lab-cap,
-html:not(.js) .lab-intro, html:not(.js) .lab-cap { opacity: 1; translate: none; pointer-events: auto; }
-.lab--still .lab-intro, html:not(.js) .lab-intro { margin-bottom: clamp(2rem, 5vw, 3.5rem); }
-.lab--still .lab-caps, html:not(.js) .lab-caps { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 2.5rem 1.5rem; }
-.lab--still .lab-cap-img, html:not(.js) .lab-cap-img { display: block; width: 100%; height: auto; aspect-ratio: 1600 / 695; object-fit: cover; margin-bottom: 1rem; border-radius: 0.6rem; }
-.lab--still .lab-head, html:not(.js) .lab-head { font-size: clamp(1.6rem, 2.4vw, 2.3rem); margin-bottom: 0.6rem; }
+@media (prefers-reduced-motion: reduce) {
+  .sk-in, .sk-card:nth-child(even) .sk-in, .sk-art img { transform: none; }
+  .sk-in::after { opacity: 0; }
+  .sk-case, .sk-case span, .sk-dots b { transition: none; }
+}

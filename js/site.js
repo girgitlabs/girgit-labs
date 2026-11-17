@@ -1,37 +1,25 @@
 // Girgit Labs: the home page's shared behaviour, and every section's script.
-import './home.js?v=3.8.0';          // Hero: Girgit becomes the work; the pointer paints the next state in
+import './home.js?v=3.10.4';         // Hero: Girgit becomes the work; the pointer paints the next state in
 import './coverflow.js?v=3.8.2';     // The work: a cover flow of the projects, on each client's colour
-import './ribbon.js?v=3.5.0';        // The hero's ribbon, as a wavy marquee
-import './name.js?v=3.8.1';          // The name: the dictionary entry as a pinned scene
-import './quotes.js?v=3.6.0';        // In their words: the quotes as a pinned scene
+import './stack.js?v=1.0.0';         // What we do: the service cards stack; the covered one shrinks back
+import './ribbon.js?v=4.0.0';        // The ribbon: two crossed tapes over the seam between the hero and the work
+import './name.js?v=3.8.4';          // The name: the dictionary entry as a pinned scene (scroll-locked stages)
+import './quotes.js?v=4.0.0';        // In their words: the quotes, changed with arrows (not the scroll)
 import './week.js?v=3.8.2';          // Seven days: the tongue's zig-zag journey across the four steps
-import './catch.js?v=3.8.1';         // Got an idea?: ideas drift like flies, the tongue catches them
+import './catch.js?v=3.9.0';        // Got an idea?: ideas drift like flies, the tongue catches them
 import './hello.js?v=3.8.0';         // Footer: Say hello. comes alive
-import './lab.js?v=3.8.0';           // What we do: Girgit crosses five rocks, becoming each capability
-import './eyes.js?v=3.3.0';          // The eye wall, and the panel (with the name) that rises over it
-import './eye-cluster.js?v=3.1.0';   // The eye wall's tiles, in small clusters beside the quotes and the fits
-import './how.js?v=3.1.0';           // How we work: the week's eyes wake up, Girgit arrives at "Live"
-import './s5.js?v=3.1.0';            // The statement's words, and Girgit's tongue on "Start a project"
-import './footer-banner.js?v=3.1.0'; // Footer: the framed banner with the logo
+import './eyes.js?v=3.4.1';          // The eye wall, and the panel (with the name) that rises over it
+import './eye-cluster.js?v=3.2.0';   // Seven days: the eye markers, for reduced motion only (the animated timeline replaces them)
+import './how.js?v=3.1.0';           // Seven days, reduced motion only: the markers wake one after another
+import './s5.js?v=3.2.0';            // How we work: the statement's words rise
+import './footer-banner.js?v=3.3.0'; // Footer: the framed banner with the logo
 import './analytics.js?v=3.1.0';     // PostHog custom analytics
-import './kinetic.js?v=3.8.0';       // Springing letters, cards that lean toward the pointer
+import './kinetic.js?v=3.9.0';       // Springing letters, cards that lean toward the pointer
 import './tone.js?v=3.1.0';          // Light and dark sections blend as you scroll
 import './fun.js?v=3.1.0';           // Small rewards: the fly, the Konami code, the tab title
 
 document.documentElement.classList.add('js');   // reveal animations only hide content once JS is running
 
-// Scroll scenes measure where their sections sit once, at load. Anything that changes the page's
-// height afterwards (fonts arriving, a late image) would leave them firing early, so re-measure
-// whenever the height changes.
-if (window.ScrollTrigger && 'ResizeObserver' in window) {
-  let h = 0, t = 0;
-  new ResizeObserver(() => {
-    const now = document.documentElement.scrollHeight;
-    if (Math.abs(now - h) < 2) return;
-    h = now; clearTimeout(t); t = setTimeout(() => window.ScrollTrigger.refresh(), 150);
-  }).observe(document.body);
-  document.fonts?.ready.then(() => window.ScrollTrigger.refresh());
-}
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];

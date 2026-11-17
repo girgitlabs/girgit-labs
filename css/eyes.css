@@ -53,7 +53,7 @@
   padding: clamp(4rem, 10vw, 8rem) var(--gutter);
   background: var(--ivory); color: var(--black); font-family: var(--satoshi);
   border-radius: clamp(1.25rem, 3vw, 2.5rem) clamp(1.25rem, 3vw, 2.5rem) 0 0;
-  box-shadow: 0 -24px 60px rgb(0 0 0 / 0.28);
+
 }
 .eyes-title { margin: 0; max-width: 12ch; font: 900 clamp(3rem, 9vw, 10rem)/0.86 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; }
 .eyes-sub {

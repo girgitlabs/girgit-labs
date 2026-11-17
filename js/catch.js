@@ -109,19 +109,22 @@ if (panel) {
     catchIt(c, () => openWith(c.idea));
   });
 
-  let visible = false, hovering = false, lastCatch = 0;
-  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0.3 }).observe(panel);
+  let visible = false, hovering = false, lastCatch = 0, running = false;
+  // The loop only runs while the panel is on screen; off screen it stops entirely (wake restarts it).
+  const wake = () => { if (!running && visible && !document.hidden) { running = true; requestAnimationFrame(loop); } };
+  if ('IntersectionObserver' in window) new IntersectionObserver(([e]) => { visible = e.isIntersecting; wake(); }, { threshold: 0.3 }).observe(panel);
   else visible = true;
   panel.addEventListener('pointerenter', () => { hovering = true; });
   // On a touch screen there is no hover, so a touch on the panel holds the automatic catch off for a few
   // seconds: he never snatches the idea you were about to tap.
   panel.addEventListener('pointerdown', (e) => { if (e.pointerType !== 'mouse') lastCatch = performance.now() + 4000; }, { passive: true });
   panel.addEventListener('pointerleave', () => { hovering = false; });
-  addEventListener('scroll', () => { const r = panel.getBoundingClientRect(); visible = r.top < innerHeight * 0.85 && r.bottom > innerHeight * 0.15; }, { passive: true });
+  addEventListener('scroll', () => { const r = panel.getBoundingClientRect(); visible = r.top < innerHeight * 0.85 && r.bottom > innerHeight * 0.15; wake(); }, { passive: true });
+  document.addEventListener('visibilitychange', wake);
 
   const loop = (now) => {
+    if (!visible || document.hidden) { running = false; return; }
     requestAnimationFrame(loop);
-    if (!visible || document.hidden) return;
     place(now);
     // on its own every three and a half seconds, but never while someone is choosing
     if (!reduce && !hovering && now - lastCatch > 3500 && !tongue.busy) {
@@ -129,5 +132,5 @@ if (panel) {
       if (free.length) { lastCatch = now; catchIt(free[(Math.random() * free.length) | 0]); }
     }
   };
-  requestAnimationFrame(loop);
+  wake();
 }

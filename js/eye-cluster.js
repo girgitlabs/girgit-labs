@@ -9,7 +9,9 @@ import { tile, tileMarkup } from './eye-tiles.js?v=3.1.0';
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const clusters = [];
 
-for (const host of document.querySelectorAll('[data-eye-tiles]')) {
+// Its only clusters are the seven days markers. With motion on, js/week.js turns that timeline into the
+// zig-zag and hides them, so they are built only for reduced motion (where they are the markers).
+for (const host of reduce ? document.querySelectorAll('[data-eye-tiles]') : []) {
   const n = Number(host.dataset.eyeTiles) || 3, seed = Number(host.dataset.seed) || 1;
   const cols = Number(host.dataset.cols) || n, taken = [];
   host.style.setProperty('--cols', cols);

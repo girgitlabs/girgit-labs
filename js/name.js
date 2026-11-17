@@ -7,6 +7,8 @@
 // the current meaning in full ink and a rail that fills as you scroll (css: THE NAME, as a dictionary page).
 // Reduced motion or no JS: the entry as it is, all three meanings in a list.
 
+import { registerStages } from './stages.js?v=1.3.0';
+
 const card = document.querySelector('.ec-dict');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -42,4 +44,11 @@ if (card && !reduce) {
   addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(tick); }, { passive: true });
   addEventListener('resize', tick);
   tick();
+
+  // Scroll locks (js/stages.js): one gesture per meaning, each landing well inside its beat.
+  registerStages(() => {
+    const navH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) * 16 || 68;
+    const top = card.getBoundingClientRect().top + window.scrollY, span = card.offsetHeight - stage.offsetHeight;
+    return [0.02, 0.46, 0.84].map((p) => top - navH + p * span);
+  }, 'looking');   // one run with the eye wall above it (js/eyes.js)
 }

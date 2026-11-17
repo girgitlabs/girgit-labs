@@ -195,26 +195,58 @@
   <link rel="manifest" href="manifest.json">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap">
+  <!-- Font stylesheets load without blocking the first paint (text shows in a fallback font, then swaps). -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap" media="print" onload="this.media='all'">
   <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
   <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin>
-  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&amp;display=swap">
-  <link rel="stylesheet" href="css/site.css?v=3.1.0">
-  <link rel="stylesheet" href="css/eyes.css?v=3.1.0">
-  <link rel="stylesheet" href="css/s5.css?v=3.1.0">
-  <link rel="stylesheet" href="css/story.css?v=3.1.0">
-  <link rel="stylesheet" href="css/footer.css?v=3.1.0">
-  <link rel="stylesheet" href="css/lab.css?v=3.1.0">
-  <link rel="stylesheet" href="css/system.css?v=3.8.5">
+  <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&amp;display=swap" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;700;800&amp;display=swap">
+    <link rel="stylesheet" href="https://api.fontshare.com/v2/css?f[]=satoshi@500,700,900&amp;display=swap">
+  </noscript>
+  <link rel="stylesheet" href="css/site.css?v=3.2.2">
+  <link rel="stylesheet" href="css/eyes.css?v=3.2.2">
+  <link rel="stylesheet" href="css/s5.css?v=3.2.2">
+  <link rel="stylesheet" href="css/story.css?v=3.2.2">
+  <link rel="stylesheet" href="css/footer.css?v=3.3.2">
+  <link rel="stylesheet" href="css/lab.css?v=6.2.2">
+  <link rel="stylesheet" href="css/system.css?v=3.13.2">
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" integrity="sha384-Z3REaz79l2IaAZqJsSABtTbhjgOUYyV3p90XNnAPCSHg3EMTz1fouunq9WZRtj3d" crossorigin="anonymous"></script>
-  <script type="module" src="js/site.js?v=3.7.0"></script>
+  <!-- Fetch every script module in parallel instead of discovering them one import at a time. -->
+  <link rel="modulepreload" href="js/home.js?v=3.10.4">
+  <link rel="modulepreload" href="js/coverflow.js?v=3.8.2">
+  <link rel="modulepreload" href="js/stack.js?v=1.0.0">
+  <link rel="modulepreload" href="js/ribbon.js?v=4.0.0">
+  <link rel="modulepreload" href="js/name.js?v=3.8.4">
+  <link rel="modulepreload" href="js/quotes.js?v=4.0.0">
+  <link rel="modulepreload" href="js/stages.js?v=1.3.0">
+  <link rel="modulepreload" href="js/week.js?v=3.8.2">
+  <link rel="modulepreload" href="js/catch.js?v=3.9.0">
+  <link rel="modulepreload" href="js/hello.js?v=3.8.0">
+  <link rel="modulepreload" href="js/eyes.js?v=3.4.1">
+  <link rel="modulepreload" href="js/eye-cluster.js?v=3.2.0">
+  <link rel="modulepreload" href="js/how.js?v=3.1.0">
+  <link rel="modulepreload" href="js/s5.js?v=3.2.0">
+  <link rel="modulepreload" href="js/footer-banner.js?v=3.3.0">
+  <link rel="modulepreload" href="js/analytics.js?v=3.1.0">
+  <link rel="modulepreload" href="js/kinetic.js?v=3.9.0">
+  <link rel="modulepreload" href="js/tone.js?v=3.1.0">
+  <link rel="modulepreload" href="js/fun.js?v=3.1.0">
+  <script type="module" src="js/site.js?v=3.13.1"></script>
   <script>
     !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-    posthog.init('phc_obgWnjPGWgoZUKwLoKqohermsNWhZkU7yzM9vGdpeGzb', {
-      api_host: 'https://us.i.posthog.com',
-      person_profiles: 'identified_only'
-    });
+    // Start analytics only after the page has loaded and gone idle, so it never competes with first paint.
+    // (Calls made before then are queued by the stub above and sent once PostHog starts.)
+    (function () {
+      var start = function () {
+        posthog.init('phc_obgWnjPGWgoZUKwLoKqohermsNWhZkU7yzM9vGdpeGzb', {
+          api_host: 'https://us.i.posthog.com',
+          person_profiles: 'identified_only'
+        });
+      };
+      var later = function () { if (window.requestIdleCallback) requestIdleCallback(start, { timeout: 4000 }); else setTimeout(start, 2000); };
+      if (document.readyState === 'complete') later(); else addEventListener('load', later, { once: true });
+    })();
   </script>
 </head>
 <body>
@@ -240,7 +272,7 @@
         <li><a class="pill" href="#approach">how we work</a></li>
       </ul>
     </nav>
-    <a class="pill pill--ink magnetic" href="#talk">↳ talk to us</a>
+    <a class="pill pill--ink magnetic" href="#talk">Talk to us <span class="nav-arrow" aria-hidden="true">→</span></a>
   </header>
 
   <main id="main">
@@ -373,55 +405,88 @@
       </div>
     </section>
 
-    <!-- SECTION 03: WHAT WE DO, as one continuous film. Girgit crosses five rocks as you scroll; on each
-         he becomes one capability (close-up clips over the rock's still), and walk clips carry him between
-         them. The copy on the left follows him; the stepper names every capability and jumps to it
-         (js/lab.js, css/lab.css). Reduced motion or no JS: the five stills with their copy. -->
-    <section class="lab" id="what" aria-labelledby="lab-title" data-cap="intro">
-      <div class="lab-film" aria-hidden="true"></div>
-      <div class="lab-texts">
-        <div class="lab-intro">
-          <h2 class="lab-title" id="lab-title">Whatever you need, <span class="lab-alt">he becomes.</span></h2>
-        </div>
-        <ol class="lab-caps" role="list">
-          <li class="lab-cap" data-cap="0">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-1.webp" width="1600" height="695" alt="" loading="lazy" decoding="async">
-            <p class="lab-num"><span class="lab-n">01</span> <span class="lab-service">Branding and visual identity</span></p>
-            <h3 class="lab-head">We find your kind of different.</h3>
-            <p class="lab-copy">An identity built on what only you have.</p>
-            <ul class="lab-tags" role="list"><li style="--i:0">Brand identity</li><li style="--i:1">Visual systems</li><li style="--i:2">Graphic design</li><li style="--i:3">Packaging and print</li></ul>
+    <!-- SECTION 03: WHAT WE DO, as a stack of cards (css/lab.css, js/stack.js). One full-colour card per
+         service; each sticks under the nav and the next one slides up over it, so the deck builds as you
+         scroll. Ordinary scroll: nothing is locked or pinned by script. The script only makes the card being
+         covered shrink back and tilt a little. DRAFT: "What you get" was drafted from the old tags, so confirm
+         the wording. To show a timeline or a starting price, add tags to that card's .sk-tags, e.g.
+         <span class="sk-tag">2–3 weeks</span><span class="sk-tag">From ₹…</span> -->
+    <section class="sk" id="what" aria-labelledby="lab-title">
+      <div class="sk-wrap">
+        <header class="sk-head">
+          <p class="sk-kicker">What we do</p>
+          <h2 class="sk-title" id="lab-title">Whatever you need, <span>he becomes.</span></h2>
+          <p class="sk-lede">Five things he turns into. Keep scrolling and watch him change.</p>
+        </header>
+        <ol class="sk-list" role="list">
+          <li class="sk-card" style="--i: 0; --svc: var(--pink); --svc-ink: var(--black)">
+            <article class="sk-in" aria-labelledby="sk-1">
+              <div class="sk-text">
+                <p class="sk-top"><span class="sk-n">01 <i>/ 05</i></span><span class="sk-dots" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></p>
+                <h3 class="sk-name" id="sk-1">Branding</h3>
+                <p class="sk-line">We find your kind of different.</p>
+                <p class="sk-copy">An identity built on what only you have.</p>
+                <div class="sk-get"><h4>What you get</h4><ul role="list"><li>Logo and mark</li><li>Colour and type system</li><li>Brand guidelines</li><li>Print and packaging files</li></ul></div>
+                <p class="sk-act"><a class="sk-case" href="work/clay-and-glaze/">See it in Clay &amp; Glaze <span aria-hidden="true">→</span></a><span class="sk-tags"></span></p>
+              </div>
+              <div class="sk-art" aria-hidden="true"><span class="sk-big">01</span><img src="assets/img/services/branding.webp" srcset="assets/img/services/branding-sm.webp 520w, assets/img/services/branding.webp 1000w" sizes="(max-width: 760px) 60vw, 31rem" width="1000" height="927" alt="" loading="lazy" decoding="async"></div>
+            </article>
           </li>
-          <li class="lab-cap" data-cap="1">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-2.webp" width="1600" height="695" alt="" loading="lazy" decoding="async">
-            <p class="lab-num"><span class="lab-n">02</span> <span class="lab-service">UI/UX and product design</span></p>
-            <h3 class="lab-head">Make it make sense.</h3>
-            <p class="lab-copy">Complex products, made obvious the first time.</p>
-            <ul class="lab-tags" role="list"><li style="--i:0">Digital products</li><li style="--i:1">Web applications</li><li style="--i:2">Dashboards</li><li style="--i:3">Design systems</li></ul>
+          <li class="sk-card" style="--i: 1; --svc: var(--blue); --svc-ink: var(--ivory)">
+            <article class="sk-in" aria-labelledby="sk-2">
+              <div class="sk-text">
+                <p class="sk-top"><span class="sk-n">02 <i>/ 05</i></span><span class="sk-dots" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></p>
+                <h3 class="sk-name" id="sk-2">UI/UX</h3>
+                <p class="sk-line">Make it make sense.</p>
+                <p class="sk-copy">Complex products, made obvious the first time.</p>
+                <div class="sk-get"><h4>What you get</h4><ul role="list"><li>User flows and wireframes</li><li>Finished screens</li><li>A clickable prototype</li><li>A design system to build from</li></ul></div>
+                <p class="sk-act"><a class="sk-case" href="work/moshi/">See it in Moshi <span aria-hidden="true">→</span></a><span class="sk-tags"></span></p>
+              </div>
+              <div class="sk-art" aria-hidden="true"><span class="sk-big">02</span><img src="assets/img/services/uiux.webp" srcset="assets/img/services/uiux-sm.webp 520w, assets/img/services/uiux.webp 1000w" sizes="(max-width: 760px) 60vw, 31rem" width="1000" height="945" alt="" loading="lazy" decoding="async"></div>
+            </article>
           </li>
-          <li class="lab-cap" data-cap="2">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-3.webp" width="1600" height="695" alt="" loading="lazy" decoding="async">
-            <p class="lab-num"><span class="lab-n">03</span> <span class="lab-service">Website design and development</span></p>
-            <h3 class="lab-head">Live in seven days.</h3>
-            <p class="lab-copy">Designed, built and shipped by the people who drew it.</p>
-            <ul class="lab-tags" role="list"><li style="--i:0">Seven-day websites</li><li style="--i:1">Marketing sites</li><li style="--i:2">Ecommerce front ends</li><li style="--i:3">Deployment</li></ul>
+          <li class="sk-card" style="--i: 2; --svc: var(--forest); --svc-ink: var(--ivory)">
+            <article class="sk-in" aria-labelledby="sk-3">
+              <div class="sk-text">
+                <p class="sk-top"><span class="sk-n">03 <i>/ 05</i></span><span class="sk-dots" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></p>
+                <h3 class="sk-name" id="sk-3">Websites</h3>
+                <p class="sk-line">Live in seven days.</p>
+                <p class="sk-copy">Designed, built and shipped by the people who drew it.</p>
+                <div class="sk-get"><h4>What you get</h4><ul role="list"><li>A designed and built site</li><li>Pages that work on every screen</li><li>Content you can edit</li><li>Launch and hosting set up</li></ul></div>
+                <p class="sk-act"><a class="sk-case" href="work/ld-screw/">See it in LD Screw <span aria-hidden="true">→</span></a><span class="sk-tags"><span class="sk-tag">7 days</span></span></p>
+              </div>
+              <div class="sk-art" aria-hidden="true"><span class="sk-big">03</span><img src="assets/img/services/websites.webp" srcset="assets/img/services/websites-sm.webp 520w, assets/img/services/websites.webp 996w" sizes="(max-width: 760px) 60vw, 31rem" width="996" height="971" alt="" loading="lazy" decoding="async"></div>
+            </article>
           </li>
-          <li class="lab-cap" data-cap="3">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-4.webp" width="1600" height="695" alt="" loading="lazy" decoding="async">
-            <p class="lab-num"><span class="lab-n">04</span> <span class="lab-service">App design</span></p>
-            <h3 class="lab-head">Less friction. More flow.</h3>
-            <p class="lab-copy">Shaped around how people really use their phones.</p>
-            <ul class="lab-tags" role="list"><li style="--i:0">Mobile and app design</li><li style="--i:1">Interaction design</li><li style="--i:2">Prototyping</li></ul>
+          <li class="sk-card" style="--i: 3; --svc: var(--acid); --svc-ink: var(--black)">
+            <article class="sk-in" aria-labelledby="sk-4">
+              <div class="sk-text">
+                <p class="sk-top"><span class="sk-n">04 <i>/ 05</i></span><span class="sk-dots" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></p>
+                <h3 class="sk-name" id="sk-4">Apps</h3>
+                <p class="sk-line">Less friction. More flow.</p>
+                <p class="sk-copy">Shaped around how people really use their phones.</p>
+                <div class="sk-get"><h4>What you get</h4><ul role="list"><li>App flows</li><li>Screens for iOS and Android</li><li>An interactive prototype</li><li>Files ready for developers</li></ul></div>
+                <p class="sk-act"><a class="sk-case" href="#talk">Talk to us about your app <span aria-hidden="true">→</span></a><span class="sk-tags"></span></p>
+              </div>
+              <div class="sk-art" aria-hidden="true"><span class="sk-big">04</span><img src="assets/img/services/apps.webp" srcset="assets/img/services/apps-sm.webp 484w, assets/img/services/apps.webp 930w" sizes="(max-width: 760px) 60vw, 31rem" width="930" height="1000" alt="" loading="lazy" decoding="async"></div>
+            </article>
           </li>
-          <li class="lab-cap" data-cap="4">
-            <img class="lab-cap-img" src="assets/img/lab/lab-rock-5.webp" width="1600" height="695" alt="" loading="lazy" decoding="async">
-            <p class="lab-num"><span class="lab-n">05</span> <span class="lab-service">Motion and creative experimentation</span></p>
-            <h3 class="lab-head">Ideas with a pulse.</h3>
-            <p class="lab-copy">Motion that makes people stop scrolling.</p>
-            <ul class="lab-tags" role="list"><li style="--i:0">Motion graphics</li><li style="--i:1">Product films</li><li style="--i:2">Video editing</li><li style="--i:3">AI-assisted production</li></ul>
+          <li class="sk-card" style="--i: 4; --svc: var(--yellow); --svc-ink: var(--black)">
+            <article class="sk-in" aria-labelledby="sk-5">
+              <div class="sk-text">
+                <p class="sk-top"><span class="sk-n">05 <i>/ 05</i></span><span class="sk-dots" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></p>
+                <h3 class="sk-name" id="sk-5">Motion</h3>
+                <p class="sk-line">Ideas with a pulse.</p>
+                <p class="sk-copy">Motion that makes people stop scrolling.</p>
+                <div class="sk-get"><h4>What you get</h4><ul role="list"><li>Motion graphics</li><li>A product film</li><li>Cuts sized for social</li><li>The source files</li></ul></div>
+                <p class="sk-act"><a class="sk-case" href="#talk">Talk to us about a film <span aria-hidden="true">→</span></a><span class="sk-tags"></span></p>
+              </div>
+              <div class="sk-art" aria-hidden="true"><span class="sk-big">05</span><img src="assets/img/services/motion.webp" srcset="assets/img/services/motion-sm.webp 438w, assets/img/services/motion.webp 843w" sizes="(max-width: 760px) 60vw, 31rem" width="843" height="1000" alt="" loading="lazy" decoding="async"></div>
+            </article>
           </li>
         </ol>
+        <p class="sk-foot">Not sure which you need? <a href="#talk">Tell us what you're building <span aria-hidden="true">→</span></a></p>
       </div>
-      <ol class="lab-progress" aria-label="Capabilities"><li><button type="button" aria-label="Jump to Branding and visual identity"><span class="lp-n">01</span><span class="lp-t">Brand</span></button></li><li><button type="button" aria-label="Jump to UI/UX and product design"><span class="lp-n">02</span><span class="lp-t">UI/UX</span></button></li><li><button type="button" aria-label="Jump to Website design and development"><span class="lp-n">03</span><span class="lp-t">Web</span></button></li><li><button type="button" aria-label="Jump to App design"><span class="lp-n">04</span><span class="lp-t">App</span></button></li><li><button type="button" aria-label="Jump to Motion and creative experimentation"><span class="lp-n">05</span><span class="lp-t">Motion</span></button></li></ol>
     </section>
 
 
@@ -490,14 +555,12 @@
         </svg>
       </div>
       <div class="s5-wrap">
-        <img decoding="async" class="deco deco--seven" src="assets/img/clay/prop-seven.webp" width="553" height="800" alt="" aria-hidden="true" loading="lazy" data-parallax="-0.1">
         <h2 class="s5-statement" id="s5-title">No formula. <span class="s5-alt">No filler.</span></h2>
         <p class="s5-lede" data-reveal>We learn first. We find what the idea needs. Then we make it.</p>
 
         <div class="hw-week">
           <div class="hw-head" data-reveal>
             <h3 class="hw-h3">Seven days. Scope to live.</h3>
-            <p class="hw-note">Not a rough first draft. A website you would be happy to send to an investor on day eight.</p>
           </div>
           <ol class="hw-steps" role="list">
             <li class="hw-step" style="--c:#FFE500"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="601" data-asleep aria-hidden="true"></span><span class="hw-tag">Before the clock</span><p>Content collected, references studied, sitemap agreed, visual direction set, scope signed off.</p></li>
@@ -505,7 +568,6 @@
             <li class="hw-step" style="--c:#FF168C"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="627" data-asleep aria-hidden="true"></span><span class="hw-tag">Day 3</span><p>The real thing, in a browser, on your phone.</p></li>
             <li class="hw-step hw-step--live" style="--c:#173BFF"><span class="hw-eye eye-cluster" data-eye-tiles="1" data-seed="641" data-asleep aria-hidden="true"></span><span class="hw-tag">Day 7</span><p class="hw-live">Live.</p></li>
           </ol>
-          <p class="st-small hw-small" data-reveal>One round of revisions is included. If the work is bigger than seven days, we say so before you pay anything, ship a complete first version in seven, and take the rest into a second phase.</p>
         </div>
 
         <div class="hw-why">

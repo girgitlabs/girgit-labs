@@ -22,9 +22,13 @@
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
 
-# 4. Stylesheets & Scripts: fresh delivery, revalidate on every deploy
+# 4. Stylesheets & Scripts: cached for a year, like the assets. Every page loads them with a version
+#    (style.css?v=3.11.3, and every JS import carries one too), and the HTML is always fresh, so a new
+#    version is a new URL and is fetched at once. Rule: whenever you change a .css or .js file, bump its
+#    ?v= everywhere it is referenced (index.html, work/*/index.html, 404.html, and the imports in js/).
+#    Before this, the browser re-checked all ~30 files with the server on every visit.
 /css/*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable
 
 /js/*
-  Cache-Control: public, max-age=0, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable

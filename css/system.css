@@ -1,27 +1,3 @@
-/* THE SYSTEM: one set of parts for every page (home and case studies), loaded last so it wins.
-   Written mobile first: the base rules are the phone layout, wider screens add to them.
-
-   Why each part exists (keep only what earns its place):
-   - One typeface, Satoshi (plus Devanagari for the Hindi words). The page used five; that alone read as
-     three different sites. Weight and size do the work instead: 900 uppercase for headings, 500 for text.
-   - Two section colours: ivory for information (calm, easy to read for long) and forest for belief and
-     proof (the brand's own colour, used where we want you to feel something). Black is only for the
-     eye wall, where it is the dark between the eyes.
-   - Accents carry one meaning each, everywhere:
-       acid green  = do this (primary buttons, "start a project"),
-       yellow      = look here (highlights, the draft tag, quote marks),
-       pink / blue = category colour only (the five services, the hero word).
-   - The framed card (3px black frame, rounded 16px, hard offset shadow) means "this is a real, tangible
-     thing you can pick up": projects, client quotes, days, fits, the email. It lifts under the pointer
-     and presses in on tap, like a physical button. Nothing else on the page uses a hard shadow.
-   - Pill buttons, one shape: a primary (acid, framed) and a ghost (outline). One primary per screen.
-   - Girgit, the mascot, is the guide: he turns up where we ask for attention or trust (the hero, the
-     work, the quotes, the fit list, the invitation), and he changes colour, which is the brand idea.
-   - No tilted "sticker" cards, no pixel or handwriting fonts, no decoration that doesn't say something.
-     The 3D props that stay each mean something where they sit (the 7, the hourglass, the squiggle, the
-     drop). The yellow-and-black checker survives only around the footer banner: a finish flag, the end.
-   - Motion: transform and opacity only, triggered once on view, all off with reduced motion. Phones get
-     no pointer effects and no scroll-linked drift. */
 
 /* ---------- Tokens ---------- */
 :root {
@@ -41,10 +17,7 @@
   --hand: var(--satoshi);
   --pixel: var(--satoshi);
   --r: 16px;
-  --frame: 3px solid var(--black);
-  --lift: 6px 6px 0 var(--black);
-  --lift-up: 9px 9px 0 var(--black);
-  --press: 2px 2px 0 var(--black);
+
   --muted: #5E5A50;
   --body: #2F2D28;
   --veil: rgb(6 22 12);
@@ -53,9 +26,9 @@ html, body { font-family: var(--satoshi); }
 body { -webkit-tap-highlight-color: transparent; }
 
 /* The voice in the margins (the little lowercase asides): same family, italic, not a second font. */
-.hand, .st-aside, .bridge-aside { font-family: var(--satoshi); font-style: italic; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
+.hand, .st-aside { font-family: var(--satoshi); font-style: italic; font-weight: 700; letter-spacing: -0.01em; line-height: 1.3; }
 .st-aside { rotate: none; font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
-.bridge-aside { font-size: clamp(1.2rem, 2.2vw, 1.7rem); }
+
 .ticker-track { font: 800 clamp(0.95rem, 1.8vw, 1.25rem)/1 var(--satoshi); letter-spacing: 0.06em; text-transform: uppercase; font-style: normal; }
 .ticker-track span:nth-child(even) { color: var(--acid); }
 
@@ -82,8 +55,8 @@ body { -webkit-tap-highlight-color: transparent; }
 /* ---------- Nav: forest bar, no checker strip; on phones the most useful link (work) stays ---------- */
 .nav::after { display: none; }
 .nav::before { border-bottom: 1px solid rgb(244 239 229 / 0.14); }
-.nav .pill--ink { min-height: 2.6rem; padding: 0.55rem 1.1rem; font-size: 0.85rem; outline: 0; }
-.nav-links .pill:hover, .nav-links .pill.is-active { color: var(--acid); }
+.nav .pill--ink {    outline: 0; }
+
 @media (max-width: 860px) {
   .nav-links { display: flex; }
   .nav-links li:not(:first-child) { display: none; }
@@ -91,17 +64,14 @@ body { -webkit-tap-highlight-color: transparent; }
 @media (max-width: 380px) { .nav-links { display: none; } }   /* the smallest phones: logo and "let's talk" only */
 
 /* ---------- The framed card, everywhere ---------- */
-.st-dict-card, .st-day, .st-fit-card, .st-fit-less, .ft-mailbox, .form-card, .cta .form-card { border-radius: var(--r); }
-.st-day { border-width: 3px; background: #FFFDF8; }
-.st-day:nth-child(odd), .st-day:nth-child(even) { rotate: none; }
+.st-dict-card, .st-fit-card, .st-fit-less, .ft-mailbox, .form-card, .cta .form-card { border-radius: var(--r); }
+
 .st-dict-card { rotate: none; padding-top: clamp(1.4rem, 3vw, 2.4rem); box-shadow: var(--lift); }
 .st-dict-card::before { display: none; }          /* the checker strip: speed has nothing to do with a dictionary */
 .ft-mailbox { outline: 0; }
-.st-fit-no li::before { content: '✕' / ''; }      /* was a broken character */
+      /* was a broken character */
 .st-dark { background: var(--forest); }            /* one dark colour: forest, never black */
-@media (hover: hover) {
-  .st-day:hover { transform: translate(-3px, -3px); box-shadow: var(--lift-up); }
-}
+
 @media (prefers-reduced-motion: no-preference) {
   .js .st-dict-card[data-reveal], .js .st-dict-card[data-reveal].in-view { rotate: none; }
   .js .st-fit-card[data-reveal] { rotate: none; }
@@ -115,20 +85,11 @@ body { -webkit-tap-highlight-color: transparent; }
    ========================================================================== */
 .hx {
   --bg: #43FF18; --fg: #111111;
-  position: relative; isolation: isolate; overflow: clip;
-  background: var(--bg); color: var(--fg); font-family: var(--satoshi);
+  position: relative; isolation: isolate;
+   color: var(--fg); font-family: var(--satoshi);
   transition: color 260ms var(--ease);
 }
 .hx-flood { position: absolute; inset: 0; z-index: 0; pointer-events: none; clip-path: circle(0 at 50% 50%); }
-.hx-inner {
-  position: relative; z-index: 1; display: grid; gap: clamp(1rem, 2.6svh, 1.6rem); align-content: center;
-  min-height: calc(100svh - var(--nav-h) - 3.4rem); max-width: 90rem; margin: 0 auto;
-  padding: clamp(1.4rem, 4svh, 3rem) var(--gutter) clamp(1.6rem, 4svh, 2.8rem);
-  grid-template-areas: "kick" "title" "stage" "sub" "actions";
-}
-.hx-kicker { grid-area: kick; display: flex; flex-wrap: wrap; align-items: center; gap: 0.3rem 0.55rem; margin: 0; font: 800 0.7rem/1.35 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; }
-.hx-sep { opacity: 0.5; }
-.hx-count { margin-left: auto; padding: 0.3rem 0.6rem; border: 2px solid currentColor; border-radius: 999px; font-variant-numeric: tabular-nums; }
 
 /* Headline: plain "WE DESIGN", then the word as a sticker: ivory, outlined, hard shadow. Reads on every colour. */
 .hx-title { grid-area: title; margin: 0; font: 900 min(12.5vw, 15svh)/0.88 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; }
@@ -141,92 +102,53 @@ body { -webkit-tap-highlight-color: transparent; }
 /* Girgit's stage: him, and the props around him. */
 .hx-stage { grid-area: stage; position: relative; width: 100%; aspect-ratio: 1.3; justify-self: center; max-width: 34rem; --px: 0; --py: 0; }
 .hx-girgit {
-  position: absolute; left: 50%; bottom: 0; width: 60%; aspect-ratio: 1183 / 1200; translate: -50% 0;
+  position: absolute; left: 50%; bottom: 0; width: 60%;  translate: -50% 0;
   padding: 0; border: 0; background: none; cursor: pointer; color: inherit; perspective: 900px;
 }
 .hx-gbody {
   display: block; width: 100%; height: 100%;
-  filter: var(--gf) drop-shadow(0 0.9rem 0 rgb(0 0 0 / 0.16));
-  transform: rotateY(calc(var(--px) * 14deg)) rotateX(calc(var(--py) * -8deg)); transform-origin: 50% 100%;
+
   transition: filter 500ms var(--ease), transform 300ms var(--ease);
 }
 .hx-gbody > img { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; }
 .hx-girgit:focus-visible { outline: 3px solid var(--fg); outline-offset: 4px; border-radius: 1rem; }
-.hx-tip {
-  position: absolute; left: -4%; top: 4%; padding: 0.4rem 0.75rem; border-radius: 999px; background: var(--black); color: var(--ivory);
-  font: 800 0.7rem/1 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; rotate: -10deg; transition: opacity 300ms var(--ease);
-}
-.hx.was-tapped .hx-tip { opacity: 0; }
-html:not(.js) .hx-tip { display: none; }
-.hx-prop { position: absolute; height: auto; max-width: none; pointer-events: none; translate: calc(var(--px) * var(--d) * 18px) calc(var(--py) * var(--d) * 14px); transition: translate 400ms var(--ease); }
-.hx-prop--squiggle { left: 0; top: 2%; width: 30%; rotate: -14deg; }
-.hx-prop--seven { right: 2%; top: 0; width: 15%; rotate: 10deg; }
-.hx-prop--drop { left: 8%; bottom: 4%; width: 9%; rotate: -8deg; }
-.hx-prop--hourglass { right: 4%; bottom: 6%; width: 13%; rotate: 12deg; }
 
 .hx-sub { grid-area: sub; max-width: 36ch; margin: 0; font: 600 clamp(1.05rem, 1.5vw, 1.28rem)/1.45 var(--satoshi); }
 .hx-sub strong { font-weight: 900; }
 
-.hx-actions { grid-area: actions; display: grid; gap: 1.3rem; }
 .hx-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 0; }
 .hx .btn--ghost { color: var(--fg); border-color: var(--fg); }
 @media (hover: hover) { .hx .btn--ghost:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); } }
 .hx .btn:focus-visible, .hx a:focus-visible { outline: 3px solid var(--fg); outline-offset: 3px; }
-.hx-label { margin: 0 0 0.6rem; font: 800 0.68rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; }
-.hx-thumbs { display: flex; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
-.hx-thumbs a { display: grid; gap: 0.35rem; width: 5.8rem; color: var(--fg); text-decoration: none; font: 800 0.76rem/1.2 var(--satoshi); }
-.hx-thumbs img {
-  width: 100%; aspect-ratio: 4 / 3; height: auto; object-fit: cover; border: 2px solid var(--fg); border-radius: 10px;
-  box-shadow: 3px 3px 0 var(--fg); transition: transform 220ms var(--ease), box-shadow 220ms var(--ease);
-}
-.hx-thumbs a:active img { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--fg); }
-@media (hover: hover) { .hx-thumbs a:hover img { transform: translate(-2px, -2px) rotate(-2deg); box-shadow: 5px 5px 0 var(--fg); } }
 
 /* The ticker along the bottom: the site's own ticker band. */
-.hx-ticker { position: relative; z-index: 1; margin: 0 -2vw 0.9rem; }
 
 @media (min-width: 900px) {
-  .hx-inner {
-    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.9fr); column-gap: clamp(1.5rem, 4vw, 4rem);
-    grid-template-areas: "kick kick" "title stage" "sub stage" "actions stage";
-  }
+
   .hx-title { font-size: min(8.6vw, 10.5rem, 15svh); }
   .hx-stage { align-self: center; aspect-ratio: 1; max-width: 40rem; }
   .hx-girgit { width: 66%; bottom: 6%; }
-  .hx-actions { grid-template-columns: auto auto; justify-content: space-between; align-items: end; }
-  .hx-thumbs a { width: 6.6rem; }
+
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .js .hx-kicker, .js .hx-line, .js .hx-word, .js .hx-sub, .js .hx-actions { animation: hx-up 800ms var(--ease) both; }
+  .js .hx-line, .js .hx-word, .js .hx-sub { animation: hx-up 800ms var(--ease) both; }
   .js .hx-line { animation-delay: 60ms; }
   .js .hx-word { animation-delay: 160ms; }
   .js .hx-sub { animation-delay: 300ms; }
-  .js .hx-actions { animation-delay: 400ms; }
+
   .js .hx:not(.is-ready) .hx-girgit { animation: hx-pop 900ms cubic-bezier(0.34, 1.56, 0.64, 1) 300ms both; }
-  .js .hx:not(.is-ready) .hx-prop { animation: hx-pop 800ms cubic-bezier(0.34, 1.56, 0.64, 1) calc(500ms + var(--i, 0) * 90ms) both; }
+
   @keyframes hx-up { from { opacity: 0; transform: translateY(22px); } }
   @keyframes hx-pop { from { opacity: 0; scale: 0.5; } }
-  /* Afterwards: the props float, and bounce on every colour change. */
-  .hx.is-ready .hx-prop { animation: hx-float 5s ease-in-out calc(var(--i, 0) * -1.3s) infinite alternate; }
-  .hx.is-ready.is-bumping .hx-prop { animation: hx-bump 620ms cubic-bezier(0.3, 1.6, 0.5, 1); }
-  @keyframes hx-float { from { transform: translateY(-8px) rotate(-4deg); } to { transform: translateY(8px) rotate(4deg); } }
-  @keyframes hx-bump { 40% { transform: scale(1.25) rotate(14deg); } }
-  .hx-girgit.is-changing .hx-gbody { animation: hx-hop 560ms cubic-bezier(0.3, 1.6, 0.5, 1); }
-  @keyframes hx-hop { 35% { translate: 0 -12%; scale: 1.05 0.95; } 70% { translate: 0 0; scale: 0.97 1.03; } }
-  .hx-tip { animation: hx-tip 2.2s ease-in-out infinite; }
-  @keyframes hx-tip { 50% { translate: 0 -6px; } }
-}
-.hx-prop--squiggle { --i: 0; } .hx-prop--seven { --i: 1; } .hx-prop--drop { --i: 2; } .hx-prop--hourglass { --i: 3; }
 
-/* ==========================================================================
-   SECTION 02: THE WORK
-   ========================================================================== */
+}
+
 /* One project per row, in a single column. Each card: the whole image, uncropped, on a board in the
    client's colour; the details underneath. Phone: details stacked. From 900px: the details run in one
    row under the image (name | line and services | the way in). */
 .pf-sec .s5-wrap { padding-bottom: clamp(4.5rem, 10vw, 8rem); }
-.pf-count { display: inline-block; margin-left: 0.7rem; padding: 0.3rem 0.6rem; border: 1.5px solid currentColor; border-radius: 999px; vertical-align: middle; }
+
 .pf-lede { max-width: 30ch; margin: 0.8rem 0 0; font: 600 clamp(1.1rem, 1.8vw, 1.45rem)/1.4 var(--satoshi); color: var(--body); }
 .pl { display: grid; gap: clamp(1.6rem, 4vw, 3rem); margin: 0; padding: 0; list-style: none; }
 .pl-item { min-width: 0; }
@@ -355,8 +277,6 @@ html:not(.js) .hx-tip { display: none; }
 
 /* Testimonials: beside the heading on wide screens, under it on phones. */
 .tq-head { position: relative; }
-.tq-eyes { width: min(70vw, 16rem); margin-top: 1.2rem; }
-@media (min-width: 900px) { .tq-eyes { position: absolute; right: 0; bottom: 0; width: clamp(14rem, 22vw, 20rem); margin: 0; } }
 
 /* ==========================================================================
    SECTION 05: THE PANEL OVER THE EYE WALL, now carrying the name (its meaning is attention).
@@ -367,7 +287,7 @@ html:not(.js) .hx-tip { display: none; }
 .ec-copy .eyes-title { font-size: clamp(2.8rem, 11vw, 7rem); }
 .ec-copy .eyes-sub { justify-self: start; }
 .ec-dict { max-width: 40rem; }
-.ec-dict-kicker { margin: 0 0 0.9rem; font: 700 0.72rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+
 .ec-turn { display: grid; gap: 0.9rem; padding-top: clamp(1.4rem, 3vw, 2rem); border-top: 1px solid rgb(17 17 17 / 0.2); }
 .ec-turn-line { margin: 0; font: 900 clamp(2rem, 4.6vw, 4rem)/0.92 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; }
 .ec-turn-line span { padding: 0 0.06em; background: linear-gradient(var(--yellow), var(--yellow)) 0 90% / 100% 0.4em no-repeat; }
@@ -393,14 +313,13 @@ html:not(.js) .hx-tip { display: none; }
 .hw-week { margin-top: clamp(4rem, 9vw, 7rem); }
 .hw-head { display: grid; gap: 0.8rem; margin-bottom: clamp(2rem, 4vw, 3rem); }
 .hw-h3 { margin: 0; max-width: 18ch; font: 900 clamp(1.9rem, 4vw, 3.4rem)/0.95 var(--satoshi); letter-spacing: -0.04em; text-transform: uppercase; color: var(--ivory); }
-.hw-note { margin: 0; max-width: 40ch; font: 500 clamp(1.05rem, 1.5vw, 1.25rem)/1.5 var(--satoshi); color: rgb(244 239 229 / 0.8); }
 
 .hw-steps { --eye: 3.6rem; position: relative; display: grid; gap: 1.8rem; margin: 0; padding: 0; list-style: none; }
 .hw-steps::before, .hw-steps::after {          /* the rail, and its fill as the week wakes */
   content: ''; position: absolute; left: calc(var(--eye) / 2 - 1.5px); top: calc(var(--eye) / 2); bottom: calc(var(--eye) / 2); width: 3px;
   background: rgb(244 239 229 / 0.2);
 }
-.hw-steps::after { background: var(--acid); transform: scaleY(0); transform-origin: 50% 0; transition: transform 2.2s cubic-bezier(0.6, 0, 0.2, 1) 250ms; }
+.hw-steps::after { background: var(--acid); transform: scaleY(0); transform-origin: 50% 0;  }
 .hw-week.is-in .hw-steps::after { transform: scaleY(1); }
 .hw-step { position: relative; display: grid; grid-template-columns: var(--eye) minmax(0, 1fr); column-gap: 1rem; align-items: start; }
 .hw-eye {
@@ -413,14 +332,8 @@ html:not(.js) .hx-tip { display: none; }
 .hw-step p { margin: 0.6rem 0 0; max-width: 30ch; font: 600 clamp(1rem, 1.3vw, 1.15rem)/1.45 var(--satoshi); color: rgb(244 239 229 / 0.85); }
 .hw-step p.hw-live { font: 900 clamp(2.6rem, 5vw, 4.2rem)/0.9 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; color: var(--ivory); }
 /* Girgit turns up at "Live". */
-.hw-girgit {
-  position: absolute; right: 0; bottom: -0.6rem; width: clamp(96px, 28vw, 150px); height: auto; pointer-events: none;
-  transform-origin: 50% 100%; opacity: 0; scale: 0.4; translate: 0 20%;
-  transition: opacity 400ms var(--ease), scale 750ms cubic-bezier(0.34, 1.56, 0.64, 1), translate 750ms cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-.hw-step--live.is-awake .hw-girgit { opacity: 1; scale: 1; translate: none; transition-delay: 300ms; }
-.hw-small { margin-top: clamp(2rem, 4vw, 3rem); color: rgb(244 239 229 / 0.7); }
-.hw-week.is-still .hw-steps::after, .hw-week.is-still .hw-eye, .hw-week.is-still .hw-girgit { transition: none; }
+
+.hw-week.is-still .hw-steps::after, .hw-week.is-still .hw-eye { transition: none; }
 
 @media (min-width: 900px) {
   .hw-steps { --eye: 4.6rem; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
@@ -430,7 +343,7 @@ html:not(.js) .hx-tip { display: none; }
   .hw-step { grid-template-columns: 1fr; row-gap: 0.9rem; }
   .hw-eye { grid-row: auto; }
   .hw-step p { margin-top: 0; }
-  .hw-girgit { right: -0.5rem; bottom: -1.2rem; width: clamp(110px, 10vw, 160px); }
+
 }
 
 /* Why the speed is real: three framed cards. */
@@ -452,10 +365,7 @@ html:not(.js) .hx-tip { display: none; }
    ========================================================================== */
 .st-fit .s5-head { margin-bottom: clamp(4rem, 8vw, 7rem); }
 .st-fit-board { position: relative; }
-.st-fit-peek {
-  position: absolute; z-index: 2; right: clamp(1rem, 4vw, 3rem); bottom: calc(100% - 3px);
-  width: clamp(140px, 17vw, 240px); height: auto; pointer-events: none;
-}
+
 .st-fit-yes {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1rem, 2.4vw, 1.8rem); margin: 0; padding: 0; list-style: none;
@@ -501,7 +411,7 @@ html:not(.js) .hx-tip { display: none; }
   width: 1.5rem; height: 1.5rem; border: 2px solid #FF8FC7; border-radius: 50%;
   color: #FF8FC7; font: 800 0.7rem/1 var(--satoshi);
 }
-.st-fit-sleep { display: block; width: clamp(7rem, 13vw, 10rem); height: auto; }
+
 .st-close {
   max-width: 24ch; margin: clamp(2.5rem, 5vw, 4rem) 0 0;
   font: 900 clamp(1.7rem, 3.2vw, 2.9rem)/1 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase;
@@ -509,8 +419,7 @@ html:not(.js) .hx-tip { display: none; }
 @media (max-width: 760px) {
   .st-fit-yes, .st-fit-less { grid-template-columns: 1fr; }
   .st-fit-card { min-height: 0; }
-  .st-fit-sleep { justify-self: end; width: 8.5rem; margin-top: 1rem; }
-  .st-fit-peek { width: 120px; }
+
   .st-fit .s5-head { margin-bottom: 4rem; }
 }
 @media (prefers-reduced-motion: no-preference) {
@@ -520,9 +429,7 @@ html:not(.js) .hx-tip { display: none; }
   .st-fit-card:nth-child(2) { --d: 100ms; }
   .st-fit-card:nth-child(3) { --d: 200ms; }
   .st-fit-card:nth-child(4) { --d: 300ms; }
-  .js .st-fit-peek[data-reveal] {
-    transition: opacity 400ms var(--ease) 250ms, translate 600ms var(--pop) 250ms;
-  }
+
 }
 @media (hover: none) {
   .st-fit-card:hover { transform: none; box-shadow: var(--lift); }
@@ -560,14 +467,11 @@ html:not(.js) .hx-tip { display: none; }
 
 /* The pupil every eye collapses into; it dilates to ivory, and the panel rises over that ivory. */
 .eyes-dot {
-  position: absolute; left: 50%; top: 50%; z-index: 3; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%;
+  position: absolute; left: 50%; top: 50%; z-index: 3;    border-radius: 50%;
   background: var(--acid); box-shadow: 0 0 0 6px rgb(67 255 24 / 0.18), 0 0 40px 10px rgb(67 255 24 / 0.45);
-  opacity: 0; transform: scale(0); pointer-events: none; will-change: transform;
+  opacity: 0;  pointer-events: none;
 }
-@media (prefers-reduced-motion: no-preference) {
-  .eyes-cover { margin-top: 130svh; }
-  @media (max-width: 760px) { .eyes-cover { margin-top: 115svh; } }
-}
+
 .eyes-cover { box-shadow: none; }   /* it rises over ivory now: a shadow would read as a seam */
 
 /* ---------- Text contrast: every text colour 4.5:1 or better on its surface ----------
@@ -585,10 +489,7 @@ html:not(.js) .hx-tip { display: none; }
     transition: transform 760ms cubic-bezier(0.2, 1.5, 0.35, 1) calc(var(--ci) * 22ms + 80ms), opacity 260ms linear calc(var(--ci) * 22ms + 80ms);
   }
   .js [data-split].in-view .ch, .js .s5-statement.is-in .ch, .js .eyes-cover.is-in .ch { transform: none; opacity: 1; }
-  .js .lab[data-cap="intro"] .lab-intro .ch,
-  .js .lab[data-cap="0"] .lab-cap[data-cap="0"] .ch, .js .lab[data-cap="1"] .lab-cap[data-cap="1"] .ch,
-  .js .lab[data-cap="2"] .lab-cap[data-cap="2"] .ch, .js .lab[data-cap="3"] .lab-cap[data-cap="3"] .ch,
-  .js .lab[data-cap="4"] .lab-cap[data-cap="4"] .ch, .js .lab--still .ch { transform: none; opacity: 1; }
+
   @media (hover: hover) {
     .has-ch:hover .ch { animation: ch-wave 620ms cubic-bezier(0.3, 1.6, 0.4, 1) calc(var(--ci) * 18ms) both; }
     @keyframes ch-wave { 0%, 100% { transform: none; } 40% { transform: translateY(-0.12em) rotate(-4deg); } }
@@ -624,21 +525,6 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
    The hero clips sideways only, so the tilted band can hang over the next section; the hero sits above
    that section so the band is never hidden. The band runs left to right (scrolling up flips it). */
 .hx { overflow-x: clip; overflow-y: visible; z-index: 3; }
-.hx-ticker { margin-bottom: calc(-1 * clamp(1.4rem, 2.6vw, 2.2rem)); z-index: 4; box-shadow: 0 10px 24px -12px rgb(0 0 0 / 0.45); }
-@media (prefers-reduced-motion: no-preference) {
-  .hx-ticker .ticker-track { animation-direction: reverse; }
-  .hx-ticker.is-reversed .ticker-track { animation-direction: normal; }
-}
-
-/* ---------- No eyebrows: the heading leads every section ----------
-   The small labels above headings are gone; the grids that reserved a row for them close up. */
-.hx-inner { grid-template-areas: "title" "stage" "sub" "actions"; }
-@media (min-width: 900px) { .hx-inner { grid-template-areas: "title stage" "sub stage" "actions stage"; } }
-.wd.is-live .wd-stage { grid-template-rows: minmax(0, 1fr) auto auto; grid-template-areas: "wheel" "copy" "bar"; }
-@container (min-width: 900px) {
-  .wd.is-live .wd-stage { grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "index wheel" "copy wheel" "bar wheel"; }
-  .wd.is-live .wd-index { margin-top: 0; }
-}
 
 /* ---------- One rhythm between sections ----------
    Every content section gets the same space above its heading and below its last line, so the story
@@ -647,65 +533,9 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 #work .s5-wrap, #words .s5-wrap, #approach .s5-wrap, #who .s5-wrap { padding-top: var(--sec); padding-bottom: var(--sec); }
 #talk { padding-top: var(--sec); padding-bottom: var(--sec); }
 
-/* ---------- What we do: the capability film (css/lab.css), in this system ----------
-   One reading order: label (small, with the service colour as a dot) > heading (the one loud thing) >
-   line > tags (quiet). The stepper names every capability (recognition, not recall), fills the current
-   one with its colour, ticks the ones you have seen, and every target is at least 44px tall. */
-.lab-texts, .lab-progress { left: max(var(--gutter), calc((100vw - 82rem) / 2 + var(--gutter))); }
-.lab-num { gap: 0; margin: 0 0 1rem; font: 700 0.875rem/1 var(--satoshi); letter-spacing: 0; text-transform: none; }
-.lab-n { display: none; }
-.lab-service { display: inline-flex; align-items: center; gap: 0.6em; padding: 0; color: var(--muted) !important; }
-.lab-service::before { position: static; inset: auto; z-index: auto; width: 0.7em; height: 0.7em; border-radius: 50%; background: var(--svc); box-shadow: 0 0 0 1.5px var(--black); flex: none; }
-.lab-head { margin: 0 0 1rem; }
-.lab-copy { margin: 0 0 1.6rem; font-size: clamp(1.125rem, 1.5vw, 1.375rem); color: var(--body); }
-.lab-tags { gap: 0.4rem; }
-.lab-tags li { padding: 0.45em 0.8em; border: 1px solid rgb(17 17 17 / 0.16); background: rgb(244 239 229 / 0.6); font: 600 0.8rem/1 var(--satoshi); color: var(--body); }
-.lab-progress { gap: 0; padding: 4px; border-radius: 999px; background: rgb(244 239 229 / 0.82); box-shadow: inset 0 0 0 1px rgb(17 17 17 / 0.12), 0 10px 24px -14px rgb(17 17 17 / 0.4); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-.lab-progress button {
-  display: inline-flex; align-items: center; gap: 0.5rem; width: auto; height: auto; min-height: 44px; padding: 0 0.95rem; border: 0; border-radius: 999px; white-space: nowrap;
-  background: transparent; color: var(--muted); font: 700 0.875rem/1 var(--satoshi); letter-spacing: 0; cursor: pointer;
-  transition: background-color 220ms var(--ease), color 220ms var(--ease);
-}
-.lab-progress .lp-n { font-variant-numeric: tabular-nums; opacity: 0.7; }
-.lab-progress li.is-on button { background: transparent; }
-.lab-progress li.is-done button { color: var(--black); }
-.lab-progress .lp-n::before { content: '✓'; display: inline-block; width: 1em; margin-right: 0.15em; color: #2C6E10; opacity: 0; transform: scale(0.4); transition: opacity 200ms var(--ease), transform 320ms cubic-bezier(0.3, 1.6, 0.4, 1); }
-.lab-progress li.is-done .lp-n::before { opacity: 1; transform: none; }   /* the tick has its own space from the start: no pill ever changes width */
-.lab-progress li.is-current button { background: var(--svc-on); color: var(--svc-on-ink); }
-.lab-progress li.is-current .lp-n { opacity: 1; }
-.lab-progress li:nth-child(1) { --svc-on: var(--pink); --svc-on-ink: var(--black); }
-.lab-progress li:nth-child(2) { --svc-on: var(--blue); --svc-on-ink: var(--ivory); }
-.lab-progress li:nth-child(3) { --svc-on: var(--forest); --svc-on-ink: var(--ivory); }
-.lab-progress li:nth-child(4) { --svc-on: var(--acid); --svc-on-ink: var(--black); }
-.lab-progress li:nth-child(5) { --svc-on: var(--yellow); --svc-on-ink: var(--black); }
-.lab-progress button:hover { background: rgb(17 17 17 / 0.07); color: var(--black); }
-.lab-progress li.is-current button:hover { background: var(--svc-on); color: var(--svc-on-ink); }
-@media (max-width: 760px) {
-  .lab-progress { left: 50%; translate: -50% 0; }
-  .lab-progress button { padding: 0 0.7rem; }
-  .lab-progress .lp-t { display: none; }
-  .lab-progress li.is-current .lp-t { display: inline; }
-}
-.lab-progress { transition: opacity 320ms var(--ease); }
-.lab[data-cap="intro"] .lab-progress { opacity: 0; pointer-events: none; }   /* appears with the first capability */
-
 /* ---------- Hero: Girgit's skin changes with the wave (js/home.js) ----------
    Two layers of the same pose; the new skin is revealed by the same circle as the colour flood. */
 .hx-gbody { position: relative; }
-.hx-skin--next { position: absolute; inset: 0; clip-path: circle(0px at 50% 50%); }
-
-/* ---------- Clay assets: sizes for the new renders ----------
-   The clay Girgit at the invitation is a taller render than the old one: smaller and lower, so he sits
-   in the corner and never covers the steps. The ink drop keeps clear of the email link. */
-.cta-girgit { width: min(34%, 26rem); translate: 4% 24%; }
-@media (max-width: 760px) {
-  .cta-girgit { width: 52%; translate: 8% 26%; }
-  .deco--drop { width: 9vw; top: 1.5%; right: 3%; }
-}
-
-.lab-progress button:focus { outline: none; }
-.lab-progress button:focus-visible { outline: 2px solid var(--black); outline-offset: -3px; }
-.lab-progress li.is-current button:focus-visible { outline-color: var(--svc-on-ink); }
 
 /* ---------- The eye wall, polished (js/eyes.js) ----------
    The line opens out of the centre of the wall. While the tiles fly they drop their shadows and
@@ -713,14 +543,22 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .eyes-centre { position: absolute; inset: 0; z-index: 4; display: grid; place-content: center; justify-items: center; gap: clamp(1rem, 2.4vh, 1.6rem); padding: 0 var(--gutter); text-align: center; pointer-events: none; }
 .eyes-centre .eyes-title { margin: 0; max-width: none; font-size: clamp(2.6rem, 7vw, 7.5rem); line-height: 1; color: var(--ivory); opacity: 0; will-change: transform, opacity, clip-path; }
 .eyes-centre .eyes-sub { margin: 0; max-width: 44ch; padding: 0; border: 0; justify-self: center; font-size: clamp(1.05rem, 1.5vw, 1.3rem); color: rgb(244 239 229 / 0.78); opacity: 0; }
-.eyes-iris { position: absolute; left: 50%; top: 50%; z-index: 5; width: 18px; height: 18px; margin: -9px 0 0 -9px; border-radius: 50%; background: var(--ivory); transform: scale(0); pointer-events: none; will-change: transform; }
+.eyes-iris { position: absolute;   z-index: 5;     background: var(--ivory);  pointer-events: none;  }
 .eyes-grid.is-moving { transform: none; transition: none; }
 .eyes-grid.is-moving .eye { box-shadow: none; transition: none; }
 .eyes-grid.is-moving .eye-ball::after { display: none; }
+.eyes-grid.is-moving .eye-iris, .eyes-grid.is-moving .eye-lid { animation-play-state: paused; }   /* only the scroll animates while the wall breaks */
 .ec-grid.is-solo { grid-template-columns: minmax(0, 46rem); justify-content: center; }
 @media (prefers-reduced-motion: no-preference) {
-  .eyes-cover { margin-top: 170svh; }
-  @media (max-width: 760px) { .eyes-cover { margin-top: 150svh; } }
+  .eyes-cover { margin-top: 115svh; }                                /* the length of the eye-wall scroll: 1.15 screens (was 1.7) */
+  @media (max-width: 760px) { .eyes-cover { margin-top: 105svh; } }
+  /* No blank screen between the eye opening and the name. The iris fills the screen with ivory just as the
+     panel's top edge reaches the bottom of it; the panel used to carry 6rem of empty padding and the entry's
+     page sat a full screen-height further down, so a stretch of plain ivory scrolled past. The entry now
+     starts a third of a screen above the panel's edge, over the same ivory, so it is already rising into view
+     (any further up and its dark headword would show over the still-dark wall). */
+  .eyes--shatter .eyes-cover { padding-top: 0; }
+  .eyes--shatter .ec-grid:has(.nm) { margin-top: -38svh; }
 }
 
 /* ---------- Hero: each Girgit pops on his own colour ----------
@@ -731,7 +569,7 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
   background: radial-gradient(closest-side, rgb(255 255 255 / 0.34), rgb(255 255 255 / 0.12) 55%, rgb(255 255 255 / 0) 100%);
   pointer-events: none;
 }
-.hx-gbody { filter: drop-shadow(0 22px 24px rgb(0 0 0 / 0.30)) drop-shadow(0 4px 6px rgb(0 0 0 / 0.18)); }
+
 .hx-girgit { aspect-ratio: 900 / 814; isolation: isolate; }
 
 /* ==========================================================================
@@ -744,10 +582,9 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .hx-frame {
   --pad: clamp(18px, 2.6vw, 40px);
   position: relative; isolation: isolate; overflow: hidden;
-  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
-  grid-template-areas: "band band" "line dots" "stage stage" "promise recent";
-  min-height: calc(100svh - var(--nav-h) - 20px); padding: 0 var(--pad) var(--pad);
+  display: grid;
+
+   padding: 0 var(--pad) var(--pad);
   border-radius: clamp(18px, 2vw, 28px); background: var(--bg); color: var(--fg);
   transition: color 260ms var(--ease);
 }
@@ -756,91 +593,67 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 
 /* The band: straight, joined under the nav, edge to edge of the frame. */
 .hx-band { grid-area: band; margin: 0 calc(-1 * var(--pad)); rotate: none; border: 0; border-radius: 0; background: var(--black); }
-.hx-band .ticker-track { padding: 0.65rem 0; gap: 1.6rem; }
+.hx-band .ticker-track {  gap: 1.6rem; }
 
 /* The headline is split across the grid: the small line in the corner, the word across the frame. */
 .hx .hx-title { display: contents; }
 .hx .hx-line {
-  grid-area: line; align-self: start; margin-top: clamp(14px, 2vw, 26px);
-  font: 800 clamp(1.05rem, 1.6vw, 1.5rem)/1 var(--satoshi); letter-spacing: 0; text-transform: uppercase;
+
+    text-transform: uppercase;
 }
 .hx .hx-word {
-  grid-area: stage; align-self: center; justify-self: center; z-index: 1; margin: 0; padding: 0;
-  font: 900 min(15vw, 30svh)/0.8 var(--satoshi); letter-spacing: -0.055em; text-transform: uppercase; white-space: nowrap;
-  color: var(--fg); -webkit-text-stroke: 0; text-shadow: none; translate: 0 -8%;
+     z-index: 1; margin: 0; padding: 0;
+  font: 900 min(15vw, 30svh)/0.8 var(--satoshi);  text-transform: uppercase; white-space: nowrap;
+  color: var(--fg); -webkit-text-stroke: 0; text-shadow: none;
 }
 
 /* The skin dots: where he is, and a way to any skin. */
-.hx-dots { grid-area: dots; justify-self: end; align-self: start; display: flex; gap: 2px; margin-top: clamp(8px, 1.4vw, 20px); }
+.hx-dots { grid-area: dots; justify-self: end; align-self: start; display: flex; gap: 2px;  }
 .hx-dots button { display: grid; place-items: center; width: 30px; height: 30px; padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
 .hx-dots button::before { content: ''; width: 11px; height: 11px; border-radius: 50%; box-shadow: inset 0 0 0 2px currentColor; transition: background-color 260ms var(--ease), transform 320ms cubic-bezier(0.3, 1.6, 0.4, 1); }
 .hx-dots button.is-on::before { background: currentColor; transform: scale(1.2); }
 .hx-dots button:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; border-radius: 50%; }
 
 /* Girgit stands in front of the word; the three props frame him. */
-.hx .hx-stage { grid-area: stage; z-index: 2; position: relative; width: 100%; max-width: none; aspect-ratio: auto; min-height: 44svh; pointer-events: none; }
-.hx .hx-girgit { position: absolute; left: 50%; bottom: -1%; width: min(34vw, 60svh); translate: -50% 0; pointer-events: auto; }
-.hx .hx-prop { filter: drop-shadow(0 14px 16px rgb(0 0 0 / 0.26)); }
-.hx .hx-prop--seven { left: auto; right: 9%; top: 2%; bottom: auto; width: clamp(56px, 6.4vw, 118px); rotate: 9deg; }
-.hx .hx-prop--hourglass { left: auto; right: 21%; top: auto; bottom: 3%; width: clamp(44px, 4.6vw, 86px); rotate: 8deg; }
-.hx .hx-prop--drop { left: 17%; right: auto; top: auto; bottom: 14%; width: clamp(28px, 2.8vw, 54px); rotate: -10deg; }
+.hx .hx-stage {  z-index: 2; position: relative; width: 100%; max-width: none; aspect-ratio: auto;  pointer-events: none; }
+.hx .hx-girgit { position: absolute;     pointer-events: auto; }
 
 /* The corners. */
-.hx-promise { grid-area: promise; align-self: end; display: grid; gap: clamp(14px, 1.6vw, 20px); z-index: 3; }
-.hx .hx-sub { max-width: 34ch; margin: 0; font: 600 clamp(1rem, 1.3vw, 1.2rem)/1.45 var(--satoshi); }
+.hx-promise {  align-self: end; display: grid;  z-index: 3; }
+.hx .hx-sub {  margin: 0; font: 600 clamp(1rem, 1.3vw, 1.2rem)/1.45 var(--satoshi); }
 .hx .hx-ctas { margin: 0; }
-.hx-recent { grid-area: recent; justify-self: end; align-self: end; z-index: 3; text-align: right; }
-.hx .hx-label { margin: 0 0 0.6rem; font: 800 0.72rem/1 var(--satoshi); letter-spacing: 0.08em; text-transform: uppercase; }
-.hx .hx-thumbs { justify-content: flex-end; gap: 0.75rem; }
-.hx .hx-thumbs a { width: clamp(6rem, 8vw, 8.2rem); text-align: left; }
-.hx .hx-thumbs img { border: 0; border-radius: 12px; box-shadow: 0 12px 24px -14px rgb(0 0 0 / 0.55); }
-@media (hover: hover) { .hx .hx-thumbs a:hover img { transform: translateY(-3px); box-shadow: 0 18px 28px -14px rgb(0 0 0 / 0.6); } }
-.hx .hx-thumbs a:active img { transform: translateY(0); box-shadow: 0 8px 16px -12px rgb(0 0 0 / 0.5); }
 
 /* Phones: one column, in reading order. */
 @media (max-width: 899px) {
-  .hx-frame { grid-template-columns: minmax(0, 1fr); grid-template-areas: "band" "line" "stage" "promise" "recent"; grid-template-rows: auto auto minmax(0, 1fr) auto auto; min-height: 0; row-gap: 1.2rem; }
+  .hx-frame { grid-template-columns: minmax(0, 1fr);    row-gap: 1.2rem; }
   .hx-dots { position: absolute; right: calc(var(--pad) - 8px); top: 3.4rem; margin: 0; }
-  .hx .hx-word { font-size: 17.5vw; translate: 0 -12%; }
-  .hx .hx-stage { min-height: 62vw; }
-  .hx .hx-girgit { width: 64vw; }
-  .hx-recent { justify-self: start; text-align: left; }
-  .hx .hx-thumbs { justify-content: flex-start; }
+
 }
 /* Inside the corners, the old grid areas no longer apply. */
 .hx-promise .hx-sub, .hx-promise .hx-ctas { grid-area: auto; }
 .hx .hx-ctas { display: flex; flex-wrap: wrap; gap: 0.75rem; }
 .hx-band { justify-self: stretch; width: auto; max-width: none; }
 @media (max-width: 899px) {
-  .hx .hx-girgit { width: 50vw; bottom: 0; }
-  .hx .hx-word { translate: 0 -30%; }
+  .hx .hx-girgit {  bottom: 0; }
+
 }
 @media (max-width: 899px) {
   .hx-frame > .hx-dots { position: absolute; grid-area: auto; z-index: 3; }   /* out of the grid: no ghost column */
-  .hx .hx-word { font-size: 15vw; }
+
   .hx .hx-ctas { flex-wrap: nowrap; }
   .hx .hx-ctas .btn { flex: 1 1 0; justify-content: center; white-space: nowrap; padding-inline: 0.9rem; }
-  .hx .hx-prop--seven { right: 3%; top: -6%; width: 12vw; }
-  .hx .hx-prop--hourglass { right: 6%; bottom: 2%; width: 10vw; }
-  .hx .hx-prop--drop { left: 6%; bottom: 10%; width: 6vw; }
+
 }
 
-/* ==========================================================================
-   SYMBOLISM FIRST: Girgit is felt through his senses; the whole of him appears only in the hero and
-   the capability film.
-   ========================================================================== */
 /* The eye: in the open slot, his turret eye opens as the card arrives and turns toward the pointer. */
 .pl-eye { display: block; aspect-ratio: 1; width: clamp(110px, 16vw, 190px); translate: 0 -18%; border-radius: 50%;
   box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.6), 0 0 0 6px rgb(244 239 229 / 0.06); overflow: hidden; }
-.pl-eye img { display: block; width: 100%; height: 100%; rotate: var(--turn, 0deg); transition: rotate 600ms cubic-bezier(0.3, 1.4, 0.4, 1); }
+.pl-eye img { display: block; width: 100%; height: 100%; rotate: var(--turn, 0deg);  }
 @media (prefers-reduced-motion: no-preference) {
   .pl-eye { clip-path: inset(50% 0 50% 0 round 50%); transition: clip-path 700ms cubic-bezier(0.2, 0.9, 0.2, 1) 200ms; }
   .pl-card--next.in-view .pl-eye, .pl-item.in-view .pl-eye, .pl-eye.is-open { clip-path: inset(0 0 0 0 round 50%); }
 }
 .pl-card--next:hover .pl-girgit.pl-eye { translate: 0 -22%; }
-
-/* The tongue: the call to action's flick comes from off-frame; the bodies are gone. */
-.cta-girgit { display: none; }
 
 /* The week: the line is his tongue. It shoots, fast, from "Before the clock" and lands on "Live". */
 .hw-steps::after { transition: transform 620ms cubic-bezier(0.15, 0.85, 0.2, 1.04) 300ms; }
@@ -848,9 +661,6 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .hw-week.is-in .hw-step--live .hw-eye { animation: hw-stick 460ms cubic-bezier(0.3, 1.8, 0.4, 1) 900ms both; }
 @keyframes hw-stick { 0% { scale: 1; } 40% { scale: 1.22 0.86; } 70% { scale: 0.95 1.06; } 100% { scale: 1; } }
 
-/* ==========================================================================
-   ONE VISUAL LANGUAGE
-   ========================================================================== */
 /* Cards: a crisp thin frame and a soft lift, instead of the hard black offset shadow. */
 :root {
   --frame: 1.5px solid rgb(17 17 17 / 0.9);
@@ -858,8 +668,6 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
   --lift-up: 0 26px 50px -22px rgb(0 0 0 / 0.5), 0 4px 10px -4px rgb(0 0 0 / 0.14);
   --press: 0 8px 18px -12px rgb(0 0 0 / 0.4);
 }
-/* The footer banner keeps the logo, the eyes and the finish-flag frame; the flat scenery goes. */
-.fb-leaf, .fb-spark, .fb-sun, .fb-sea { display: none; }
 
 /* ==========================================================================
    ONE MOTION SIGNATURE: the chameleon's walk. A tiny sway back, then a decisive settle.
@@ -878,12 +686,7 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
    word) and a brush that paints the next state in (js/home.js). The ribbon of what we do moves to the
    bottom of the frame as a rounded ribbon.
    ========================================================================== */
-.hx-frame {
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  grid-template-areas: "line dots" "stage stage" "promise recent" "band band";
-  padding-top: 0; padding-bottom: clamp(12px, 1.4vw, 20px);
-}
-.hx .hx-line { margin-top: clamp(18px, 2.4vw, 30px); }
+
 .hx-dots { margin-top: clamp(12px, 1.8vw, 24px); }
 
 /* The ribbon: a rounded black ribbon along the bottom, tilted a touch, above everything. */
@@ -895,65 +698,33 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .hx-band .ticker-track { padding: 0.8rem 0; }
 
 /* Girgit as the work: one box for every scene, bottom-centred, in front of the word. */
-.hx .hx-girgit { aspect-ratio: 1200 / 900; width: min(40vw, 66svh); bottom: 0; cursor: inherit; }
+.hx .hx-girgit {    cursor: inherit; }
 .hx .hx-girgit::before { top: 58%; width: 96%; }
 .hx-gbody { filter: drop-shadow(0 26px 22px rgb(0 0 0 / 0.28)) drop-shadow(0 4px 6px rgb(0 0 0 / 0.16)); transform: none; }
-.hx .hx-prop { display: none; }
 
 /* The brush: the canvas where the next state is painted, and the ring that follows the pointer. */
 .hx-frame > .hx-paint { position: absolute; inset: 0; z-index: 2; width: 100%; height: 100%; pointer-events: none; }
-.hx-frame > .hx-line, .hx-frame > .hx-dots, .hx-frame > .hx-promise, .hx-frame > .hx-recent { z-index: 3; }
-.hx-frame > .hx-brush {
-  position: absolute; z-index: 5; left: 0; top: 0; width: 66px; height: 66px; margin: -33px 0 0 -33px; border-radius: 50%;
-  border: 2.5px solid var(--next, var(--fg)); background: color-mix(in srgb, var(--next, var(--fg)) 22%, transparent);
-  pointer-events: none; opacity: 0; scale: 0.6; transition: opacity 220ms var(--ease), scale 260ms var(--sway), border-color 300ms, background-color 300ms;
-}
-.hx-brush span {
-  position: absolute; left: 50%; top: calc(100% + 10px); translate: -50% 0; white-space: nowrap; padding: 0.38rem 0.7rem; border-radius: 999px;
-  background: var(--black); color: var(--ivory); font: 800 0.68rem/1 var(--satoshi); letter-spacing: 0.1em; text-transform: uppercase;
-  transition: opacity 400ms var(--ease);
-}
-.hx.has-brush .hx-brush { opacity: 1; scale: 1; }
-.hx.has-painted .hx-brush span { opacity: 0; }
-@media (pointer: fine) { .js .hx.can-paint .hx-frame { cursor: none; } .js .hx.can-paint .hx-frame :is(a, button) { cursor: pointer; } }
+.hx-frame > .hx-line, .hx-frame > .hx-dots, .hx-frame > .hx-promise { z-index: 3; }
 
 @media (max-width: 899px) {
-  .hx-frame { grid-template-areas: "line" "stage" "promise" "recent" "band"; grid-template-rows: auto minmax(0, 1fr) auto auto auto; }
+
   .hx-frame > .hx-dots { top: clamp(10px, 3vw, 18px); }
-  .hx .hx-girgit { width: min(78vw, 46svh); }
-  .hx .hx-stage { min-height: 74vw; }
-  .hx .hx-word { align-self: start; translate: 0 6%; font-size: 16vw; }
+
   .hx-frame > .hx-band { margin-inline: calc(-0.6 * var(--pad)); }
 }
-@media (prefers-reduced-motion: reduce) { .hx-frame > .hx-brush { display: none; } }
 
 /* ---------- The silhouette: Girgit as a shape in the dark behind "How we work" (js/kinetic.js drifts it) ---------- */
 .hw-sec { position: relative; isolation: isolate; overflow: clip; }
-.sil-bg {
-  position: absolute; z-index: -1; right: 2vw; top: clamp(7rem, 13vw, 12rem); width: auto; height: min(86svh, 56rem); max-width: none;
-  filter: brightness(1.75) saturate(0.9); pointer-events: none; translate: 0 var(--sy, 0px);
-}
-.hw-sec .s5-wrap { position: relative; }
-@media (max-width: 899px) { .sil-bg { right: -38vw; top: 1rem; height: 64svh; } }
 
 /* ---------- The hero, simplified: one idea in the middle (the word, Girgit in front of it), the promise
    and two buttons under it, the ribbon at the bottom. No corners competing for attention. ---------- */
 .hx-frame {
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: auto minmax(0, 1fr) auto auto;
-  grid-template-areas: "line" "stage" "promise" "band";
+
   justify-items: center; text-align: center;
 }
-.hx .hx-line { justify-self: center; margin-top: clamp(22px, 3.2vw, 40px); letter-spacing: 0.06em; }
-.hx-promise { justify-self: center; justify-items: center; margin-top: clamp(14px, 2svh, 26px); }
-.hx .hx-sub { max-width: 44ch; margin-inline: auto; }
+
+.hx .hx-sub {  margin-inline: auto; }
 .hx .hx-ctas { justify-content: center; }
-.hx .hx-stage { min-height: 46svh; }
-.hx .hx-girgit { width: min(38vw, 56svh); }
-@media (max-width: 899px) {
-  .hx-frame { grid-template-areas: "line" "stage" "promise" "band"; grid-template-rows: auto minmax(0, 1fr) auto auto; }
-  .hx .hx-girgit { width: min(80vw, 44svh); }
-}
 
 /* Hero: the paintbrush scene is tall and slim, so it stands a little larger; and the ribbon keeps an edge on black. */
 .hx-gbody { transform-origin: 50% 100%; }
@@ -966,12 +737,11 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .nav {
   position: fixed; left: 0; right: 0; top: 0; margin: 0 auto; max-width: 100%;
   height: var(--nav-h); padding: 0 clamp(18px, 3vw, 44px); border-radius: 0;
-  color: var(--nav-ink, var(--ivory)); background: transparent;
-  transition: max-width 620ms var(--ease), top 620ms var(--ease), height 620ms var(--ease), padding 620ms var(--ease),
-    border-radius 620ms var(--ease), background-color 420ms var(--ease), box-shadow 420ms var(--ease), color 300ms var(--ease);
+  color: var(--nav-ink, var(--ivory));
+
 }
 .nav::before, .nav::after { display: none; }
-.nav-logo img { filter: brightness(0) invert(var(--nav-inv, 0.95)); transition: filter 300ms var(--ease); height: 26px; }
+.nav-logo img { filter: brightness(0) invert(var(--nav-inv, 0.95)); transition: filter 300ms var(--ease);  }
 .nav-links .pill { color: inherit; opacity: 0.82; transition: opacity 200ms var(--ease), color 200ms var(--ease); }
 .nav-links .pill:hover, .nav-links .pill.is-active { opacity: 1; color: inherit; text-decoration-color: currentColor; }
 .nav .pill--ink { box-shadow: 0 10px 24px -14px rgb(0 0 0 / 0.55); }
@@ -990,7 +760,6 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .hx .hx-line { margin-top: clamp(6px, 1.4svh, 18px); }
 @media (max-width: 899px) { .nav.is-scrolled { padding-left: 16px; } }
 
-
 /* ==========================================================================
    THE NAME, as two full folds (they rise over the eye wall).
    Fold 1, the entry: a dictionary spread across the page; the word huge on the left, what it means on the right.
@@ -999,25 +768,25 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 @media (min-width: 900px) {
   .ec-grid.is-solo { grid-template-columns: minmax(0, 1fr); justify-content: stretch; }
   .ec-dict {
-    max-width: none; width: 100%; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-    align-items: center; column-gap: clamp(2rem, 5vw, 5rem); min-height: min(78svh, 46rem);
+    max-width: none; width: 100%; display: grid;
+    align-items: center; column-gap: clamp(2rem, 5vw, 5rem);
     padding: clamp(2.4rem, 5vw, 4.4rem) clamp(2rem, 5vw, 4.4rem) clamp(2rem, 4vw, 3.6rem);
   }
-  .ec-dict .st-dict-head { align-self: stretch; align-content: center; padding: 0 clamp(1.5rem, 4vw, 4rem) 0 0; border-bottom: 0; border-right: 2px solid var(--black); }
-  .ec-dict .st-dict-word { font-size: clamp(6rem, 13.5vw, 15rem); line-height: 1.12; }
+  .ec-dict .st-dict-head { align-self: stretch; align-content: center;    }
+
   .ec-dict .st-dict-say i { font-size: clamp(1.8rem, 2.8vw, 2.8rem); }
   .ec-dict .st-dict-defs { margin: 0; gap: clamp(1rem, 2.4svh, 1.6rem); }
   .ec-dict .st-dict-defs p { font-size: clamp(1.1rem, 1.5vw, 1.45rem); }
-  .ec-dict .st-dict-ours { margin: 0.4rem 0 0; padding: clamp(1rem, 2vw, 1.5rem); }
+  .ec-dict .st-dict-ours {  padding: clamp(1rem, 2vw, 1.5rem); }
   .ec-dict .st-dict-ours strong { font-size: clamp(1.25rem, 1.9vw, 1.85rem); line-height: 1.3; }
 
   .ec-turn {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.9fr); align-items: end; column-gap: clamp(2rem, 6vw, 6rem);
-    min-height: min(62svh, 36rem); align-content: center; padding-block: clamp(3rem, 8svh, 6rem) clamp(2rem, 6svh, 4rem);
+     align-items: end; column-gap: clamp(2rem, 6vw, 6rem);
+     align-content: center; padding-block: clamp(3rem, 8svh, 6rem) clamp(2rem, 6svh, 4rem);
   }
-  .ec-turn-line { font-size: clamp(3.6rem, 8.6vw, 9.5rem); line-height: 0.86; }
+  .ec-turn-line {  line-height: 0.86; }
   .ec-turn-line span { display: inline-block; margin-top: 0.06em; }
-  .ec-turn-copy { font-size: clamp(1.15rem, 1.6vw, 1.5rem); padding-bottom: 0.5rem; }
+  .ec-turn-copy { font-size: clamp(1.15rem, 1.6vw, 1.5rem);  }
 }
 /* The marker under "anyway." draws itself in when the fold arrives. */
 @media (prefers-reduced-motion: no-preference) {
@@ -1031,7 +800,7 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 
 /* ---------- How we work: his head, huge, in the dark behind the section. His eye is the one thing that
    moves: it watches the pointer (js/kinetic.js). ---------- */
-.sil-bg { display: none; }
+
 .hw-head-wrap {
   position: absolute; z-index: -1; top: clamp(-6rem, -6vw, -2rem); right: -8vw; width: min(78vw, 112svh); aspect-ratio: 490 / 540;
   pointer-events: none; translate: 0 var(--sy, 0px);
@@ -1056,28 +825,14 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .hw-head-eye.is-blink .hw-ball { transform: scaleY(0.06); transition-duration: 80ms; }
 .hw-sec .s5-wrap { position: relative; z-index: 1; }
 @media (max-width: 899px) { .hw-head-wrap { width: 120vw; right: -48vw; top: -2rem; opacity: 0.9; } }
-.hw-sec .deco--seven { display: none; }
-
-/* ---------- The hero ribbon, wavy (js/ribbon.js): a thick black ribbon that undulates, the words riding on it. ---------- */
-.hx-frame > .hx-band.is-wavy {
-  height: clamp(64px, 9svh, 92px); margin-inline: calc(-1 * var(--pad)); margin-top: clamp(4px, 1svh, 12px);
-  background: none; box-shadow: none; outline: 0; border-radius: 0; rotate: none; overflow: visible;
-}
-.wv { display: block; width: 100%; height: 100%; overflow: visible; }
-.wv-band { stroke: var(--black); stroke-width: clamp(36px, 5.2svh, 52px); stroke-linecap: round; stroke-linejoin: round;
-  filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.28)); }
-.wv-text { fill: var(--ivory); font: 800 clamp(0.95rem, 1.6svh, 1.15rem)/1 var(--satoshi); letter-spacing: 0.08em; dominant-baseline: central; }
-.wv-star { fill: var(--acid); }
 
 /* "We design" stays above Girgit; on the acid state the green buttons turn black so they still pop. */
 .hx .hx-line { position: relative; z-index: 3; }
-.hx[data-state="3"] .btn--primary, html[data-hero="3"] .nav:not(.is-scrolled) .pill--ink { background: var(--black); color: var(--acid); border-color: var(--black); }
 
 /* ==========================================================================
    ONE READING LINE: headings and their text stack, never side by side.
    ========================================================================== */
 .s5-lede { margin-left: 0; margin-right: 0; }
-#seven-days .s5-head, #why .s5-head { padding-right: 0; }
 
 /* The turn: the line, then the reason under it. */
 @media (min-width: 900px) {
@@ -1102,31 +857,30 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 
 /* ---------- Hindi glosses (js/site.js): the Devanagari word, a marker under it, its English meaning set
    beneath like a dictionary reading. The marker draws, then the meaning writes in, letter-spacing settling. ---------- */
-.gl { ruby-position: under; ruby-align: center; font-family: var(--deva); font-weight: 800; white-space: nowrap; }
+.gl { ruby-position: under; ruby-align: center; font-family: var(--deva); font-weight: 800;  }
 .gl-hi {
-  padding: 0 0.12em; color: inherit;
+   color: inherit;
   background: linear-gradient(var(--gl-mark, var(--yellow)), var(--gl-mark, var(--yellow))) 0 88% / 100% 0.34em no-repeat;
 }
 .gl-en {
-  font: 800 0.42em/1.4 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: var(--gl-ink, var(--muted));
-  padding-top: 0.35em;
+    text-transform: uppercase;
+
 }
 .st-dict-card .gl { --gl-mark: var(--yellow); }
 .st-dict-ours .gl, .ec-turn .gl { --gl-mark: var(--acid); }
-.st-dark .gl, .hw-sec .gl { --gl-mark: rgb(67 255 24 / 0.35); --gl-ink: rgb(244 239 229 / 0.7); }
+.st-dark .gl, .hw-sec .gl {  --gl-ink: rgb(244 239 229 / 0.7); }
 @media (prefers-reduced-motion: no-preference) {
-  .js .gl-hi { background-size: 0% 0.34em; transition: background-size 700ms cubic-bezier(0.7, 0, 0.2, 1); }
+  .js .gl-hi {  transition: background-size 700ms cubic-bezier(0.7, 0, 0.2, 1); }
   .js .gl-en { opacity: 0; letter-spacing: 0.5em; transition: opacity 600ms var(--ease) 450ms, letter-spacing 900ms cubic-bezier(0.2, 0.8, 0.2, 1) 450ms; }
-  .js .gl.is-in .gl-hi { background-size: 100% 0.34em; }
+
   .js .gl.is-in .gl-en { opacity: 1; letter-spacing: 0.16em; }
-  .gl:hover .gl-hi { background-size: 100% 0.9em; transition-duration: 300ms; }
+  .gl:hover .gl-hi {  transition-duration: 300ms; }
 }
 
 /* Hero: the word is the message. It is set bigger, and Girgit stands lower and a little smaller, so he
    only overlaps the bottom of the letters and the word always reads. */
-.hx .hx-word { font-size: min(17.5vw, 34svh); translate: 0 -18%; letter-spacing: -0.05em; }
-.hx .hx-girgit { width: min(30vw, 44svh); bottom: -4%; }
-@media (max-width: 899px) { .hx .hx-word { font-size: 17vw; translate: 0 4%; } .hx .hx-girgit { width: min(70vw, 40svh); } }
+.hx .hx-word {   letter-spacing: -0.05em; }
+
 .gl-hi { font-size: 1.08em; padding: 0 0.08em 0.06em; background-position: 0 100%; background-size: 100% 0.16em; }
 .gl-en { text-align: center; font-size: 0.44em; padding-top: 0.5em; }
 @media (prefers-reduced-motion: no-preference) {
@@ -1152,7 +906,7 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
   content: ''; display: block; position: absolute; inset: 0; z-index: -1; border: 0; border-radius: 999px;
   background: rgb(20 33 24 / 0.84); box-shadow: 0 18px 40px -22px rgb(0 0 0 / 0.55), inset 0 0 0 1px rgb(244 239 229 / 0.1);
   -webkit-backdrop-filter: blur(16px) saturate(1.4); backdrop-filter: blur(16px) saturate(1.4);
-  opacity: 0; transform: scale(0.96, 0.8); transition: opacity 520ms var(--apple), transform 900ms var(--apple);
+    transition: opacity 520ms var(--apple), transform 900ms var(--apple);
 }
 .nav.is-scrolled::before { opacity: 1; transform: none; }
 .nav-logo img, .nav-links .pill, .nav .pill--ink { transition: filter 500ms var(--apple), color 500ms var(--apple), opacity 300ms var(--apple), background-color 400ms var(--apple), transform 300ms var(--apple); }
@@ -1199,9 +953,6 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .nm .st-dict-say { order: 0; justify-content: flex-start; gap: 0.5rem 0.8rem; }
 .nm .st-dict-say i { font-size: clamp(1.5rem, 2.4vw, 2.3rem); }
 
-
-/* The entry: every meaning, numbered, on a rail that fills as you scroll. The current one is in full ink;
-   the ones you have read stay readable; the one still to come waits, faint. */
 /* (.ec-dict.nm, not .nm: an older entry layout sets the meanings in three columns, and the page's
    stagger-in rule sets every item's opacity; this entry has to win over both.) */
 .ec-dict.nm .st-dict-defs {
@@ -1232,8 +983,8 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 
 @media (max-width: 899px) {
   .nm-stage {
-    grid-template-columns: minmax(0, 1fr); grid-template-rows: auto auto minmax(0, 1fr); grid-template-areas: "top" "head" "defs";
-    align-content: start; row-gap: clamp(1rem, 3svh, 1.8rem);
+    grid-template-columns: minmax(0, 1fr);
+     row-gap: clamp(1rem, 3svh, 1.8rem);
   }
   .nm .st-dict-head { justify-items: center; text-align: center; }
   .nm .st-dict-say { justify-content: center; }
@@ -1251,22 +1002,39 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
    Hero, roomier: the ribbon moved down to open the work section, so the word and Girgit grow, and the
    line under them is one line, with the buttons inside the first screen.
    ========================================================================== */
-.hx-frame { grid-template-rows: auto minmax(0, 1fr) auto; grid-template-areas: "line" "stage" "promise"; padding-bottom: clamp(18px, 3svh, 32px); }
-.hx .hx-word { font-size: min(19.5vw, 40svh); translate: 0 -14%; }
-.hx .hx-girgit { width: min(40vw, 58svh); bottom: -3%; }
+.hx-frame {   padding-bottom: clamp(18px, 3svh, 32px); }
+.hx .hx-word { font-size: min(19.5vw, 40svh);  }
+
 .hx-promise { gap: clamp(12px, 2svh, 18px); margin-top: clamp(4px, 1svh, 12px); }
 @media (min-width: 900px) { .hx .hx-sub { max-width: none; white-space: nowrap; min-height: 0; font-size: clamp(1rem, 1.25vw, 1.2rem); } }
 @media (max-width: 899px) {
-  .hx-frame { grid-template-areas: "line" "stage" "promise"; grid-template-rows: auto minmax(0, 1fr) auto; }
+
   .hx .hx-word { font-size: 18vw; }
   .hx .hx-girgit { width: min(84vw, 46svh); }
 }
 
 /* The ribbon now opens the work section: the wavy black band across the top, edge to edge. */
-.wv-band-wrap.is-wavy, .wv-band-wrap {
+.wv-band-wrap {
   display: block; position: relative; z-index: 2; height: clamp(70px, 10svh, 100px); margin: clamp(1.2rem, 4svh, 2.6rem) 0 calc(-1 * clamp(1rem, 3svh, 2rem));
   background: none; border: 0; border-radius: 0; rotate: none; box-shadow: none; outline: 0; overflow: visible; width: 100%;
 }
+
+/* The ribbon, redesigned (js/ribbon.js): two tapes crossed over the seam between the hero and the work,
+   taking no room of their own, so no strip of paper shows above or below them. */
+.tapes { position: relative; z-index: 6; height: 0; pointer-events: none; }
+.tape {
+  position: absolute; left: -6vw; width: 112vw; top: 0; overflow: hidden;
+  padding: clamp(0.6rem, 1.2svh, 0.85rem) 0;
+  box-shadow: 0 16px 30px -16px rgb(0 0 0 / 0.6);
+}
+.tape--a { z-index: 2; translate: 0 -50%; rotate: -2.2deg; background: var(--acid); color: var(--black); border-block: 2px solid var(--black); }
+.tape--b { z-index: 1; translate: 0 -50%; rotate: 1.6deg; background: var(--black); color: var(--ivory); }
+.tape-track, .tape-half { display: flex; width: max-content; }
+.tape-track { will-change: transform; }
+.tape-half { gap: clamp(1rem, 2vw, 1.8rem); padding-right: clamp(1rem, 2vw, 1.8rem); align-items: center;
+  font: 800 clamp(0.9rem, 1.35vw, 1.2rem)/1 var(--satoshi); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+.tape--b .tape-star { color: var(--acid); }
+.tape--a .tape-star { color: var(--black); }
 
 /* "We design" belongs to the word, not to the header: it sits just above the giant word, in the same cell. */
 @media (min-width: 900px) {
@@ -1319,13 +1087,9 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 /* The closing statement runs the full width of the column: no measure cap, set big enough to hold it. */
 #who .st-close { max-width: none; width: 100%; margin: clamp(3rem, 8svh, 5.5rem) 0 0; font: 900 clamp(2.2rem, 5.6vw, 6rem)/0.95 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; text-wrap: pretty; }
 
-/* ==========================================================================
-   IN THEIR WORDS, as a scene (js/quotes.js): the quotes pin; each takes the whole stage in its client's
-   colour, and the next opens over it through a circle from the middle, like an eye opening.
-   ========================================================================== */
-.tqx .tq-stage { height: calc(var(--n, 3) * 85svh + 40svh); }
+/* Not pinned any more: the quotes change with the arrows (js/quotes.js), not with the scroll. */
 .tqx .tq-list {
-  position: sticky; top: calc(var(--nav-h) + 12px); height: calc(100svh - var(--nav-h) - 24px);
+  position: relative; height: min(calc(100svh - var(--nav-h) - 24px), 48rem); min-height: 34rem;
   display: grid; grid-template-columns: minmax(0, 1fr) !important; margin: 0; padding: 0; gap: 0;
 }
 .tqx .tq {
@@ -1345,16 +1109,23 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .tqx .tq.is-on .tq-fig > *, .tqx .tq.is-on .tq-link { opacity: 1; translate: none; }
 .tqx .tq.is-on .tq-who { transition-delay: 500ms; } .tqx .tq.is-on .tq-link { transition-delay: 600ms; }
 .tqx .tq[data-status="draft"]::after { top: 1.2rem; right: 1.2rem; }
-.tqx-count { position: absolute; z-index: 5; left: 50%; bottom: clamp(1rem, 3svh, 1.8rem); translate: -50% 0; display: flex; gap: 0.45rem; margin: 0; pointer-events: none; }
-.tqx-count span { padding: 0.4rem 0.6rem; border-radius: 999px; font: 800 0.7rem/1 var(--satoshi); letter-spacing: 0.12em; color: rgb(244 239 229 / 0.55); border: 1.5px solid rgb(244 239 229 / 0.3); transition: all 400ms var(--apple, ease); }
-.tqx-count span.is-on { color: var(--black); background: var(--yellow); border-color: var(--yellow); }
-
-/* "Got an idea?" with Girgit in 3D (js/girgit3d.js): the canvas fills the panel behind the words. */
-.cta-panel.has-3d { isolation: isolate; }
-.cta-panel > .g3d { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; display: block; border-radius: inherit; pointer-events: none; }
-.cta-panel.has-3d > :not(.g3d) { position: relative; z-index: 1; }
-.cta-panel.has-3d .deco--drop { display: none; }
-@media (max-width: 760px) { .cta-panel.has-3d { padding-bottom: clamp(16rem, 70vw, 22rem); } }
+/* The controls along the bottom of the card: previous, the numbers, next. */
+.tqx-nav { position: absolute; z-index: 5; left: 50%; bottom: clamp(1rem, 3svh, 1.8rem); translate: -50% 0; display: flex; align-items: center; gap: clamp(0.6rem, 1.4vw, 1rem); }
+.tqx-count { display: flex; gap: 0.45rem; margin: 0; }
+.tqx-count button { padding: 0.45rem 0.65rem; border-radius: 999px; background: transparent; cursor: pointer; font: 800 0.72rem/1 var(--satoshi); letter-spacing: 0.12em; color: rgb(244 239 229 / 0.6); border: 1.5px solid rgb(244 239 229 / 0.3); transition: all 400ms var(--apple, ease); }
+.tqx-count button:hover { color: var(--ivory); border-color: rgb(244 239 229 / 0.7); }
+.tqx-count button.is-on { color: var(--black); background: var(--yellow); border-color: var(--yellow); }
+.tqx-arrow {
+  display: grid; place-items: center; width: clamp(2.8rem, 3.6vw, 3.4rem); aspect-ratio: 1; padding: 0; border-radius: 50%; cursor: pointer;
+  background: var(--ivory); color: var(--black); border: 0; box-shadow: 0 10px 22px -12px rgb(0 0 0 / 0.7);
+  transition: background 220ms var(--ease), scale 260ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.tqx-arrow svg { width: 46%; height: 46%; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.tqx-arrow:hover { background: var(--yellow); scale: 1.08; }
+.tqx-arrow:active { scale: 0.94; }
+.tqx-nav button:focus-visible { outline: 2px solid var(--yellow); outline-offset: 3px; }
+/* The link sits above the controls, never behind them. */
+.tqx .tq { padding-bottom: calc(clamp(2rem, 6vw, 5rem) + 3rem) !important; }
 
 /* ==========================================================================
    BUTTONS: exactly two, everywhere.
@@ -1425,12 +1196,12 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
    so the tongue only ever crosses the empty band between them.
    Phones: one column, the stops stepping in and out along a line. Reduced motion or no JS: the plain list.
    ========================================================================== */
-.hw-note, .hw-small { display: none; }
+
 .wk { position: relative; height: 300svh; margin-top: clamp(2rem, 6svh, 4rem); }
 .wk-stick { position: sticky; top: var(--nav-h); height: calc(100svh - var(--nav-h)); display: grid; align-content: center; gap: clamp(1.2rem, 4svh, 3rem); }
 .wk .hw-head { margin: 0; }
 .wk .hw-h3 { max-width: none; font-size: clamp(2.2rem, min(4.6vw, 8svh), 4.8rem); line-height: 0.92; letter-spacing: -0.045em; }
-.wk .hw-eye, .wk .hw-girgit { display: none !important; }
+.wk .hw-eye { display: none !important; }
 .wk .hw-steps::after, .wk .hw-steps::before { display: none !important; }
 
 /* Three rows shared by every stop: the words of the high stops, the band the tongue crosses, the words of the low ones. */
@@ -1469,11 +1240,11 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
   .wk { height: auto; } .wk-stick { position: static; height: auto; }
   .wk-tongue { display: none; }
   /* One column; the stops step in and out, joined by a line down the left of each. */
-  .wk .hw-steps { grid-template-columns: minmax(0, 1fr); grid-template-rows: none; row-gap: 2rem; }
-  .wk .hw-step { grid-row: auto; grid-template-rows: none; grid-template-columns: auto minmax(0, 1fr); column-gap: 1rem; align-items: start; opacity: 1; }
-  .wk .hw-step:nth-child(even) { margin-left: 18vw; }
+  .wk .hw-steps { grid-template-columns: minmax(0, 1fr); grid-template-rows: none;  }
+  .wk .hw-step { grid-row: auto; grid-template-rows: none; grid-template-columns: auto minmax(0, 1fr);  align-items: start; opacity: 1; }
+
   .wk .hw-step:nth-child(odd) .wk-text, .wk .hw-step:nth-child(even) .wk-text { grid-row: 1; grid-column: 2; align-self: start; padding: 0; }
-  .wk .hw-step:nth-child(odd) .wk-dot, .wk .hw-step:nth-child(even) .wk-dot { grid-row: 1; grid-column: 1; align-self: start; translate: 0 0.2rem; background: var(--c); border-color: var(--c); }
+  .wk .hw-step:nth-child(odd) .wk-dot, .wk .hw-step:nth-child(even) .wk-dot { grid-row: 1; grid-column: 1; align-self: start;  background: var(--c); border-color: var(--c); }
 }
 
 /* ==========================================================================
@@ -1508,7 +1279,7 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .ci-chip.is-gone { opacity: 0; scale: 0.6; pointer-events: none; }
 .ci-tongue { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 3; pointer-events: none; overflow: visible; }
 @media (max-width: 760px) {
-  .cta-panel.ci { padding-bottom: 18rem !important; }
+
   .cta-panel.ci > :not(.ci-field):not(.ci-tongue) { max-width: none; }
   .ci-field { top: auto; bottom: 1.5rem; left: 4%; right: 4%; width: auto; height: 15rem; }
 }
@@ -1555,7 +1326,7 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 .js .gl .gl-en { background-size: 100% 100%; }
 .cta-panel.ci > .ci-field { position: absolute !important; top: 8%; bottom: 8%; right: 4%; left: auto; width: 40%; height: auto; z-index: 1; margin: 0; max-width: none; }
 .cta-panel.ci > .ci-tongue { position: absolute !important; inset: 0; z-index: 3; max-width: none; }
-@media (max-width: 760px) { .cta-panel.ci > .ci-field { top: auto; bottom: 1.5rem; left: 4%; right: 4%; width: auto; height: 15rem; } }
+@media (max-width: 760px) { .cta-panel.ci > .ci-field { top: auto; bottom: 1.5rem; left: 4%; right: 4%; width: auto;  } }
 
 /* ==========================================================================
    THE WORK: "Different every time. That is the point." (js/coverflow.js)
@@ -1714,28 +1485,19 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
   .cta-panel .ci-chip { min-height: 2.6rem; padding-left: 0.9rem !important; font-size: 0.86rem !important; }
   .ci-ask strong { font-size: 1.05rem; }
 
-  /* What we do: the pinned film was 34rem tall whatever the screen, so on short phones its stepper sat below
-     the bottom edge. It now fits the screen, and the caption keeps clear of the stepper. */
-  .lab-track > .lab { min-height: 0; }
-  .lab .lab-texts { bottom: calc(clamp(1.2rem, 4svh, 2.4rem) + 52px + 0.75rem); }
 }
 /* What we do, on short phones: a tighter caption, and the tags in one row you can swipe. */
-@media (max-width: 760px) and (max-height: 720px) {
-  .lab .lab-head { margin-bottom: 0.6rem; }
-  .lab .lab-copy { font-size: 1rem; margin-bottom: 0.8rem; }
-  .lab .lab-tags { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-right: calc(-1 * var(--gutter)); padding-right: var(--gutter); }
-  .lab .lab-tags li { flex: none; }
-}
+
 @media (max-width: 899px) {
   /* The name: a shorter scroll on phones (about half a screen per meaning), and the meanings centred under the word. */
   .ec-dict.nm { height: 250svh; }
   .ec-dict.nm .st-dict-defs { justify-self: center; }
 }
 @media (max-width: 599px) {
-  /* In their words: the quote card fits the pinned space on small phones, so its link can always be tapped. */
-  .tqx .tq { padding: 1.5rem 1.25rem !important; }
+  /* The bottom keeps clear of the arrows and the counter (about 3rem tall, sitting 1rem up), so "Read the case study" never hides under them. */
+  .tqx .tq { padding: 1.5rem 1.25rem 5.25rem !important; }
   .tqx .tq-fig { gap: 0.9rem; }
-  .tqx .tq-quote::before { font-size: 3.6rem; }
+
   .tqx .tq-quote p, .tqx .tq--feature .tq-quote p { font-size: clamp(1.15rem, min(5.6vw, 3.7svh), 1.6rem); line-height: 1.2; }
   .tqx .tq-role { font-size: 0.8rem; letter-spacing: 0.06em; }
 }
@@ -1781,3 +1543,143 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
 
 /* Day 7's blue on the dark ground was too faint to read (2.8:1); its label takes a lighter blue. */
 .wk .hw-step--live .hw-tag { color: #7D95FF !important; }
+
+/* ==========================================================================
+   HEADER, one shape everywhere: the floating dark pill from the first screen, not only after you scroll.
+   Over the hero it used to sit loose on whatever colour was showing (logo, links and button each on a
+   different line and colour); now it is the same centred pill in ivory and acid over every hero state.
+   ========================================================================== */
+
+.nav::before { opacity: 1; transform: none; }
+.nav .nav-links .pill.is-active { color: var(--acid); }
+.nav .pill--ink, html[data-hero="3"] .nav:not(.is-scrolled) .pill--ink { border-radius: 999px !important; background: var(--acid) !important; color: var(--black) !important; border-color: var(--black) !important; }
+
+/* The hero's buttons keep clear of the ribbon under them. */
+.hx-promise { margin-bottom: clamp(10px, 2svh, 22px); }
+
+/* ==========================================================================
+   THE HERO, re-aligned. One centred column, each thing on its own row so nothing covers the word:
+     WE DESIGN        the eyebrow, close above the word
+     WEBSITES.        the word, whole and readable, sized to the frame (js/home.js sets --wfs)
+     Girgit           standing just under it, his head tucked over the word's bottom edge only
+     the promise      the line and the two buttons (the crossed tapes sit on the seam below the hero)
+   The paint transition (js/home.js) draws the next state from where these sit, so it follows the layout.
+   ========================================================================== */
+.hx-frame {
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  grid-template-areas: "line" "word" "stage" "promise";
+  row-gap: 0;
+}
+.hx .hx-line {
+  grid-area: line; align-self: start; justify-self: center; translate: none; margin: clamp(30px, 7svh, 76px) 0 0;   /* clear air under the header */
+  font: 800 clamp(0.85rem, 1.1vw, 1.1rem)/1 var(--satoshi); letter-spacing: 0.24em;
+}
+.hx .hx-word {
+  grid-area: word; align-self: start; justify-self: center; translate: none;
+  margin-top: clamp(12px, 2.4svh, 26px); line-height: 0.8;
+}
+.hx .hx-stage {
+  grid-area: stage; align-self: stretch; min-height: clamp(170px, 34svh, 480px);
+  margin-top: calc(var(--wfs, 13vw) * -0.12);
+}
+/* Girgit: as big as the stage allows (its height or its width, whichever runs out first), always in the
+   picture's own 4:3 shape (so the paint transition draws him exactly where he stands), pinned to the top of
+   the stage so he sits right under the word. Any spare room falls below him, above the promise. */
+.hx .hx-stage { container-type: size; }
+.hx .hx-girgit { top: 0; bottom: auto; left: 50%; width: min(94cqw, 133.33cqh); height: auto; max-width: none; translate: calc(-50% + var(--gx, 0px)) 0; aspect-ratio: 1200 / 900; }   /* --gx: js/home.js lines the brush up under the N */
+.hx-promise { grid-area: promise; justify-self: center; justify-items: center; margin: clamp(12px, 2.4svh, 28px) 0 clamp(12px, 2.2svh, 24px); }
+.hx .hx-sub { max-width: 46ch; font-size: clamp(1rem, 1.25vw, 1.2rem); }
+
+@media (max-width: 899px) {
+  .hx-frame { grid-template-areas: "line" "word" "stage" "promise"; grid-template-rows: auto auto minmax(0, 1fr) auto; min-height: calc(100svh - 20px); }
+  .hx .hx-word { align-self: start; translate: none; }
+  /* An explicit height, not a minimum: on phones the grid gives the stage no spare room, and Girgit's size
+     (in units of the stage) needs a real height to measure, or he shrinks to nothing. */
+  .hx .hx-stage { height: clamp(180px, min(42svh, 62vw), 420px); min-height: 0; margin-top: calc(var(--wfs, 16vw) * -0.08); }   /* 62vw: as tall as he can be at this width, no empty band under him */
+}
+
+/* In their words: the quote sits in the middle of its card, not stuck to the top. */
+.tqx .tq-fig { align-content: center; }
+
+@media (max-width: 899px) {
+  /* The name: the running head stays at the top; the word and the meaning sit together in the middle of
+     the space under it, instead of the top half with an empty bottom half. */
+  .nm-stage {
+    grid-template-rows: auto minmax(0, 1fr) auto auto minmax(0, 1fr);
+    grid-template-areas: "top" "." "head" "defs" ".";
+    align-content: stretch;
+  }
+  /* Our meaning: a touch smaller, with a slimmer marker, so four lines of it read as a sentence, not a block. */
+  .nm .st-dict-ours strong { font-size: 1.04em; line-height: 1.42; background-position: 0 90%; }
+  .nm .st-dict-ours.is-on strong { background-size: 100% 0.34em; }
+}
+
+@media (max-width: 599px) {
+  /* In their words: the draft badge sits centred above the quote, and the card makes room for it. */
+  .tqx .tq[data-status="draft"] { padding-top: 3.6rem !important; }
+  .tqx .tq[data-status="draft"]::after { top: 1.1rem; left: 50%; right: auto; translate: -50% 0; white-space: nowrap; font-size: 0.58rem; }
+}
+
+@media (max-width: 899px) {
+  /* Seven days: one straight column. Every dot in the same place, joined by a line down to the next, each
+     title lined up with its dot (no stepping in and out). */
+  .wk .hw-step:nth-child(even) { margin-left: 0; }
+  .wk .hw-steps { row-gap: 1.8rem; }
+  .wk .hw-step { column-gap: 1.1rem; }
+  .wk .hw-step:nth-child(odd) .wk-dot, .wk .hw-step:nth-child(even) .wk-dot { width: 26px; scale: 1; translate: 0 0.1rem; }
+  .wk .hw-step:not(:last-child)::after {
+    content: ""; position: absolute; left: 12px; top: 2.1rem; bottom: -1.6rem; width: 2px; border-radius: 2px;
+    background: rgb(244 239 229 / 0.22);
+  }
+}
+
+/* ==========================================================================
+   THE HEADER, redesigned: a solid black pill. The old one was see-through dark green, so it turned a
+   different muddy colour over every hero colour (olive on yellow, plum on pink). Solid black reads the
+   same everywhere and matches the type. The links are bright, with a small acid dot under the one you
+   point at or are in; the one button is acid with no border.
+   ========================================================================== */
+.nav, .nav.is-scrolled {
+  top: 12px; height: 60px; max-width: min(880px, calc(100% - 24px)); padding: 0 8px 0 24px;
+  color: var(--ivory); --nav-inv: 0.95;
+}
+.nav::before, .nav.is-scrolled::before {
+  background: #111; opacity: 1; transform: none;
+  box-shadow: 0 16px 34px -18px rgb(0 0 0 / 0.6), inset 0 0 0 1px rgb(244 239 229 / 0.09);
+  -webkit-backdrop-filter: none; backdrop-filter: none;
+}
+.nav-logo img { height: 24px; }
+.nav-links { gap: clamp(1.4rem, 3vw, 2.6rem); }
+.nav-links .pill, .nav.is-scrolled .nav-links .pill {
+  position: relative; min-height: 44px; padding: 0; opacity: 1; color: rgb(244 239 229 / 0.74);
+  font: 700 0.78rem/1 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none;
+  transition: color 200ms var(--ease);
+}
+.nav-links .pill::after {
+  content: ''; position: absolute; left: 50%; bottom: 6px; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--acid); translate: -50% 0; scale: 0; transition: scale 280ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.nav-links .pill:hover, .nav-links .pill:focus-visible { color: var(--ivory); text-decoration: none; }
+.nav-links .pill:hover::after, .nav-links .pill:focus-visible::after, .nav-links .pill.is-active::after { scale: 1; }
+.nav-links .pill.is-active, .nav.is-scrolled .nav-links .pill.is-active { color: var(--ivory); }
+.nav .pill--ink, html[data-hero="3"] .nav:not(.is-scrolled) .pill--ink, .nav.is-scrolled .pill--ink {
+  min-height: 44px !important; padding: 0 1.15rem 0 1.3rem !important; gap: 0.45em; border: 0 !important; border-radius: 999px !important;
+  background: var(--acid) !important; color: var(--black) !important; box-shadow: none !important;
+  font: 800 0.88rem/1 var(--satoshi) !important; letter-spacing: 0 !important; text-transform: none !important;
+}
+.nav .pill--ink:hover { background: var(--ivory) !important; transform: none !important; box-shadow: none !important; }
+.nav .pill--ink .nav-arrow { display: inline-block; transition: translate 260ms var(--ease); }
+.nav .pill--ink:hover .nav-arrow { translate: 3px 0; }
+@media (max-width: 899px) { .nav, .nav.is-scrolled { height: 56px; padding-left: 18px; } .nav .pill--ink { min-height: 42px !important; } }
+
+/* In their words, on phones: the quote and who said it share one centre line; the photo sits above the
+   name instead of off at the left edge, and the text keeps clear of the card's sides. */
+@media (max-width: 599px) {
+  .tqx .tq { padding-inline: 1.6rem !important; }
+  .tqx .tq-quote::before { font-size: 4.4rem; }
+  .tqx .tq-quote p, .tqx .tq--feature .tq-quote p { max-width: 21ch; margin-inline: auto; text-wrap: balance; }
+  .tqx .tq-who { flex-direction: column; align-items: center; gap: 0.6rem; text-align: center; }
+  .tqx .tq-who > span { justify-items: center; }
+  .tqx .tq-role { white-space: nowrap; }
+}

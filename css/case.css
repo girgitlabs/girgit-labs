@@ -1,8 +1,3 @@
-/* PROJECT PAGES (case studies), built by tools/build_work.py, dressed in the home page's theme:
-   ivory paper, black ink, forest panels, acid accents, Satoshi in heavy uppercase for headings,
-   3px black frames with hard shadows (the eye-wall cards, the nav's "let's talk"), and a closing
-   panel that mirrors the home page's "Got a good idea?". The project's own colour survives as one
-   marker (--cs-brand, from the data file's accent), on the section labels, and in its colour chips. */
 
 /* The data file sets --cs-* on <body>. Keep its accent as the brand marker, then map every --cs-*
    token inside the page to the studio palette, so the generated markup needs no change. */
@@ -64,7 +59,7 @@
 /* ---------- Images: framed like the home page's cards, each opening in the viewer ---------- */
 .cs-row { display: grid; gap: clamp(1rem, 2.4vw, 1.8rem); margin-top: clamp(1rem, 2.4vw, 1.8rem); }
 .cs-row--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-.cs-row--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
 .cs-fig { margin: 0; }
 .cs-zoom {
   display: block; width: 100%; padding: 0; border: 3px solid var(--black); border-radius: 0; background: var(--black);
@@ -124,7 +119,7 @@
   .cs-btn:not(.cs-btn--primary):hover { background: var(--ivory); color: var(--black); }
 }
 .cs-btn:focus-visible { outline: 3px solid var(--acid); outline-offset: 3px; }
-.cs-next-note { margin: clamp(2rem, 5vw, 3rem) 0 0; padding-top: 0.9rem; border-top: 1px solid rgb(244 239 229 / 0.3); max-width: 24rem; font: 500 0.98rem/1.45 var(--satoshi); color: #DCD8CB; }
+.cs-next-note { margin: clamp(2rem, 5vw, 3rem) 0 0; padding-top: 0.9rem; border-top: 1px solid rgb(244 239 229 / 0.3);  font: 500 0.98rem/1.45 var(--satoshi); color: #DCD8CB; }
 
 /* ---------- Viewer ---------- */
 .cs-lightbox { width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: clamp(1rem, 4vw, 3rem); border: 0; background: rgb(20 33 24 / 0.96); color: var(--ivory); }
@@ -133,9 +128,9 @@
 .cs-lightbox img { max-width: 100%; max-height: calc(100dvh - 7rem); width: auto; height: auto; border: 3px solid var(--ivory); }
 .cs-lightbox figcaption { font: 700 0.74rem/1.35 var(--satoshi); letter-spacing: 0.12em; text-transform: uppercase; opacity: 0.85; }
 .cs-lb-btn {
-  position: fixed; display: grid; place-items: center; width: 3rem; height: 3rem; border: 3px solid var(--black); border-radius: 0;
-  background: var(--ivory); color: var(--black); box-shadow: 4px 4px 0 var(--black); font: 800 1.1rem var(--satoshi); cursor: pointer;
-  transition: background 160ms var(--ease);
+  position: fixed; display: grid; place-items: center; width: 3rem; height: 3rem;
+     font: 800 1.1rem var(--satoshi); cursor: pointer;
+
 }
 .cs-lb-btn:hover, .cs-lb-btn:focus-visible { background: var(--acid); }
 .cs-lb-btn:focus-visible { outline: 3px solid var(--acid); outline-offset: 3px; }
@@ -150,12 +145,12 @@
 /* Tablets: the overview's two columns get too narrow to read well, so they stack. */
 @media (max-width: 900px) {
   .cs-split { grid-template-columns: 1fr; gap: 2rem; }
-  .cs-row--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .cs-text { margin-left: 0; }
 }
 
 @media (max-width: 760px) {
-  .cs-split, .cs-row--2, .cs-row--3 { grid-template-columns: 1fr; }
+  .cs-split, .cs-row--2 { grid-template-columns: 1fr; }
   .cs-row { gap: 1.4rem; margin-top: 1.2rem; }
   .cs-kicker { margin-bottom: 1rem; line-height: 1.4; }
   .cs-label { margin-bottom: 1rem; }

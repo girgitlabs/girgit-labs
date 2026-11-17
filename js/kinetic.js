@@ -10,7 +10,7 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 if (!reduce) {
   // Runs after the word splitters have done their work.
   setTimeout(() => {
-    const words = document.querySelectorAll('[data-split] .w > span, .s5-statement .sw > span, .eyes-cover .ew > span, .lab-title .lab-w > span, .lab-head .lab-w > span');
+    const words = document.querySelectorAll('[data-split] .w > span, .s5-statement .sw > span, .eyes-cover .ew > span');
     const count = new Map();
     for (const w of words) {
       if (w.children.length) continue;
