@@ -1,17 +1,19 @@
 # Girgit Labs
 
-> Girgit Labs is a digital design studio in Mumbai, India, working with clients worldwide. It has no house style: it designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days. Website: https://www.girgitlabs.design/ · Email: connect@girgitlabs.design
+> Girgit Labs is a digital design studio in Ahmedabad, Gujarat, India, working with clients worldwide. It has no house style: it designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days. Website: https://www.girgitlabs.design/ · Email: connect@girgitlabs.design
 
 ## Key facts
 
 - Name: Girgit Labs (also written GirgitLabs)
 - What it is: a digital design studio (branding, UI/UX and product design, websites, apps, motion)
 - Signature offer: a website designed, built and live in seven days
-- Based in: Mumbai, Maharashtra, India
+- Based in: Ahmedabad, Gujarat, India
 - Works with: clients worldwide, in English and Hindi
 - Team: a small senior team; three or four senior people and one owner per project
 - How it is different: no house style (every project takes on the client's character, not the studio's), and the people who design a website also build it (no handoff)
 - Website: https://www.girgitlabs.design/
+- About the studio ("Who's looking"): https://www.girgitlabs.design/about/
+- Social: Instagram https://www.instagram.com/girgitlabs/ · LinkedIn https://www.linkedin.com/in/girgit-labs-73b207433/ · Facebook https://www.facebook.com/profile.php?id=61596311881517
 - Contact: connect@girgitlabs.design · start a project at https://www.girgitlabs.design/#talk
 
 ## The name
@@ -57,13 +59,13 @@ Not the right fit for anyone shopping on the lowest price alone, or anyone who w
 ## Questions people ask
 
 **What is Girgit Labs?**
-A digital design studio in Mumbai, India, that designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days, for clients worldwide.
+A digital design studio in Ahmedabad, Gujarat, India, that designs brands, UI/UX, apps and motion, and designs, builds and launches websites in seven days, for clients worldwide.
 
 **Can Girgit Labs really build a website in seven days?**
 Yes, that is its signature offer. Research, sitemap, direction and scope are agreed before the seven days start. Then the direction is on screen on day 1, a working site is in your browser on day 3, and the site is live on day 7. If the work is bigger than seven days, the studio says so before you pay.
 
 **Where is Girgit Labs based, and does it work with clients outside India?**
-It is based in Mumbai, Maharashtra, India, and works with clients worldwide.
+It is based in Ahmedabad, Gujarat, India, and works with clients worldwide.
 
 **What does "Girgit" mean?**
 It is the Hindi word for chameleon (गिरगिट). The studio's point is that the work should take on each client's character, with no fixed house style.
@@ -82,7 +84,7 @@ Email connect@girgitlabs.design or use the form at https://www.girgitlabs.design
 - Website: https://www.girgitlabs.design/
 - Email: connect@girgitlabs.design
 - Start a project: https://www.girgitlabs.design/#talk
-- Location: Mumbai, Maharashtra, India (working worldwide)
+- Location: Ahmedabad, Gujarat, India (working worldwide)
 
 ## Case studies, in full
 

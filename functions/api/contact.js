@@ -96,7 +96,7 @@ async function handle(request, env) {
   const lines = [
     `Name:    ${data.name}`,
     `Email:   ${data.email}`,
-    `Company: ${data.company || '—'}`,
+    `Company: ${data.company || 'not given'}`,
     `Build:   ${data.build}`,
     '',
     data.message,
@@ -110,7 +110,7 @@ async function handle(request, env) {
         from,
         to: to.split(',').map((s) => s.trim()).filter(Boolean),
         reply_to: data.email,
-        subject: `Enquiry — ${data.name}${data.company ? ` (${data.company})` : ''} — ${data.build}`,
+        subject: `Enquiry from ${data.name}${data.company ? ` (${data.company})` : ''}: ${data.build}`,
         text: lines.join('\n'),
         html: `<pre style="font:14px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace">${escapeHtml(
           lines.join('\n')

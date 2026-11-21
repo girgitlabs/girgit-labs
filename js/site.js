@@ -1,6 +1,5 @@
 // Girgit Labs: the home page's shared behaviour, and every section's script.
 import './home.js?v=3.10.4';         // Hero: Girgit becomes the work; the pointer paints the next state in
-import './coverflow.js?v=3.8.2';     // The work: a cover flow of the projects, on each client's colour
 import './stack.js?v=1.0.0';         // What we do: the service cards stack; the covered one shrinks back
 import './ribbon.js?v=4.0.0';        // The ribbon: two crossed tapes over the seam between the hero and the work
 import './name.js?v=3.8.4';          // The name: the dictionary entry as a pinned scene (scroll-locked stages)
@@ -13,7 +12,7 @@ import './eye-cluster.js?v=3.2.0';   // Seven days: the eye markers, for reduced
 import './how.js?v=3.1.0';           // Seven days, reduced motion only: the markers wake one after another
 import './s5.js?v=3.2.0';            // How we work: the statement's words rise
 import './footer-banner.js?v=3.3.0'; // Footer: the framed banner with the logo
-import './analytics.js?v=3.1.0';     // PostHog custom analytics
+import './analytics.js?v=3.2.0';     // PostHog custom analytics
 import './kinetic.js?v=3.9.0';       // Springing letters, cards that lean toward the pointer
 import './tone.js?v=3.1.0';          // Light and dark sections blend as you scroll
 import './fun.js?v=3.1.0';           // Small rewards: the fly, the Konami code, the tab title
@@ -38,7 +37,8 @@ const nav = $('.nav');
 const navState = () => { if (scrollY > 48) nav.classList.add('is-scrolled'); else if (scrollY < 12) nav.classList.remove('is-scrolled'); };
 addEventListener('scroll', navState, { passive: true }); navState();
 if ('IntersectionObserver' in window) {
-  const pills = $$('.nav-links .pill');
+  // Only the links to sections on this page (#work, #what...); the About page link is a page, not a section.
+  const pills = $$('.nav-links .pill').filter((p) => (p.getAttribute('href') || '').startsWith('#'));
   const io = new IntersectionObserver((entries) => entries.forEach((e) => {
     const pill = pills.find((p) => p.getAttribute('href') === `#${e.target.id}`);
     pill?.classList.toggle('is-active', e.isIntersecting);
@@ -195,14 +195,6 @@ for (const h of $$('[data-split]')) {
 $$('[data-stagger]').forEach((g) => [...g.children].forEach((c, i) => c.style.setProperty('--i', i)));
 onView($$('[data-split], [data-stagger], .deco'), (el) => el.classList.add('in-view'));
 
-/* ---------- Footer: Mumbai's local time ---------- */
-{
-  const clock = $('[data-clock]');
-  const tick = () => {
-    clock.textContent = new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }).format(new Date());
-  };
-  if (clock) { tick(); setInterval(tick, 30000); }
-}
 
 /* ---------- Ambient: parallax, magnetic buttons, cursor, ticker direction ---------- */
 if (!reduce) {

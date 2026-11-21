@@ -1683,3 +1683,179 @@ html.is-chameleon body { animation: chameleon 6s linear infinite; }
   .tqx .tq-who > span { justify-items: center; }
   .tqx .tq-role { white-space: nowrap; }
 }
+
+/* ==========================================================================
+   THE NAME, redesigned: a dictionary spread, one meaning at a time.
+   The entry still pins while you scroll its three meanings (js/name.js, js/stages.js). The word sits on
+   the left with how to say it right under it; on the right, only the current meaning shows, large, under
+   a bar that fills as you scroll. The label ("as an insult", "our meaning") sits above the sentence, and
+   the Hindi phrase reads inline instead of as a flip tile (the sentence already says what it means).
+   ========================================================================== */
+.nm .gl { display: inline; perspective: none; white-space: nowrap; }
+.nm .gl-card { display: inline; transform: none !important; transition: none; }
+.nm .gl-en { display: none; }
+.nm .gl-face.gl-hi, .nm .gl-hi { display: inline; position: static; grid-area: auto; backface-visibility: visible; transform: none; padding: 0 0.06em 0.04em; font: 800 0.96em/1 var(--deva); background-size: 100% 0.18em !important; }
+.nm .st-dict-defs p > em:first-child {
+  display: block; margin: 0 0 0.9rem; font: 700 0.78rem/1 var(--satoshi); font-style: normal; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted);
+}
+
+@media (min-width: 900px) {
+  .nm-stage { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); column-gap: clamp(3rem, 7vw, 7.5rem); align-items: center; }
+  .nm .st-dict-head { align-self: center; gap: clamp(0.3rem, 1svh, 0.7rem); }
+  .nm .st-dict-word { font-size: min(13vw, 27svh); line-height: 1.22; }
+  .nm .st-dict-say i { font-size: clamp(1.6rem, 2.6vw, 2.5rem); }
+
+  /* One meaning at a time, in the same place, under a progress bar. */
+  .ec-dict.nm .st-dict-defs { align-self: center; display: grid; padding: clamp(2rem, 5svh, 3rem) 0 0; border-left: 0; }
+  .ec-dict.nm .st-dict-defs::before { left: 0; top: 0; width: 100%; height: 3px; border-radius: 3px; transform: scaleX(var(--nm-p, 0)); transform-origin: 0 50%; }
+  .ec-dict.nm .st-dict-defs::after { content: ''; position: absolute; left: 0; top: 0; width: 100%; height: 3px; border-radius: 3px; background: rgb(17 17 17 / 0.12); }
+  .ec-dict.nm .st-dict-defs > li {
+    grid-area: 1 / 1; grid-template-columns: minmax(0, 1fr); gap: clamp(1rem, 2.4svh, 1.5rem); align-content: start;
+    opacity: 0; translate: 0 18px; transition: opacity 450ms var(--apple, ease), translate 650ms var(--apple, ease);
+  }
+  .ec-dict.nm .st-dict-defs > li.is-past { opacity: 0; }
+  .ec-dict.nm .st-dict-defs > li.is-on { opacity: 1; translate: none; transition-delay: 80ms; }
+  .nm .st-dict-n { display: grid; place-items: center; width: 3rem; height: 3rem; translate: none; font: 900 1.15rem/1 var(--satoshi); }
+  .ec-dict.nm .st-dict-defs p { max-width: 21ch; font: 700 clamp(1.7rem, 2.7vw, 2.9rem)/1.16 var(--satoshi); letter-spacing: -0.025em; color: var(--black); }
+  .nm .st-dict-ours strong { font-size: 1em; line-height: 1.16; background-position: 0 92%; }
+  .nm .st-dict-ours.is-on strong { background-size: 100% 0.3em; }
+}
+
+/* ==========================================================================
+   MADE FOR BUILDERS, as a board. The question ("which one are you?") on a big dark tile; each builder is a
+   tile in its own colour that answers it and takes you to the form; who it is not for, struck out; and
+   the closing promise on black.
+   ========================================================================== */
+.bd-grid {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: minmax(15.5rem, auto);
+  gap: clamp(0.8rem, 1.4vw, 1.2rem);
+}
+.bd-head {
+  grid-column: 1 / 3; grid-row: 1 / 3; display: flex; flex-direction: column; justify-content: space-between; gap: 2rem;
+  padding: clamp(1.6rem, 3.4vw, 3rem); border-radius: clamp(1.1rem, 2vw, 1.8rem); background: var(--forest); color: var(--ivory);
+}
+.bd-kicker { margin: 0; font: 700 0.76rem/1 var(--satoshi); letter-spacing: 0.18em; text-transform: uppercase; color: var(--acid); }
+#who .bd-title { margin: auto 0 0; max-width: 8ch; color: var(--ivory); font-size: clamp(3rem, 6.6vw, 6.8rem); line-height: 0.86; }
+.bd-ask { margin: 0; font: 600 clamp(1.05rem, 1.4vw, 1.3rem)/1.4 var(--satoshi); color: rgb(244 239 229 / 0.7); }
+
+.bd-card {
+  position: relative; display: flex; flex-direction: column; gap: 0.6rem; padding: clamp(1.3rem, 2.4vw, 2rem);
+  border: 2px solid var(--black); border-radius: clamp(1.1rem, 2vw, 1.8rem); background: var(--c); color: var(--ink);
+  text-decoration: none; transition: translate 260ms var(--ease), box-shadow 260ms var(--ease);
+}
+.bd-n { font: 800 0.85rem/1 var(--satoshi); letter-spacing: 0.1em; opacity: 0.7; }
+/* Sized to its own tile, so the longest name (BUSINESSES) always fits on one line. */
+.bd-card { container-type: inline-size; }
+.bd-name { margin: auto 0 0; font: 900 clamp(1.5rem, 17cqw, 3.6rem)/0.9 var(--satoshi); letter-spacing: -0.05em; text-transform: uppercase; white-space: nowrap; }   /* 17cqw: BUSINESSES is 5.67em wide */
+.bd-card p { margin: 0; max-width: 24ch; font: 600 clamp(0.98rem, 1.15vw, 1.1rem)/1.4 var(--satoshi); }
+.bd-me {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 0.4em; margin-top: 0.6rem; padding: 0.6em 1em;
+  border: 2px solid currentColor; border-radius: 999px; font: 800 0.86rem/1 var(--satoshi);
+  transition: background-color 220ms var(--ease), color 220ms var(--ease);
+}
+.bd-me span { transition: translate 220ms var(--ease); }
+@media (hover: hover) {
+  .bd-card:hover { translate: -4px -4px; box-shadow: 8px 8px 0 var(--black); }
+  .bd-card:hover .bd-me { background: var(--ink); color: var(--c); }
+  .bd-card:hover .bd-me span { translate: 3px 0; }
+}
+.bd-card:focus-visible { outline: 3px solid var(--black); outline-offset: 4px; }
+
+.bd-no {
+  grid-column: 1 / 3; display: flex; flex-direction: column; justify-content: center; gap: 1rem;
+  padding: clamp(1.4rem, 2.6vw, 2.2rem); border: 2px dashed rgb(17 17 17 / 0.45); border-radius: clamp(1.1rem, 2vw, 1.8rem);
+}
+.bd-no-title { margin: 0; font: 700 0.78rem/1 var(--satoshi); letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.bd-no ul { display: grid; gap: 0.7rem; margin: 0; padding: 0; list-style: none; }
+.bd-no li { font: 800 clamp(1.15rem, 1.8vw, 1.6rem)/1.25 var(--satoshi); letter-spacing: -0.02em; color: var(--body); }
+.bd-no s { text-decoration: line-through 0.12em var(--pink); text-decoration-skip-ink: none; }
+
+.bd-close {
+  grid-column: 3 / 5; display: flex; flex-direction: column; justify-content: flex-end; margin: 0;
+  padding: clamp(1.4rem, 2.6vw, 2.2rem); border-radius: clamp(1.1rem, 2vw, 1.8rem); background: var(--black); color: var(--ivory);
+  font: 900 clamp(1.5rem, 2.6vw, 2.5rem)/1 var(--satoshi); letter-spacing: -0.04em; text-transform: uppercase;
+}
+.bd-close span { display: block; margin-top: 0.4em; color: var(--acid); }
+
+@media (max-width: 1100px) {
+  .bd-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: minmax(13rem, auto); }
+  .bd-head { grid-column: 1 / -1; grid-row: auto; }
+  .bd-no, .bd-close { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+  .bd-grid { grid-template-columns: minmax(0, 1fr); grid-auto-rows: auto; }
+  .bd-card { min-height: 12rem; }
+  .bd-close { min-height: 9rem; }
+}
+@media (prefers-reduced-motion: reduce) { .bd-card, .bd-me, .bd-me span { transition: none; } }
+
+/* ==========================================================================
+   THE NAME, bold and simple: strong type and nothing else. The word in solid dark green (no colour
+   change), how to say it locked right under it on a hairline, the current meaning large on the right.
+   Our meaning keeps a still acid underline, no sweep.
+   ========================================================================== */
+.nm .st-dict-word { line-height: 1.04; padding-top: 0.14em; color: var(--forest); }
+.nm[data-beat="1"] .st-dict-word [lang], .nm .st-dict-word [lang] { animation: none !important; color: var(--forest); }
+.nm .st-dict-head { gap: 0; }
+.nm .st-dict-say { width: 100%; margin-top: clamp(0.5rem, 1.4svh, 0.9rem); padding-top: clamp(0.7rem, 1.6svh, 1rem); border-top: 2px solid var(--black); }
+.nm .st-dict-ours strong, .nm .st-dict-ours.is-on strong { transition: none; background-size: 100% 0.28em; }
+
+/* ==========================================================================
+   THE WORK, as paint chips. One tall panel per client on that client's own colour, side by side, so the
+   point ("three clients, three looks, none of them ours") is visible at a glance. Point at a panel or tab
+   to it and it widens to show the work; the others narrow. The first is open until you choose. Each
+   panel names its colour like a paint chip. The last one is the open slot, in acid, with Girgit's eye.
+   Phones and tablets: stacked cards, everything shown.
+   ========================================================================== */
+#work .pf-head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+.wx { display: flex; gap: clamp(0.6rem, 1vw, 0.9rem); height: clamp(30rem, 68svh, 40rem); }
+.wx-card {
+  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end;
+  border-radius: clamp(1.1rem, 2vw, 1.8rem); background: var(--brand); color: var(--ink); text-decoration: none; isolation: isolate;
+  transition: flex-grow 650ms cubic-bezier(0.65, 0, 0.2, 1), box-shadow 300ms var(--ease);
+}
+.wx:not(:hover):not(:focus-within) .wx-card:first-child, .wx-card:hover, .wx-card:focus-visible { flex-grow: 3.2; }
+.wx-card:focus-visible { outline: 3px solid var(--black); outline-offset: 4px; }
+
+/* The work, behind a shade that lifts when the panel opens. */
+.wx-media { position: absolute; inset: 0; z-index: -1; }
+.wx-media img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; scale: 1.08; transition: opacity 650ms var(--ease), scale 900ms var(--ease); }
+.wx-media::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, var(--brand) 18%, color-mix(in srgb, var(--brand) 55%, transparent) 55%, transparent 85%); }
+.wx:not(:hover):not(:focus-within) .wx-card:first-child .wx-media img, .wx-card:hover .wx-media img, .wx-card:focus-visible .wx-media img { opacity: 1; scale: 1; }
+
+/* The paint chip: a swatch and its name, top left. */
+.wx-chip {
+  position: absolute; left: clamp(1rem, 1.8vw, 1.5rem); top: clamp(1rem, 1.8vw, 1.5rem); display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.45rem 0.75rem 0.45rem 0.45rem; border-radius: 999px; background: rgb(255 255 255 / 0.92); color: var(--black);
+  font: 800 0.72rem/1 var(--satoshi); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap;
+}
+.wx-chip i { width: 1.1rem; height: 1.1rem; border-radius: 50%; background: var(--chip); box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.15); }
+
+.wx-info { position: relative; display: grid; gap: 0.6rem; padding: clamp(1.2rem, 2.2vw, 2rem); }
+.wx-id { font: 700 0.76rem/1 var(--satoshi); letter-spacing: 0.14em; text-transform: uppercase; opacity: 0.8; white-space: nowrap; }
+.wx-name { font: 900 clamp(1.6rem, 2.6vw, 2.8rem)/0.95 var(--satoshi); letter-spacing: -0.045em; text-transform: uppercase; }
+.wx-line, .wx-go { max-width: 34ch; opacity: 0; translate: 0 10px; transition: opacity 400ms var(--ease), translate 500ms var(--ease); }
+.wx-line { font: 500 clamp(0.98rem, 1.1vw, 1.08rem)/1.5 var(--satoshi); }
+.wx-go {
+  justify-self: start; display: inline-flex; align-items: center; gap: 0.4em; margin-top: 0.3rem; padding: 0.7em 1.1em; border-radius: 999px;
+  background: var(--ink); color: var(--brand); font: 800 0.9rem/1 var(--satoshi); white-space: nowrap;
+}
+.wx:not(:hover):not(:focus-within) .wx-card:first-child :is(.wx-line, .wx-go), .wx-card:hover :is(.wx-line, .wx-go), .wx-card:focus-visible :is(.wx-line, .wx-go) {
+  opacity: 1; translate: none; transition-delay: 250ms;
+}
+
+/* The open slot: acid, Girgit's eye looking out. */
+.wx-card--next { justify-content: space-between; }
+.wx-card--next .wx-eye { position: relative; align-self: flex-end; width: clamp(5.5rem, 9vw, 9rem); margin: clamp(1rem, 2vw, 1.6rem); translate: none; }
+.wx-card--next .wx-go { background: var(--black); color: var(--acid); }
+
+@media (max-width: 899px) {
+  .wx { flex-direction: column; height: auto; }
+  .wx-card, .wx:not(:hover):not(:focus-within) .wx-card:first-child, .wx-card:hover { flex: none; min-height: 24rem; }
+  .wx-media img { opacity: 1; scale: 1; }
+  .wx-line, .wx-go { opacity: 1; translate: none; }
+  .wx-card--next { min-height: 20rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wx-card, .wx-media img, .wx-line, .wx-go { transition: none; }
+}

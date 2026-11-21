@@ -1,8 +1,8 @@
 // Project (case study) pages: gentle reveal-on-scroll, a nav that fills in once scrolled, a full-screen
-// image viewer (click any image; arrows, Esc), copy email and the Mumbai clock in the footer, and
+// image viewer (click any image; arrows, Esc), copy email in the footer, and
 // the footer banner. Built to be shared by every project page.
-import './footer-banner.js?v=3.1.0';
-import './analytics.js?v=3.1.0';
+import './footer-banner.js?v=3.3.0';
+import './analytics.js?v=3.2.0';
 import './hello.js?v=3.8.0';
 
 const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -56,16 +56,11 @@ if (box && shots.length) {
   }, { passive: true });
 }
 
-/* ---------- Footer: copy email, Mumbai time ---------- */
+/* ---------- Footer: copy email ---------- */
 for (const b of $$('[data-copy]')) {
   b.addEventListener('click', async () => {
     const out = b.parentElement.querySelector('.copied');
     try { await navigator.clipboard.writeText(b.dataset.copy); if (out) { out.textContent = 'copied'; setTimeout(() => { out.textContent = ''; }, 1800); } }
     catch { location.href = `mailto:${b.dataset.copy}`; }
   });
-}
-const clock = $('[data-clock]');
-if (clock) {
-  const tick = () => { clock.textContent = new Intl.DateTimeFormat('en-IN', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata' }).format(new Date()); };
-  tick(); setInterval(tick, 30000);
 }
